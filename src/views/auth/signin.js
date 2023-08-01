@@ -7,7 +7,7 @@ import { useHistory } from "react-router-dom";
 const Signin = () => {
   const history = useHistory();
   return (
-    <div className="relative flex items-center justify-center w-full h-screen bg-bg-linear wrapper-Div">
+    <div className="relative flex items-center justify-center w-full min-h-screen bg-bg-linear wrapper-Div">
       <div className="flex flex-col items-center justify-center w-full h-full gap-4 m-auto mx-3 md:max-w-max-600 md:mx-0 lg:px-8">
         <div className="hidden Logo md:block">
           <img src={LogoIcon} className="h-auto max-w-max-83" />
@@ -22,7 +22,7 @@ const Signin = () => {
               <div className="col-md-12">
                 <button
                   href="#"
-                  className="flex items-center justify-center w-full gap-2 px-8 py-3 text-sm text-gray-700 border border-solid rounded-md border-bg-border bg-bg-btn"
+                  className="flex items-center justify-center w-full gap-2 px-8 py-[10px] md:py-3 text-sm text-gray-700 border border-solid rounded-md border-bg-border bg-bg-btn"
                 >
                   <span>
                     <img src={GoogleIcon} className="w-5 h-5" />
@@ -32,7 +32,7 @@ const Signin = () => {
               </div>
             </div>
             <div class="separator flex items-center text-center mt-4 md:mt-8 mb-4 md:mb-8 justify-center">
-              <span className="text-sm font-normal text-text-color">
+              <span className="text-xs font-normal md:text-sm text-text-color">
                 Or with email
               </span>
             </div>
