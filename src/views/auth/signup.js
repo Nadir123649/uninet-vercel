@@ -8,29 +8,28 @@ const SignUp = () => {
   const history = useHistory();
   return (
     <div className="relative flex items-center justify-center w-full h-screen bg-bg-linear wrapper-Div">
-      <div className="flex flex-col items-center justify-center h-full gap-4 m-auto max-w-max-600 ">
-        <div className="Logo">
+      <div className="flex flex-col items-center justify-center w-full mt-3 gap-4  mx-3 md:max-w-max-600 md:mx-0 lg:px-8">
+        <div className="Logo ">
           <img src={LogoIcon} className="h-auto max-w-max-83" />
         </div>
-        <form className="px-8 text-center bg-gray-100 rounded-md py-9 max-w-max-500 w-w-500">
+        <form className="w-full px-4 py-8 text-center bg-gray-100 mb-3 rounded-md md:px-12 max-w-max-500 md:w-w-500">
           <h2 className="mb-3 text-3xl font-bold text-text-color">Sign Up</h2>
           <p className="mb-3 text-xs text-gray-500">Your Social Campaigns</p>
           <fieldset>
             <div className="row">
               <div className="col-md-12">
-                <button
-                  href="#"
-                  className="flex items-center justify-center w-full gap-2 px-8 py-3 text-sm text-gray-700 border border-solid rounded-md border-bg-border bg-bg-btn "
-                >
+                <button className="flex items-center justify-center w-full gap-2 px-8 py-3 text-sm text-gray-700 border border-solid rounded-md border-bg-border bg-bg-btn ">
                   <span>
-                    <img src={GoogleIcon} className="w-5 h-5"/>
+                    <img src={GoogleIcon} className="w-5 h-5" />
                   </span>
                   <span> Sign up with Google</span>
                 </button>
               </div>
             </div>
             <div class="separator flex items-center text-center mt-8 mb-8 justify-center">
-              <span className="text-sm font-normal text-text-color">Or with email</span>
+              <span className="text-sm font-normal text-text-color">
+                Or with email
+              </span>
             </div>
             <ul className="flex flex-col">
               <li className="flex flex-col items-start">
@@ -69,7 +68,7 @@ const SignUp = () => {
           >
             Continue
           </button>
-          <p href="#" className="m-0 text-sm font-normal text-gray-500">
+          <p className="m-0 text-sm font-normal text-gray-500">
             Already have an account{" "}
             <span className="cursor-pointer text-primary-color">Sign in</span>
           </p>

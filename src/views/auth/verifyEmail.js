@@ -5,11 +5,11 @@ import LogoIcon from "../../assets/images/Logo.webp";
 const VerifyEmail = () => {
   return (
     <div className="relative flex items-center justify-center w-full h-screen bg-bg-linear wrapper-Div">
-      <div className="flex flex-col items-center justify-center h-full gap-4 m-auto max-w-max-600 ">
-        <div className="Logo">
+      <div className="flex flex-col items-center justify-center w-full mt-3 gap-4  mx-3 md:max-w-max-600 md:mx-0 lg:px-8" >
+        <div className=" Logo ">
           <img src={LogoIcon} className="h-auto max-w-max-83" />
         </div>
-        <form className="px-8 text-center bg-gray-100 rounded-md py-9 max-w-max-500 w-w-500">
+        <form className="w-full px-4 py-8 text-center bg-gray-100 rounded-md md:px-12 max-w-max-500 md:w-w-500">
           <div className="verify-box">
             <img src={verify} className="mx-auto mb-2 h-130 max-w-max-200" />
           </div>

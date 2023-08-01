@@ -8,11 +8,11 @@ const Signin = () => {
   const history = useHistory();
   return (
     <div className="relative flex items-center justify-center w-full min-h-screen bg-bg-linear wrapper-Div">
-      <div className="flex flex-col items-center justify-center w-full h-full gap-4 m-auto mx-3 md:max-w-max-600 md:mx-0 lg:px-8">
-        <div className="hidden Logo md:block">
+      <div className="flex flex-col items-center justify-center w-full mt-3 gap-4  mx-3 md:max-w-max-600 md:mx-0 lg:px-8" >
+        <div className="Logo ">
           <img src={LogoIcon} className="h-auto max-w-max-83" />
         </div>
-        <form className="w-full px-4 py-8 text-center bg-gray-100 rounded-md md:px-8 max-w-max-500 md:w-w-500 ">
+        <form className="w-full px-4 py-8 text-center bg-gray-100 mb-3 rounded-md md:px-8 max-w-max-500 md:w-w-500 ">
           <h2 className="mb-2 text-3xl font-bold lg:mb-3 text-text-color">
             Sign In
           </h2>
@@ -21,7 +21,6 @@ const Signin = () => {
             <div className="row">
               <div className="col-md-12">
                 <button
-                  href="#"
                   className="flex items-center justify-center w-full gap-2 px-8 py-[10px] md:py-3 text-sm text-gray-700 border border-solid rounded-md border-bg-border bg-bg-btn"
                 >
                   <span>

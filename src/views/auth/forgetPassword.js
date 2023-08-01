@@ -6,11 +6,11 @@ const ForgetPassword = () => {
   const history = useHistory();
   return (
     <div className="relative flex items-center justify-center w-full h-screen bg-bg-linear wrapper-Div">
-      <div className="flex flex-col items-center justify-center h-full gap-4 m-auto max-w-max-600 ">
-        <div className="Logo">
+      <div className="flex flex-col items-center justify-center w-full mt-3 gap-4  mx-3 md:max-w-max-600 md:mx-0 lg:px-8" >
+        <div className="Logo ">
           <img src={LogoIcon} className="h-auto max-w-max-83" />
         </div>
-        <form className="px-8 text-center bg-gray-100 rounded-md py-9 max-w-max-500 w-w-500">
+        <form className="w-full px-4 py-8 text-center bg-gray-100 rounded-md md:px-12 max-w-max-500 md:w-w-500">
           <h2 className="mb-3 text-3xl font-bold text-text-color">
             Forgot Password?
           </h2>
@@ -36,8 +36,16 @@ const ForgetPassword = () => {
             </ul>
 
             <div className="flex justify-center gap-4 mx-12 submit-email">
-              <button type="submit" className="w-2/5 py-[10px] text-white border-none rounded-md outline-none bg-bg-secondary">Submit</button>
-              <button className="w-2/5 py-[10px] border-none rounded-md outline-none text-text-color bg-bg-disable" onClick={() => history.push("/")}>
+              <button
+                type="submit"
+                className="w-2/5 py-[10px] text-white border-none rounded-md outline-none bg-bg-secondary"
+              >
+                Submit
+              </button>
+              <button
+                className="w-2/5 py-[10px] border-none rounded-md outline-none text-text-color bg-bg-disable"
+                onClick={() => history.push("/")}
+              >
                 Go back
               </button>
             </div>
