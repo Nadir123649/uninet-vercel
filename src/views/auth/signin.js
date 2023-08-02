@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import Api from "../../services/api";
 import Spinner from 'react-bootstrap/Spinner';
 import toast, { Toaster } from 'react-hot-toast';
-import { GoogleLogin } from 'react-google-login';
+// import { GoogleLogin } from 'react-google-login';
 import {config} from "../../configs"
 const Signin = () => {
   const history = useHistory();
@@ -82,7 +82,7 @@ const Signin = () => {
           <h2 className="mb-3 text-3xl font-bold text-text-color">Sign In</h2>
           <p className="mb-3 text-xs text-gray-500">Your Social Campaigns</p>
           <fieldset>
-            <GoogleLogin
+            {/* <GoogleLogin
               clientId={config.GoogleClientID}
               render={renderProps => (
                 <div className="row">
@@ -102,7 +102,7 @@ const Signin = () => {
               onSuccess={responseGoogle}
               onFailure={responseGoogle}
               cookiePolicy={'single_host_origin'}
-            />
+            /> */}
             {/* <div className="row">
               <div className="col-md-12">
                 <button
