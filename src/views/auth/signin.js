@@ -103,10 +103,9 @@ const Signin = () => {
               onFailure={responseGoogle}
               cookiePolicy={'single_host_origin'}
             /> */}
-            {/* <div className="row">
+            <div className="row">
               <div className="col-md-12">
                 <button
-                  href="#"
                   className="flex items-center justify-center w-full gap-2 px-8 py-3 text-sm text-gray-700 border border-solid rounded-md border-bg-border bg-bg-btn"
                 >
                   <span>
@@ -115,7 +114,7 @@ const Signin = () => {
                   <span> Sign in with Google</span>
                 </button>
               </div>
-            </div> */}
+            </div>
             <div class="separator flex items-center text-center mt-8 mb-8 justify-center">
               <span className="text-sm font-normal text-text-color">
                 Or with email
