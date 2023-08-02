@@ -23,11 +23,6 @@ const Signin = () => {
     setEmail(inputValue);
     setIsValid(emailRegex.test(inputValue));
   };
-  // const validateEmail = (input) => {
-
-  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  //   return emailRegex.test(input);
-  // };
 
   // login with Email and password
   const handleSubmit = async (e) => {
