@@ -13,5 +13,23 @@ const Api = {
       throw error;
     }
   },
+  SignUpUser: async(data) =>{
+    try{
+    return await Service.post(`${config.BaseURL}/api/Register/Register`, {
+      data
+    })
+    }catch(error){
+      throw error;
+    }
+  },
+  SignUPWithOtp : async (data) =>{
+    try{
+       return await Service.post(`${config.BaseURL}/api/Register/RegisterWithOtp`,{
+        data
+       })
+    }catch(error){
+      throw error;
+    }
+  }
 };
 export default Api;

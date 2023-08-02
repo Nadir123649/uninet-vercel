@@ -15,7 +15,8 @@ module.exports = {
         'w-500': '500px',
       },
       backgroundImage: {
-        'bg-linear' : 'linear-gradient(to right, #8ECAE6, #219EBC, #FFFF)'
+        'bg-linear' : 'linear-gradient(to right, #8ECAE6, #219EBC, #FFFF)',
+        'bg-sidebar' : 'linear-gradient(to right, #8ECAE6, #219EBC, #4C7A91)'
         
       },
       colors: {
@@ -26,6 +27,7 @@ module.exports = {
         'primary-color' : '#8ECAE6 ',
         'bg-secondary' : ' #219EBC',
         'bg-disable' : 'rgb(192, 192, 192)',
+        'bg-color' : '#4C7A91'
       },
       height: {
         '130': '130px',

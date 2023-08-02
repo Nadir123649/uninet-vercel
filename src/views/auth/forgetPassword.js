@@ -8,7 +8,7 @@ const ForgetPassword = () => {
     <div className="relative flex items-center justify-center w-full h-screen bg-bg-linear wrapper-Div">
       <div className="flex flex-col items-center justify-center w-full mt-3 gap-4  mx-3 md:max-w-max-600 md:mx-0 lg:px-8" >
         <div className="Logo ">
-          <img src={LogoIcon} className="h-auto max-w-max-83" />
+          <img src={LogoIcon} className="h-auto max-w-max-83" alt="verify" />
         </div>
         <form className="w-full px-4 py-8 text-center bg-gray-100 rounded-md md:px-12 max-w-max-500 md:w-w-500">
           <h2 className="mb-3 text-3xl font-bold text-text-color">
@@ -21,7 +21,7 @@ const ForgetPassword = () => {
             <ul className="flex flex-col">
               <li className="flex flex-col items-start">
                 <label
-                  for="email"
+                  htmlFor="email"
                   className="mb-2 text-sm font-semibold text-text-color"
                 >
                   Email

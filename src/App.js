@@ -1,20 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import MainRoute from "./routes";
 import "./assets/css/index.css";
- import { gapi } from "gapi-script";
- import { config } from "./configs";
+import AuthState from "./context"
 const App = () => {
-
-  useEffect(()=>{
-    function start(){
-      gapi.auth2.init({
-        clientId: config.GoogleClientID,
-        scope: ""
-      })
-    }
-    gapi.load('client:auth2', start)
-  })
-  return <MainRoute />;
+ const [encryptedUser,setEncryptedUser] = useState('')
+  return (
+    <div>
+      <AuthState>
+      <MainRoute />
+      </AuthState>
+    </div>
+  )
+  
+  
 };
 
 export default App;

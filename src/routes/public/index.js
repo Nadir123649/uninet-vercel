@@ -2,7 +2,8 @@ import ForgetPassword from "../../views/auth/forgetPassword";
 import Signin from "../../views/auth/signin";
 import Signup from "../../views/auth/signup";
 import VerifyEmail from "../../views/auth/verifyEmail";
-import { forgetPassword, signIn, signUp, verifyEmail } from "../pathName";
+import Home from "../../views/questionnaire/home";
+import { dashboard, forgetPassword, signIn, signUp, verifyEmail } from "../pathName";
 
 export const PublicRoutes = [
   {
@@ -24,6 +25,11 @@ export const PublicRoutes = [
     title: "Verify Email",
     component: VerifyEmail,
     path: verifyEmail,
+  },
+  {
+    title: "Dashboard",
+    component: Home,
+    path: dashboard,
   },
   
 ];
