@@ -71,24 +71,24 @@ const Signin = () => {
   };
 
   // login with google
-  const responseGoogle = (response) => {
-    toast.success("signin successfully ");
-    console.log(response);
-  };
-  const onLoginFailure = (res) => {
-    console.log(res);
-    toast.error("Server Error ! please refresh page");
-  };
-  console.log(config.GoogleClientID);
-  useEffect(() => {
-    function start() {
-      gapi.auth2.init({
-        clientId: config.GoogleClientID,
-        scope: "",
-      });
-    }
-    gapi.load("client:auth2", start);
-  });
+  // const responseGoogle = (response) => {
+  //   toast.success("signin successfully ");
+  //   console.log(response);
+  // };
+  // const onLoginFailure = (res) => {
+  //   console.log(res);
+  //   toast.error("Server Error ! please refresh page");
+  // };
+  // console.log(config.GoogleClientID);
+  // useEffect(() => {
+  //   function start() {
+  //     gapi.auth2.init({
+  //       clientId: config.GoogleClientID,
+  //       scope: "",
+  //     });
+  //   }
+  //   gapi.load("client:auth2", start);
+  // });
   return (
     <div className="relative flex items-center justify-center w-full min-h-screen bg-bg-linear wrapper-Div">
       <div className="flex flex-col items-center justify-center w-full mt-3 gap-4  mx-3 md:max-w-max-600 md:mx-0 lg:px-8">
@@ -101,7 +101,7 @@ const Signin = () => {
           </h2>
           <p className="mb-3 text-xs text-gray-500">Your Social Campaigns</p>
           <fieldset>
-            <GoogleLogin
+            {/* <GoogleLogin
               clientId={config.GoogleClientID}
               render={(renderProps) => (
                 <div className="row">
@@ -122,7 +122,7 @@ const Signin = () => {
               onSuccess={responseGoogle}
               onFailure={onLoginFailure}
               cookiePolicy={"single_host_origin"}
-            />
+            /> */}
             {/* <div className="row">
               <div className="col-md-12">
                 <button
