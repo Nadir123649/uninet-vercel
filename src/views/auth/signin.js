@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import Api from "../../services/api";
 import Spinner from "react-bootstrap/Spinner";
 import toast, { Toaster } from "react-hot-toast";
-import { GoogleLogin } from "react-google-login";
+// import { GoogleLogin } from "react-google-login";
 import { config } from "../../configs";
 import { gapi } from "gapi-script";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
