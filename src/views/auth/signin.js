@@ -21,6 +21,7 @@ const Signin = () => {
     setEmail(inputValue);
     // setIsValid(validateEmail(inputValue))
   };
+  console.log("updated")
   const validateEmail = (input) => {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
