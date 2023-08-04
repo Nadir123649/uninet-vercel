@@ -86,8 +86,11 @@ const VerifyEmail = () => {
                     value={otp}
                     onChange={(e) => setOTP(e.target.value)}
                     id="text"
-                    className={ishbrew ? "block w-full px-2  py-[10px]  mb-[10px] text-lg font-medium leading-normal text-gray-900 text-right bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding" :
-                    "block w-full px-2  py-[10px]  mb-[10px] text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"}
+                    className={
+                      ishbrew
+                        ? "block w-full px-3 py-2 md:py-[10px] text-right mb-2 font-normal text-base md:text-lg leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
+                        : "block w-full px-3 py-2 md:py-[10px] mb-2 text-base md:text-lg font-normal leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
+                    }
                     required
                   />
                   {error && !otp && <span className="text-red-600">OTP Required</span> }
@@ -113,7 +116,7 @@ const VerifyEmail = () => {
                   <>{t("verifyEmail.part27")}</>
                 )}
               </button>
-              <p className="mb-0">
+              <p className="mb-[9px]">
                 <b>{t("verifyEmail.part28")}</b>
               </p>
               <p className="m-0 text-sm font-normal text-gray-500">
@@ -121,17 +124,8 @@ const VerifyEmail = () => {
                 {/* Check your spam/updates folder or{" "}
                 <span className="text-primary-color">get a new code</span> */}
               </p>
-              <div className="separator flex items-center text-center justify-center mt-3 mb-3">
-                <span className="text-sm font-normal text-text-color">
-                  {t("verifyEmail.part30")}
-                </span>
-              </div>
-              <p className="m-0 text-sm font-normal text-gray-500">
-                {t("verifyEmail.part31")}
-                <span className="text-primary-color">
-                  {t("verifyEmail.edit")}
-                </span>
-              </p>
+          
+           
             </fieldset>
           </form>
         </div>

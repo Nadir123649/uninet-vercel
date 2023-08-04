@@ -5,6 +5,7 @@ import Signup from "../../views/auth/signup";
 import VerifyEmail from "../../views/auth/verifyEmail";
 import Questionnaire from "../../views/questionnaire";
 import WelcomeScreen from "../../views/welcomeScreen";
+import MainConsole  from "../../views/mainConsole";
 import {
   questionnaire,
   forgetPassword,
@@ -12,7 +13,8 @@ import {
   signUp,
   verifyEmail,
   welcomeScreen,
-  resetPassword
+  resetPassword,
+  mainConsole
 } from "../pathName";
 
 export const PublicRoutes = [
@@ -50,7 +52,11 @@ export const PublicRoutes = [
     title: "Reset Password",
     component: ResetPassword,
     path: resetPassword
-
-  }
+  },
+  {
+    title: "Main Console",
+    component: MainConsole,
+    path: mainConsole
+    }
   
 ];

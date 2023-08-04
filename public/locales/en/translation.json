@@ -3,7 +3,7 @@
         "part1": "Sign in",
         "part2": "Don't have a Uninet account ? ",
         "part3": "Connect with google",
-        "part4": "or",
+        "part4": "OR",
         "part5": "Company email",
         "part6": "Password",
         "part7": "Forgot Password ?",
@@ -15,7 +15,7 @@
     "Signup": {
         "part10": "Sign Up",
         "part11": "Don't have a Uninet account? ",
-        "part13": "or",
+        "part13": "OR",
         "part14": "Company email",
         "part15": "Password",
         "part16": "Forgot Password?",
@@ -37,7 +37,7 @@
         "part27": "Submit",
         "part28": "Still haven't received a code?",
         "part29": "Check your spam/updates folder or get a new code",
-        "part30": "Or",
+        "part30": "OR",
         "part31": "Noticed a typo in your email? ",
         "edit" : "Edit email address"
     },

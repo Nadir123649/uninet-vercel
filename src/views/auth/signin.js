@@ -213,8 +213,8 @@ const Signin = () => {
                     onChange={handleEmailChange}
                     className={
                       ishbrew
-                        ? "block w-full px-2 py-2 md:py-[10px] text-right mb-2 text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
-                        : "block w-full px-2 py-2 md:py-[10px] mb-2 text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
+                        ? "block w-full px-3 py-2 md:py-[10px] text-right mb-2 font-normal text-base md:text-lg leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
+                        : "block w-full px-3 py-2 md:py-[10px] mb-2 text-base md:text-lg font-normal leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
                     }
                     required
                   />

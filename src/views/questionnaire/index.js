@@ -5,6 +5,7 @@ import AccountsInfo from "../../components/accountInfo";
 import QuestionaireStepper from "../../components/questionnaireStepper";
 import BusinessDetails from "../../components/businessDetails";
 import Navbars from "../navbar/navbar";
+import Questionnairebar from "../navbar/questionnairebar";
 import { useTranslation } from "react-i18next";
 import { AuthUserContext } from "../../context";
 import { useLocation } from "react-router-dom";
@@ -38,30 +39,14 @@ const Questionnaire = () => {
 
   return (
     <>
-      <div className="d-flex flex-column  min-h-screen bg-bg-secondary">
-        <Navbars />
-        <div className="end-button flex flex-row justify-end gap-3 p-4 ">
-          <button className="flex items-center justify-center gap-2 px-[22px] text-base font-semibold  py-[9px] text-text-color rounded-md bg-bg-btn">
-            <span>
-              <img
-                src={Filter}
-                style={{ maxWidth: "25px" }}
-                className=""
-                alt="filter"
-              />
-            </span>
-            <span>Filter</span>
-          </button>
-          <button className="bg-primary-color  text-base px-[22px] font-semibold  py-[9px] text-white rounded-md">
-            Create
-          </button>
-        </div>
+      <div className=" d-flex flex-column  min-h-screen px-3 md:px-2 bg-bg-linear">
+        <Questionnairebar />
 
         <div
           className={
             ishbrew
-              ? "flex  flex-row-reverse gap-4 mt-2 mb-3 mx-4"
-              : "flex gap-4 mt-2 mb-3 mx-4"
+              ? "flex  flex-row-reverse gap-4 pt-3 mt-2 mb-3 mx-4"
+              : "flex gap-4 mt-2 mb-3  pt-3 mx-4"
           }
         >
           <QuestionaireStepper

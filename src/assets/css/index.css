@@ -28,13 +28,9 @@ body {
   padding: 0;
   font-family: 'Poppins', sans-serif;
   scroll-behavior: smooth;
-  /* background-color: #219EBC; */
 }
 .wrapper-Div {
   overflow: auto !important;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .separator{
@@ -57,7 +53,6 @@ body {
   color: #023047 !important;
   font-size: 22px !important;
   font-family: poppins;
-  font-weight: 500 !important;
   margin-bottom: 10px;
   margin: 0;
 }
@@ -78,7 +73,7 @@ body {
 }
 
 .card{
-  width: 31%;
+  width: 31.5%;
 }
 
 .back-color:hover{
@@ -88,6 +83,7 @@ body {
 @media (max-width: 767px) {
   .wrapper-Div {
     background: linear-gradient(to right, #8ECAE6, #219EBC, #8ECAE6)!important;
+    
   }
 }
  @media (max-width :420px){
