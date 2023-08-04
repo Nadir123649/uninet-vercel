@@ -14,12 +14,16 @@ const VerifyEmail = () => {
   const { encryptedUser,ishbrew } = useContext(AuthUserContext)
   const [otp, setOTP] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const [error, setError] = useState(false)
   const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      if(!otp){
+        setError(true)
+        return false;
+      }
       setLoading(true);
       await Api.SignUPWithOtp({
         otp,
@@ -39,7 +43,7 @@ const VerifyEmail = () => {
         .catch((e) => {
           setLoading(false);
           console.error(e?.data?.error);
-          toast.error(e?.data?.error);
+          // toast.error(e?.data?.error);
         });
     } catch (e) {
       setLoading(false);
@@ -86,10 +90,12 @@ const VerifyEmail = () => {
                     "block w-full px-2  py-[10px]  mb-[10px] text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"}
                     required
                   />
+                  {error && !otp && <span className="text-red-600">OTP Required</span> }
+                  
                 </li>
               </ul>
               <button
-                className="w-full py-[10px] mb-3 text-base font-medium text-white border-none rounded-md bg-bg-secondary secondary-btn"
+                className="w-full mt-2 py-[10px] mb-3 text-base font-medium text-white border-none rounded-md bg-bg-secondary secondary-btn"
                 onClick={(e) => handleSubmit(e)}
               >
                 {loading ? (

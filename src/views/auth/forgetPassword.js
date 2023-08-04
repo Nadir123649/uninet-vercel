@@ -6,7 +6,7 @@ import Navbars from "../navbar/navbar";
 import Api from "../../services/api";
 import Spinner from "react-bootstrap/Spinner";
 import toast, { Toaster } from "react-hot-toast";
-
+import {AuthUserContext} from "../../context"
 const ForgetPassword = () => {
   const { t, i18n } = useTranslation();
   const history = useHistory();
@@ -15,7 +15,7 @@ const ForgetPassword = () => {
   const [error, setError] = useState(false);
   const [isValid, setIsValid] = useState(true);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
+  const {ishbrew } = useContext(AuthUserContext);
   const handleEmailChange = (e) => {
     try {
       const inputValue = e.target.value;
@@ -75,11 +75,19 @@ const ForgetPassword = () => {
               {t("forgotPassword.part20")}
             </p>
             <fieldset>
-              <ul className="flex flex-col text-start mb-3">
-                <li className="flex flex-col items-start">
+              <ul className="flex flex-col  mb-3">
+                <li className={
+                    ishbrew
+                      ? "flex flex-col items-end mt-2 text-right"
+                      : "flex flex-col items-start mt-2"
+                  }>
                   <label
                     htmlFor="email"
-                    className="mb-2 text-sm font-semibold text-text-color"
+                    className={
+                      ishbrew
+                        ? "mb-2 text-lg font-semibold text-text-color text-right"
+                        : "mb-2 text-sm font-semibold text-text-color"
+                    }
                   >
                     {t("forgotPassword.part21")}
                   </label>
@@ -88,10 +96,15 @@ const ForgetPassword = () => {
                     // id="email"
                     value={email}
                     onChange={(e) => handleEmailChange(e)}
-                    className="block w-full px-2  py-[10px] mb-[10px] text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
+                    className={
+                      ishbrew
+                        ? "block w-full px-2 py-2 md:py-[10px] text-right mb-2 text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
+                        : "block w-full px-2 py-2 md:py-[10px] mb-2 text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
+                    }
                     required
                   />
                 </li>
+                <div className={ishbrew ? "text-right": "text-left"}>
                 {error && !email ? (
                   <span className="text-red-600">Email required</span>
                 ) : !isValid ? (
@@ -99,9 +112,11 @@ const ForgetPassword = () => {
                 ) : (
                   <span className="text-red-600"></span>
                 )}
+                </div>
+                
               </ul>
 
-              <div className="flex justify-center gap-4 mx-12 submit-email">
+              <div className={ishbrew ? "flex flex-row-reverse justify-center gap-4 mx-12 submit-email": "flex row justify-center gap-4 mx-12 submit-email"}>
                 <button
                   type="submit"
                   className="w-2/5 py-[10px] text-white border-none rounded-md outline-none bg-bg-secondary"

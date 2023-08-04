@@ -24,10 +24,11 @@ function ResetPassword() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [checkConfirmPassword, setCheckConfirmPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
+  const [errorMessage1, setErrorMessage1] = useState(false);
   const [passwordValue, setPasswordValue] = useState({
     ...initalialResetPasswordValue,
   })
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setPasswordValue({
@@ -59,11 +60,22 @@ function ResetPassword() {
   };
 
   const handleSubmit = async (e) => {
+    // e.preventDefault();
     try {
+      if( passwordValue?.password.length < 6){
+        setErrorMessage(true)
+        return false
+      }
+      if( passwordValue?.confirmPassword.length < 6){
+        setErrorMessage1(true)
+        return false
+      }
       if (passwordValue?.password !== passwordValue?.confirmPassword) {
         setCheckConfirmPassword(true)
         return false
       }
+      setErrorMessage1(false)
+      setErrorMessage(false)
       setCheckConfirmPassword(false)
       setLoading(true)
       await Api.resetPassword({
@@ -73,9 +85,9 @@ function ResetPassword() {
         console.log(res);
         if (res === false) {
           setLoading(false)
-          toast.error("something went wrong")
+          toast.error("Something went wrong")
         } else {
-          toast.success("password reset successful")
+          toast.success("Password reset successful")
           setLoading(false)
           history.push('/')
         }
@@ -88,7 +100,9 @@ function ResetPassword() {
       console.log("e", e);
     }
   }
-  const resetPasswordData = () => {
+  const resetPasswordData = (e) => {
+    e.preventDefault();
+    
     const validateForm = validate(passwordValue);
     setFormError(validateForm);
     if (Object.keys(validateForm)?.length === 0) {
@@ -107,7 +121,7 @@ function ResetPassword() {
             <h2 className="mb-3 text-3xl font-bold text-text-color">
               Reset Password
             </h2>
-            <fieldset>
+            <form>
               <ul className="flex flex-col">
                 <li className="flex flex-col items-start">
                   <label
@@ -137,11 +151,11 @@ function ResetPassword() {
 
                   {formError?.password ? (
                     <p className="text-red-600 ">{formError?.password}</p>
-                  ) : (
-                    ""
+                  ) : errorMessage === true ? <span className="text-red-600">Password must be at least 6 characters long.</span>:(
+                    ''
                   )}
                 </li>
-                <li className="flex flex-col items-start">
+                <li className="flex flex-col items-start mt-3">
                   <label
                     htmlFor="email"
                     className="mb-2 text-sm font-semibold text-text-color"
@@ -169,7 +183,7 @@ function ResetPassword() {
 
                   {formError?.confirmPassword ? (
                     <p className="text-red-600 ">{formError?.confirmPassword}</p>
-                  ) : checkConfirmPassword ? <p className="text-red-600 "> Password does not match </p> : (
+                  ) : checkConfirmPassword ? <p className="text-red-600 "> Password does not match </p> : errorMessage1 ? <span className="text-red-600">Password must be at least 6 characters long.</span> : (
                     ""
                   )}
                 </li>
@@ -177,7 +191,7 @@ function ResetPassword() {
 
               <div className="flex justify-center gap-4 mt-[10px] submit-email">
                 <button
-                  type="submit"
+                 
                   className="w-full py-[11px] text-white border-none rounded-md outline-none bg-bg-secondary"
                   onClick={resetPasswordData}
                 >
@@ -198,7 +212,7 @@ function ResetPassword() {
 
                 </button>
               </div>
-            </fieldset>
+            </form>
           </div>
         </div>
       </div>

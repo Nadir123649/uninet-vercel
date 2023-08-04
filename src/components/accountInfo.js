@@ -94,7 +94,6 @@ const AccountInfo = ({ step, setStep }) => {
     }
   };
 
-  // console.log(questionnaireValues, "questionnaireValues");
   return (
     <div>
       <h1 className="font-semibold text-2xl mb-[10px] mt-3">
@@ -212,7 +211,7 @@ const AccountInfo = ({ step, setStep }) => {
           onClick={() => addQuestionnaireData()}
           className=" bg-bg-secondary   text-base px-[22px] font-semibold flex gap-1 items-center py-[9px] text-white rounded-md "
         >
-          <span>Continue</span>
+          <span>{t('Questionnaire1.part40')}</span>
           <BsChevronRight />
         </button>
       </div>

@@ -21,7 +21,7 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const [isValid, setIsValid] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
-
+  const [errorMessage, setErrorMessage] = useState(false);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const handleEMailChange = (e) => {
     let { value } = e.target;
@@ -29,7 +29,8 @@ const SignUp = () => {
     if (value) setIsValid(emailRegex.test(value));
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       if (!email || !password) {
         setError(true);
@@ -38,6 +39,11 @@ const SignUp = () => {
       if (!isValid) {
         return false;
       }
+      if(password.length < 6){
+        setErrorMessage(true)
+        return false;
+      }
+      setErrorMessage(false)
       setLoading(true);
       await Api.SignUpUser({
         email,
@@ -56,10 +62,13 @@ const SignUp = () => {
             setLoading(false);
             toast.error("User Failed to Register");
           } else {
-            toast.success("User successfully registered");
             setLoading(false);
+            toast.success("User successfully registered",{
+              duration: 4000,
+            });
             history.push("/verify-email");
             setEncryptedUser(res.encryptedUser);
+            
           }
         })
         .catch((e) => {
@@ -79,7 +88,7 @@ const SignUp = () => {
           <div className="Logo">
             <img src={LogoIcon} className="h-auto max-w-max-83" alt="logo" />
           </div>
-          <div className="px-4 text-center bg-gray-100 rounded-md py-9 max-w-max-500 mx-2">
+          <div className="px-8 text-center bg-gray-100 rounded-md py-9 max-w-max-500 w-w-500">
             <h2 className="mb-3 text-3xl font-bold text-text-color">
               {t("Signup.part10")}
             </h2>
@@ -92,7 +101,7 @@ const SignUp = () => {
                 {t("Signup.signis")}
               </span>
             </p>
-            <fieldset>
+            {/* <fieldset> */}
               <div className="row">
                 <div className="col-md-12">
                   <button
@@ -113,6 +122,7 @@ const SignUp = () => {
               <div className="separator flex items-center text-center mt-8 mb-8 justify-center">
                 <span className="text-sm font-normal text-text-color">Or</span>
               </div>
+              <form>
               <ul className="flex flex-col">
                 <li
                   className={
@@ -155,8 +165,8 @@ const SignUp = () => {
                 <li
                   className={
                     ishbrew
-                      ? "flex flex-col items-end"
-                      : "flex flex-col items-start"
+                      ? "flex flex-col mt-2 items-end"
+                      : "flex flex-col mt-2 items-start"
                   }
                 >
                   <label
@@ -191,14 +201,16 @@ const SignUp = () => {
                     </div>
                   </div>
 
-                  {error && !password && (
+                  {error && !password ? (
                     <span className="text-red-600">Password required</span>
+                  ): errorMessage ? <span className="text-red-600">Password must be at least 6 characters long.</span>:(
+                    ''
                   )}
                 </li>
               </ul>
-            </fieldset>
+            {/* </fieldset> */}
             <button
-              className=" mt-2 w-full py-[10px] mb-3 md:mt-1 text-base font-medium text-white border-none rounded-md bg-bg-secondary secondary-btn"
+              className=" mt-3 w-full py-[10px] mb-3 md:mt-1 text-base font-medium text-white border-none rounded-md bg-bg-secondary secondary-btn"
               onClick={handleSubmit}
             >
               {loading ? (
@@ -216,6 +228,7 @@ const SignUp = () => {
                 <>{t("Signup.part17")}</>
               )}
             </button>
+            </form>
             <p className="m-0 mt-3 text-sm font-normal text-gray-500 tracking-wider leading-5 ">
               {t("signin.part9")}
               {/* By signing up you agree to Uninet's

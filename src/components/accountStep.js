@@ -13,9 +13,7 @@ function AccountStep({ step, setStep }) {
   const { t, i18n } = useTranslation();
   const [color, setColor] = useState("");
   const {setBusinessType,businessType, ishbrew} = useContext(AuthUserContext)
-  
    const [isValid, setIsValid] = useState(false);
-  console.log(color);
   useEffect(() => {
     if (color) {
       setIsValid(false);
@@ -26,6 +24,13 @@ function AccountStep({ step, setStep }) {
   useEffect(() => {
     setColor(businessType);
   }, [businessType]);
+
+  const handleWhatsAppButtonClick = () => {
+    // Replace the following URL with your desired WhatsApp URL or phone number
+    const whatsappUrl = 'https://api.whatsapp.com/send?phone=972584222456';
+    window.location.href = whatsappUrl;
+  };
+
   return (
     <div>
       
@@ -34,7 +39,7 @@ function AccountStep({ step, setStep }) {
       </h1>
       <p className={ishbrew ? "text-lg font-normal text-gray-500 mb-10 text-right" : "text-base font-normal text-gray-500 mb-10"}>
        {t('Questionnaire1.part33')}
-        <span className="cursor-pointer text-primary-color">Help Page</span>
+        <span className="cursor-pointer text-primary-color" onClick={handleWhatsAppButtonClick}>Help Page</span>
       </p>
 
       <div className= {ishbrew ?"row justify-between flex-row-reverse mx-1" : "row justify-between mx-1" }>
@@ -167,7 +172,7 @@ function AccountStep({ step, setStep }) {
           }}
           className=" bg-bg-secondary   text-base px-[22px] font-semibold flex gap-1 items-center py-[9px] text-white rounded-md "
         >
-          <span>Continue</span>
+          <span>{t('Questionnaire1.part40')}</span>
           <BsChevronRight />
         </button>
       </div>

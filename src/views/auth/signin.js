@@ -23,22 +23,18 @@ const Signin = () => {
   const [loading, setLoading] = useState(false);
   const [isValid, setIsValid] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
-
+  const [errorMessage, setErrorMessage] = useState(false);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const handleEmailChange = (e) => {
     const inputValue = e.target.value;
     setEmail(inputValue);
     if (inputValue) setIsValid(emailRegex.test(inputValue));
   };
-  // const validateEmail = (input) => {
-
-  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  //   return emailRegex.test(input);
-  // };
+  
 
   // login with Email and password
   const handleSubmit = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     try {
       if (!email || !password) {
         setError(true);
@@ -47,7 +43,11 @@ const Signin = () => {
       if (!isValid) {
         return false;
       }
-
+      if(password.length < 6){
+        setErrorMessage(true)
+        return false;
+      }
+      setErrorMessage(false)
       setLoading(true);
       await Api.SignInUser({
         email,
@@ -57,26 +57,31 @@ const Signin = () => {
           console.log("res", res);
           if (res.Success === true) {
             setLoading(false);
-            toast.success("✔️ Signin successfully");
-            if (
-              res?.Q1_Q2_InidicationRes === true &&
-              res?.Q3_InidicationRes === true
-            ) {
-              history.push("/welcomeScreen");
-            } else if (res?.Q1_Q2_InidicationRes === false) {
-              history.push("/questionnaire");
-            } else {
-              history.push({
-                pathname: "/questionnaire",
-                state: 2,
-              });
-            }
-
-            // history.push("/verify-email");
+            toast.success("✔️ Signin successfully", {
+              duration: 4000,
+            })
+              if (
+                res?.Q1_Q2_InidicationRes === true &&
+                res?.Q3_InidicationRes === true
+              ) {
+                history.push("/welcomeScreen");
+                
+              } else if (res?.Q1_Q2_InidicationRes === false) {
+                history.push("/questionnaire");
+                
+              } else {
+                history.push({
+                  pathname: "/questionnaire",
+                  state: 2,
+                });
+                
+              }
+              
           } else {
             setLoading(false);
-            toast.error("User Not Found");
+            toast.error("Invalid login credentials");
           }
+          
         })
         .catch((e) => {
           console.error(e?.data?.error);
@@ -127,7 +132,7 @@ const Signin = () => {
                 {t("signin.signup")}
               </span>
             </p>
-            <fieldset>
+            {/* <fieldset> */}
               {/* <GoogleLogin
                 clientId={config.GoogleClientID}
                 render={(renderProps) => (
@@ -157,12 +162,16 @@ const Signin = () => {
               <div className="row">
               <div className="col-md-12">
                 <button
-                  className="flex items-center justify-center w-full gap-2 px-8 py-[10px] md:py-3 text-sm text-gray-700 border border-solid rounded-md border-bg-border bg-bg-btn"
+                  className={
+                    ishbrew
+                      ? "flex items-center flex-row-reverse justify-center w-full gap-2 px-8 py-3 text-sm text-gray-700 border border-solid rounded-md border-bg-border bg-bg-btn "
+                      : "flex items-center justify-center  flex-row w-full gap-2 px-8 py-3 text-sm text-gray-700 border border-solid rounded-md border-bg-border bg-bg-btn "
+                  }
                 >
                   <span>
                     <img src={GoogleIcon} className="w-5 h-5"  alt="google"/>
                   </span>
-                  <span> Sign in with Google</span>
+                  <span> {t("signin.part3")}</span>
                 </button>
               </div>
             </div>
@@ -178,6 +187,7 @@ const Signin = () => {
                   {t("signin.part4")}
                 </span>
               </div>
+              <form >
               <ul className="flex flex-col">
                 <li
                   className={
@@ -255,16 +265,18 @@ const Signin = () => {
                     </div>
                   </div>
 
-                  {error && !password && (
+                  {error && !password ? (
                     <span className="text-red-600">Password required</span>
+                  ): errorMessage ? <span className="text-red-600">Password must be at least 6 characters long.</span>:(
+                    ''
                   )}
                 </li>
               </ul>
               <div
                 className={
                   ishbrew
-                    ? " flex justify-start gap-3 mb-3 text-xs font-semibold"
-                    : "flex justify-end gap-3 mb-3 text-xs font-semibold"
+                    ? " flex justify-start gap-3 mb-3 text-xs font-semibold mt-2"
+                    : "flex justify-end gap-3 mb-3 text-xs font-semibold mt-2"
                 }
               >
                 <p
@@ -274,7 +286,7 @@ const Signin = () => {
                   {t("signin.part7")}
                 </p>
               </div>
-            </fieldset>
+            {/* </fieldset> */}
             <button
               className="w-full py-2 mb-3 text-base font-medium text-white border-none rounded-md md:text-lg bg-bg-secondary secondary-btn"
               onClick={handleSubmit}
@@ -294,6 +306,7 @@ const Signin = () => {
                 <>{t("signin.part8")}</>
               )}
             </button>
+            </form>
             <p
               className={
                 ishbrew

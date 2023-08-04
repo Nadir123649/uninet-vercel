@@ -5,6 +5,11 @@ import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 
 const BusinessDetails = ({ step, setStep }) => {
   const { t, i18n } = useTranslation();
+  const handleWhatsAppButtonClick = () => {
+    // Replace the following URL with your desired WhatsApp URL or phone number
+    const whatsappUrl = 'https://api.whatsapp.com/send?phone=972584222456';
+    window.location.href = whatsappUrl;
+  };
   return (
     <div>
       <h1 className="font-semibold text-2xl mb-[10px] mt-3">
@@ -12,7 +17,7 @@ const BusinessDetails = ({ step, setStep }) => {
       </h1>
       <p className="text-base font-normal text-gray-500">
         if you need more info, please check out.
-        <span className="cursor-pointer text-primary-color"> Help Page </span>
+        <span className="cursor-pointer text-primary-color" onClick={handleWhatsAppButtonClick}> Help Page </span>
       </p>
 
       <div className="row">
@@ -49,7 +54,7 @@ const BusinessDetails = ({ step, setStep }) => {
           </h1>
           <p className="text-base font-normal text-gray-500 mb-3">
             {t("Questionnaire1.part33")}
-            <span className="cursor-pointer text-primary-color">Help Page</span>
+            <span className="cursor-pointer text-primary-color" onClick={handleWhatsAppButtonClick}>Help Page</span>
           </p>
         </div>
       </div>
