@@ -79,7 +79,7 @@ const SignUp = () => {
           <div className="Logo">
             <img src={LogoIcon} className="h-auto max-w-max-83" alt="logo" />
           </div>
-          <div className="px-8 text-center bg-gray-100 rounded-md py-9 max-w-max-500 w-w-500">
+          <div className="px-4 text-center bg-gray-100 rounded-md py-9 max-w-max-500 mx-2">
             <h2 className="mb-3 text-3xl font-bold text-text-color">
               {t("Signup.part10")}
             </h2>
