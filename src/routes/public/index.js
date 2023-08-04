@@ -1,9 +1,19 @@
 import ForgetPassword from "../../views/auth/forgetPassword";
+import ResetPassword from "../../views/auth/resetPassword";
 import Signin from "../../views/auth/signin";
 import Signup from "../../views/auth/signup";
 import VerifyEmail from "../../views/auth/verifyEmail";
-import Home from "../../views/questionnaire/home";
-import { dashboard, forgetPassword, signIn, signUp, verifyEmail } from "../pathName";
+import Questionnaire from "../../views/questionnaire";
+import WelcomeScreen from "../../views/welcomeScreen";
+import {
+  questionnaire,
+  forgetPassword,
+  signIn,
+  signUp,
+  verifyEmail,
+  welcomeScreen,
+  resetPassword
+} from "../pathName";
 
 export const PublicRoutes = [
   {
@@ -27,9 +37,20 @@ export const PublicRoutes = [
     path: verifyEmail,
   },
   {
-    title: "Dashboard",
-    component: Home,
-    path: dashboard,
+    title: "Questionnaire",
+    component: Questionnaire,
+    path: questionnaire,
   },
+  {
+    title: "Welcome",
+    component: WelcomeScreen,
+    path: welcomeScreen,
+  },
+  {
+    title: "Reset Password",
+    component: ResetPassword,
+    path: resetPassword
+
+  }
   
 ];

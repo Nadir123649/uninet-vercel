@@ -25,6 +25,17 @@ function post(url, { data }) {
   });
 }
 
+function postWithAuthentication({ url, data, token }) {
+  return request({
+    method: "POST",
+    url,
+    data,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
 function update({ url, data, token }) {
   return request({
     method: "PUT",
@@ -53,5 +64,6 @@ const Service = {
   update,
   remove,
   getWithBody,
+  postWithAuthentication,
 };
 export default Service;
