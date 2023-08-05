@@ -1,8 +1,7 @@
-
-*{
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 ol,
@@ -10,7 +9,8 @@ ul {
   list-style: none;
   padding: 0;
 }
-.textarea:focus, input:focus{
+.textarea:focus,
+input:focus {
   outline: none;
 }
 *:focus {
@@ -26,14 +26,14 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   scroll-behavior: smooth;
 }
 .wrapper-Div {
   overflow: auto !important;
 }
 
-.separator{
+.separator {
   border-bottom: 0;
 }
 .separator::before {
@@ -49,44 +49,68 @@ body {
   margin-left: 15px;
 }
 
-.ant-steps-item-title{
+.ant-steps-item-title {
   color: #023047 !important;
   font-size: 22px !important;
   font-family: poppins;
+  font-weight: 500 !important;
   margin-bottom: 10px;
   margin: 0;
 }
-.ant-steps-item-description{
+.ant-steps-item-description {
   font-family: poppins;
   font-size: 13px !important;
 }
-.ant-steps-item-icon{
+.ant-steps-item-icon {
   border-radius: 6px !important;
   width: 40px !important;
   height: 40px !important;
   display: flex !important;
-  justify-content: center !important; 
+  justify-content: center !important;
   align-items: center !important;
 }
 .button:focus-within .border-4 {
   border-color: #2563eb !important;
 }
 
-.card{
+.card {
   width: 31.5%;
 }
 
-.back-color:hover{
+.back-color:hover {
   background-color: #cfcfd792;
-  
+}
+
+.custom-tabs {
+  background-color: #f8f9fa;
+  padding: 10px 30px;
+}
+.nav-item {
+  border: 1px solid black;
+  padding: 5px 10px;
+}
+
+.custom-tabs {
+  background: none;
+  padding: 0;
+}
+.custom-tab.active {
+  color: #fff;
+}
+.nav-link{
+  color: #023047;
+}
+.nav-link.active {
+  background: transparent !important;
+  color: black;
+  border: none;
 }
 @media (max-width: 767px) {
   .wrapper-Div {
-    background: linear-gradient(to right, #8ECAE6, #219EBC, #8ECAE6)!important;
-    
+    background: linear-gradient(to right, #8ecae6, #219ebc, #8ecae6) !important;
   }
 }
- @media (max-width :420px){
+@media (max-width: 420px) {
   .separator::before {
     content: "";
     width: 10%;
@@ -99,8 +123,7 @@ body {
     border-bottom: 1px solid #cfcfd7;
     margin-left: 0px;
   }
-
- }
+}
 @media (max-width: 767px) {
   .separator::before {
     content: "";
@@ -115,6 +138,3 @@ body {
     margin-left: 10px;
   }
 }
-
-
-

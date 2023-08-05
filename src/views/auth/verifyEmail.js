@@ -93,8 +93,7 @@ const VerifyEmail = () => {
                     }
                     required
                   />
-                  {error && !otp && <span className="text-red-600">OTP Required</span> }
-                  
+                  {error && !otp && <span className="text-red-600">OTP Required</span> }    
                 </li>
               </ul>
               <button
@@ -123,9 +122,7 @@ const VerifyEmail = () => {
                 {t("verifyEmail.part29")}
                 {/* Check your spam/updates folder or{" "}
                 <span className="text-primary-color">get a new code</span> */}
-              </p>
-          
-           
+              </p>           
             </fieldset>
           </form>
         </div>

@@ -9,21 +9,24 @@ module.exports = {
         'max-83': '100px',
         'max-100' : '120px',
         'mx-550' : '550px',
+        'max-150' : '150px',
         'max-600': '600px',
         'max-200' : '200px',
         'max-500' : '500px',
       },
       width: {
         'w-500': '500px',
+        'w-1/6' : "45%",
       },
       backgroundImage: {
         'bg-linear' : 'linear-gradient(to right, #8ECAE6, #219EBC, #FFFF)',
         'bg-sidebar' : 'linear-gradient(to right, #8ECAE6, #219EBC, #4C7A91)'
         
-      },
+      },  
       colors: {
         'bg-none': 'linear-gradient(to right, #8ECAE6, #219EBC, #FFFF)',
         'bg-border' : '#DBDFE9',
+        'bg-input' : '#023047',
         "bg-btn" : '#F9F9F9',
         'text-color' : '#023047',
         'primary-color' : '#8ECAE6 ',

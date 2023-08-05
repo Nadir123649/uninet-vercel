@@ -1,5 +1,5 @@
 import React from "react";
-import Welcome from "../assets/images/welcome.png";
+
 
 const WelcomeScreen = () => {
   const handleWhatsAppButtonClick = () => {
