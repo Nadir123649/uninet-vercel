@@ -26,8 +26,7 @@ const Questionnaire = () => {
 
   const stepperList = [
     {
-      title: "Account Type",
-
+      title: t('Questionnaire1.accountType'),
     },
     {
       title: "User details",

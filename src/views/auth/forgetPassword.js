@@ -106,9 +106,9 @@ const ForgetPassword = () => {
                 </li>
                 <div className={ishbrews == "he" ? "text-right": "text-left"}>
                 {error && !email ? (
-                  <span className="text-red-600">Email required</span>
+                  <span className="text-red-600">{t('signin.Emailisrequired')}</span>
                 ) : !isValid ? (
-                  <span className="text-red-600">Invalid email</span>
+                  <span className="text-red-600">{t('signin.Invalidemail')}</span>
                 ) : (
                   <span className="text-red-600"></span>
                 )}
@@ -131,7 +131,7 @@ const ForgetPassword = () => {
                         role="status"
                         aria-hidden="true"
                       />
-                      <span className="">Loading...</span>
+                      <span className="">{t("signin.Loading")}...</span>
                     </>
                   ) : (
                     <>{t("forgotPassword.part22")}</>

@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import Api from "../../services/api";
 import Spinner from "react-bootstrap/Spinner";
 import toast, { Toaster } from "react-hot-toast";
-// import { GoogleLogin } from "react-google-login";
+import { GoogleLogin } from "react-google-login";
 import { config } from "../../configs";
 import { gapi } from "gapi-script";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
@@ -88,25 +88,25 @@ const Signin = () => {
       toast.error("Server Error. Please Refresh Page");
     }
   };
-
-  // login with google
-  // const responseGoogle = (response) => {
-  //   toast.success("✔️ Signin successfully");
-  //   console.log(response);
-  // };
-  // const onLoginFailure = (res) => {
-  //   console.log(res);
-  //   toast.error("Server Error. Please Refresh Page");
-  // };
-  // useEffect(() => {
-  //   function start() {
-  //     gapi.auth2.init({
-  //       clientId: config.GoogleClientID,
-  //       scope: "",
-  //     });
-  //   }
-  //   gapi.load("client:auth2", start);
-  // });
+// console.log("config.GoogleClientID", config.GoogleClientID);
+  //login with google
+  const responseGoogle = (response) => {
+    toast.success("✔️ Signin successfully");
+    console.log(response);
+  };
+  const onLoginFailure = (res) => {
+    console.log(res);
+    toast.error("Server Error. Please Refresh Page");
+  };
+  useEffect(() => {
+    function start() {
+      gapi.auth2.init({
+        clientId: config.GoogleClientID,
+        scope: "",
+      });
+    }
+    gapi.load("client:auth2", start);
+  });
   return (
     <div className="bg-bg-linear">
       
@@ -129,7 +129,7 @@ const Signin = () => {
               </span>
             </p>
             {/* <fieldset> */}
-            {/* <GoogleLogin
+            <GoogleLogin
                 clientId={config.GoogleClientID}
                 render={(renderProps) => (
                   <div className="row">
@@ -137,7 +137,11 @@ const Signin = () => {
                       <button
                         href="#"
                         onClick={renderProps.onClick}
-                        className="flex items-center justify-center w-full gap-2 px-8 py-3 text-sm text-gray-700 border border-solid rounded-md border-bg-border bg-bg-btn"
+                        className={
+                          ishbrews == "he"
+                            ? "flex items-center flex-row-reverse justify-center w-full gap-2 px-8 py-3 text-sm text-gray-700 border border-solid rounded-md border-bg-border bg-bg-btn "
+                            : "flex items-center justify-center  flex-row w-full gap-2 px-8 py-3 text-sm text-gray-700 border border-solid rounded-md border-bg-border bg-bg-btn "
+                        }
                       >
                         <span>
                           <img
@@ -151,11 +155,12 @@ const Signin = () => {
                     </div>
                   </div>
                 )}
+                uxMode="redirect"
                 onSuccess={responseGoogle}
                 onFailure={onLoginFailure}
                 cookiePolicy={"single_host_origin"}
-              /> */}
-            <div className="row">
+              />
+            {/* <div className="row">
               <div className="col-md-12">
                 <button
                   className={
@@ -170,7 +175,7 @@ const Signin = () => {
                   <span> {t("signin.part3")}</span>
                 </button>
               </div>
-            </div>
+            </div> */}
               
               <div className="separator flex items-center text-center mt-4 md:mt-8 mb-4 md:mb-8 justify-center">
                 <span
@@ -215,9 +220,9 @@ const Signin = () => {
                     required
                   />
                   {error && !email ? (
-                    <span className="text-red-600">Email required</span>
+                    <span className="text-red-600">{t('signin.Emailisrequired')}</span>
                   ) : !isValid ? (
-                    <span className="text-red-600">Invalid email</span>
+                    <span className="text-red-600">{t('signin.Invalidemail')}</span>
                   ) : (
                     <span className="text-red-600"></span>
                   )}
@@ -262,7 +267,7 @@ const Signin = () => {
                   </div>
 
                   {error && !password ? (
-                    <span className="text-red-600">Password required</span>
+                    <span className="text-red-600">{t('signin.Passwordisrequired')}</span>
                   ) : errorMessage ? (
                     <span className="text-red-600">
                       Password must be at least 6 characters long.
@@ -300,7 +305,7 @@ const Signin = () => {
                       role="status"
                       aria-hidden="true"
                     />
-                    <span className="">Loading...</span>
+                    <span className="">{t("signin.Loading")}...</span>
                   </>
                 ) : (
                   <>{t("signin.part8")}</>

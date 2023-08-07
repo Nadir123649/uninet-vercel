@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LogoIcon from "../../assets/images/Logo.webp";
 import Api from "../../services/api";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
@@ -6,19 +6,20 @@ import toast, { Toaster } from "react-hot-toast";
 import { useHistory } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
 // import { useHistory } from "react-router-dom";
-// import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import Navbars from "../navbar/navbar";
 // import { AuthUserContext } from "../../context";
 
 function ResetPassword() {
   let query= new URLSearchParams(window.location.search);
-  console.log("query", query);
   let UserResetToken = query.get("UserResetToken");
   let ishbrews = localStorage.getItem('i18nextLng') 
+  console.log("ishbrews", ishbrews);
   const initalialResetPasswordValue = {
     password: "",
     confirmPassword: "",
   }
+  const { t, i18n } = useTranslation();
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const [formError, setFormError] = useState({});
@@ -47,12 +48,13 @@ function ResetPassword() {
 
   const validate = (values) => {
     const errors = {};
-
+     console.log(values);
     if (!values?.password) {
-      errors.password = "Please enter Password";
+      console.log(ishbrews);
+      errors.password = ishbrews === "he" ? "יש להזין סיסמה" : "Please enter Password";
     }
     if (!values?.confirmPassword) {
-      errors.confirmPassword = "Please enter Confirm Password";
+      errors.confirmPassword = t("resetPassword.part61");
     }
     Object.keys(errors).map((key) => {
       if (Object.keys(errors[key])?.length === 0) delete errors[key];
@@ -89,7 +91,7 @@ function ResetPassword() {
           setLoading(false)
           toast.error("Something went wrong")
         } else {
-          toast.success("Password reset successful")
+          toast.success(t("resetPassword.part62"))
           setLoading(false)
           history.push('/')
         }
@@ -111,6 +113,10 @@ function ResetPassword() {
       handleSubmit();
     }
   };
+  useEffect(()=>{
+   const validateForm =  validate(passwordValue)
+    setFormError(validateForm);
+  },[ishbrews])
   return (
     <div className="bg-bg-linear">
       
@@ -121,25 +127,25 @@ function ResetPassword() {
           </div>
           <div className="w-full px-4 py-8 text-center bg-gray-100 rounded-md md:px-12 max-w-max-500 md:w-w-500">
             <h2 className="mb-3 text-3xl font-bold text-text-color">
-              Reset Password
+              {t('resetPassword.part57')}
             </h2>
             <form>
               <ul className="flex flex-col">
-                <li className="flex flex-col items-start">
+                <li className={ishbrews == "he" ? "flex flex-col items-end" :  "flex flex-col items-start"}>
                   <label
                     htmlFor="email"
                     className="mb-2 text-sm font-semibold text-text-color"
                   >
-                    New password
+                    {t('resetPassword.part58')}
                   </label>
-                  <div className=" flex items-center w-full px-2  py-[10px]  mb-[10px] text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding">
+                  <div className={ishbrews === "he" ? "flex flex-row-reverse items-center w-full px-2  py-[6px]  mb-[10px] text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding": "flex items-center w-full px-2  py-[6px]  mb-[10px] text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"}>
                     <input
                       type={showPassword ? "text" : "password"}
                       id="password"
                       value={passwordValue?.password}
                       onChange={handleChange}
                       name="password"
-                      className="form-control border-none"
+                      className={ishbrews == "he" ? "form-control border-none text-right"  : "form-control border-none"}
                       required
                     />
                     <div onClick={() => setShowPassword(!showPassword)}>
@@ -157,21 +163,21 @@ function ResetPassword() {
                     ''
                   )}
                 </li>
-                <li className="flex flex-col items-start mt-3">
+                <li className={ishbrews == "he" ? "flex flex-col items-end mt-3" :  "flex flex-col items-start mt-3"}>
                   <label
                     htmlFor="email"
                     className="mb-2 text-sm font-semibold text-text-color"
                   >
-                    Confirm password
+                    {t('resetPassword.part59')}
                   </label>
-                  <div className="flex items-center w-full px-2  py-[10px]  mb-[10px] text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding">
+                  <div className={ishbrews === "he" ? "flex flex-row-reverse items-center w-full px-2  py-[6px]  mb-[10px] text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding": "flex items-center w-full px-2  py-[6px]  mb-[10px] text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"}>
                     <input
                       type={showConfirmPassword ? "text" : "password"}
                       id="password"
                       value={passwordValue?.confirmPassword}
                       onChange={handleChange}
                       name="confirmPassword"
-                      className="form-control border-none"
+                      className={ishbrews == "he" ? "form-control border-none text-right" : "form-control border-none"}
                       required
                     />
                     <div onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
@@ -185,7 +191,7 @@ function ResetPassword() {
 
                   {formError?.confirmPassword ? (
                     <p className="text-red-600 ">{formError?.confirmPassword}</p>
-                  ) : checkConfirmPassword ? <p className="text-red-600 "> Password does not match </p> : errorMessage1 ? <span className="text-red-600">Password must be at least 6 characters long.</span> : (
+                  ) : checkConfirmPassword ? <p className="text-red-600 "> {t('resetPassword.part63')} </p> : errorMessage1 ? <span className="text-red-600">Password must be at least 6 characters long.</span> : (
                     ""
                   )}
                 </li>
@@ -206,10 +212,10 @@ function ResetPassword() {
                         role="status"
                         aria-hidden="true"
                       />
-                      <span className="">Loading...</span>
+                      <span className="">{t("signin.Loading")}...</span>
                     </>
                   ) : (
-                    <>Submit</>
+                    <>{t('forgotPassword.part22')}</>
                   )}
 
                 </button>

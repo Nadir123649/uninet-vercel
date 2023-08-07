@@ -9,8 +9,11 @@
         "part7": "Forgot Password ?",
         "part8": "Sign in",
         "part9": "By signing in you agree to Uninet's term of service and Privacy policy",
-        "signup" : "Sign Up"
-       
+        "signup" : "Sign Up",
+        "Emailisrequired" : "Email is required",
+        "Passwordisrequired" : "Password is required",
+        "Invalidemail" : "Invalid email",
+        "Loading" : "Loading"
     },
     "Signup": {
         "part10": "Sign Up",
@@ -55,7 +58,15 @@
         "part39": "Streamline workflows and manage clients' financials efficiently in one screen.",
         "part40": "Continue",
         "part41": "Skip",
-        "part42": "Need help?"
+        "part42": "Need help?",
+        "PleaseSelectanyoftheField":  " Please Select any of the Field",
+        "firstName" : "Please enter your first name",
+        "lastNAme": "Please enter your last name",
+        "mobileNo": "Please enter your mobile number",
+        "organizationrole": "Please enter organization role",
+        "pleasecheckout":"if you need more info, please check out.",
+        "accountType": "Account Type"
+
     },
     "Questionnaire2" : {
         "part43": "Now, tell us about yourself",
@@ -63,7 +74,8 @@
         "part45": "Last name",
         "part46": "Mobile number",
         "part47": "Role in the organization",
-        "part48": "Used to verify your account and provide access."
+        "part48": "Used to verify your account and provide access.",
+        "Back" : "Back"
     },
     "Questionnaire3" : { 
         "part49": "Which financial software does you use?",
@@ -74,5 +86,14 @@
         "part54": "Username",
         "part55": "Password",
         "part56": "Company ID"
+    },
+    "resetPassword": {
+        "part57": "Reset Password",
+        "part58": "New password",
+        "part59": "Confirm password", 
+        "part60": "Please enter Password",
+        "part61": "Please enter Confirm Password",
+        "part62": "password reset successful",
+        "part63": "Password does not match"
     }
 }

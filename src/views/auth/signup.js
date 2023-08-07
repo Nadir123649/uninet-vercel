@@ -172,9 +172,9 @@ const SignUp = () => {
                     required
                   />
                   {error && !email ? (
-                    <span className="text-red-600">Email required</span>
+                    <span className="text-red-600">{t('signin.Emailisrequired')}</span>
                   ) : !isValid ? (
-                    <span className="text-red-600">Invalid email</span>
+                    <span className="text-red-600">{t('signin.Invalidemail')}</span>
                   ) : (
                     <span className="text-red-600"></span>
                   )}
@@ -220,7 +220,7 @@ const SignUp = () => {
                   </div>
 
                   {error && !password ? (
-                    <span className="text-red-600">Password required</span>
+                    <span className="text-red-600">{t('signin.Passwordisrequired')}</span>
                   ) : errorMessage ? <span className="text-red-600">Password must be at least 6 characters long.</span> : (
                     ''
                   )}
@@ -240,7 +240,7 @@ const SignUp = () => {
                       role="status"
                       aria-hidden="true"
                     />
-                    <span className="">Loading...</span>
+                    <span className="">{t("signin.Loading")}...</span>
                   </>
                 ) : (
                   <>{t("Signup.part17")}</>

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Api from "../services/api";
 import { AuthUserContext } from "../context";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
@@ -14,7 +14,7 @@ const AccountInfo = ({
   const { t, i18n } = useTranslation();
   const { businessType } = useContext(AuthUserContext);
   const [formError, setFormError] = useState({});
-
+  let ishbrews = localStorage.getItem('i18nextLng') 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setQuestionnaireValues((prev) => ({
@@ -34,16 +34,16 @@ const AccountInfo = ({
     const errors = {};
 
     if (!values?.FirstName) {
-      errors.FirstName = "Please enter your first name";
+      errors.FirstName = t('Questionnaire1.firstName');
     }
     if (!values?.LastName) {
-      errors.LastName = "Please enter your last name";
+      errors.LastName = t('Questionnaire1.lastNAme');
     }
     if (!values?.MobileNumber) {
-      errors.MobileNumber = "Please enter your mobile number";
+      errors.MobileNumber = t('Questionnaire1.mobileNo');
     }
     if (!values?.OrganizationRole) {
-      errors.OrganizationRole = "Please enter organization role";
+      errors.OrganizationRole = t('Questionnaire1.organizationrole');
     }
     Object.keys(errors).map((key) => {
       if (Object.keys(errors[key])?.length === 0) delete errors[key];
@@ -90,13 +90,17 @@ const AccountInfo = ({
     }
   };
 
+  useEffect(()=>{
+    const validateForm = validate(questionnaireValues);
+    setFormError(validateForm);
+  },[ishbrews])
   return (
     <div>
       <h1 className="font-semibold text-2xl mb-[10px] mt-3">
-        Now, Tell us about yourself
+        {t('Questionnaire2.part43')}
       </h1>
       <p className="text-base font-normal text-gray-500 mb-10">
-        Used to verify your account and provide access
+      {t('Questionnaire2.part48')}
       </p>
       <div className="row">
         <div className="col-md-6 flex flex-col">
@@ -104,7 +108,7 @@ const AccountInfo = ({
             htmlFor="firstNameInput"
             className="mb-[10px] text-sm font-semibold text-text-color"
           >
-            First name
+            {t('Questionnaire2.part44')}
           </label>
           <input
             className="block w-full px-2 py-[10px] mb-[10px] text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
@@ -126,7 +130,7 @@ const AccountInfo = ({
             htmlFor="lastNameInput"
             className="mb-[10px] text-sm font-semibold text-text-color"
           >
-            Last name
+            {t('Questionnaire2.part45')}
           </label>
           <input
             className="block w-full px-2 py-[10px]  mb-[10px] text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
@@ -148,7 +152,7 @@ const AccountInfo = ({
             htmlFor="mobileNumberInput"
             className="mb-[10px] text-sm font-semibold text-text-color"
           >
-            Mobile number
+            {t('Questionnaire2.part46')}
           </label>
 
           <input
@@ -171,7 +175,7 @@ const AccountInfo = ({
             htmlFor="roleInput"
             className="mb-[10px]  text-sm font-semibold text-text-color"
           >
-            Role in the Organization:
+            {t('Questionnaire2.part47')}
           </label>
           <input
             type="text"
@@ -199,7 +203,7 @@ const AccountInfo = ({
             id="backButton"
           >
             <BsChevronLeft />
-            <span>Back</span>
+            <span>{t('Questionnaire2.Back')}</span>
           </button>
         )}
 

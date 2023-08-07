@@ -10,9 +10,9 @@ import { useTranslation } from "react-i18next";
 function AccountStep({ step, setStep }) {
   const { t, i18n } = useTranslation();
   const [color, setColor] = useState("");
-  const {setBusinessType,businessType} = useContext(AuthUserContext)
-  let ishbrews = localStorage.getItem('i18nextLng') 
-   const [isValid, setIsValid] = useState(false);
+  const { setBusinessType, businessType } = useContext(AuthUserContext);
+  let ishbrews = localStorage.getItem("i18nextLng");
+  const [isValid, setIsValid] = useState(false);
   useEffect(() => {
     if (color) {
       setIsValid(false);
@@ -32,21 +32,31 @@ function AccountStep({ step, setStep }) {
 
   return (
     <div>
-      
-      <h1 className={ishbrews == "he" ? "font-semibold text-2xl mb-[10px] mt-3 text-right" : "font-semibold text-2xl mb-[10px] mt-3"}>
-        {t('Questionnaire1.part32')}
+      <h1
+        className={
+          ishbrews == "he"
+            ? "font-semibold text-2xl mb-[10px] mt-3 text-right"
+            : "font-semibold text-2xl mb-[10px] mt-3"
+        }
+      >
+        {t("Questionnaire1.part32")}
       </h1>
       <p className={ishbrews == "he" ? "text-lg font-normal text-gray-500 mb-10 text-right" : "text-base font-normal text-gray-500 mb-10"}>
        {t('Questionnaire1.part33')}
-        <span className="cursor-pointer text-primary-color" onClick={handleWhatsAppButtonClick}>Help Page</span>
+       &nbsp;<span className="cursor-pointer text-primary-color" onClick={handleWhatsAppButtonClick}>{t('Questionnaire1.part42')}</span>
       </p>
-
-      <div className= {ishbrews == "he" ?"row justify-between flex-row-reverse mx-1" : "row justify-between mx-1" }>
+      <div
+        className={
+          ishbrews == "he"
+            ? "row justify-between flex-row-reverse mx-1"
+            : "row justify-between mx-1"
+        }
+      >
         <div
           className={
             color === "0"
-              ? "col-md-4 card relative cursor-pointer border border-solid rounded-md py-4 bg-primary-color border-blue-500 px-2 d-flex items-center mb-10"
-              : "col-md-4 card relative cursor-pointer border border-solid rounded-md border-bg-border py-4 px-2 d-flex items-center mb-10"
+              ? "col-md-4 card relative cursor-pointer border border-solid rounded-md py-4 bg-primary-color shadow-md px-[10px]  d-flex items-center mb-10"
+              : "col-md-4 card relative cursor-pointer border border-solid rounded-md border-bg-border shadow-md py-4 px-[10px]  d-flex items-center mb-10"
           }
           id="0"
           onClick={() => {
@@ -61,18 +71,37 @@ function AccountStep({ step, setStep }) {
             checked="checked"
             id=""
           />
-          <label htmlFor=""  className={ishbrews == "he" ? "flex items-center flex-row-reverse gap-3 cursor-pointer" : "flex items-center gap-3 cursor-pointer"}>
+          <label
+            htmlFor=""
+            className={
+              ishbrews == "he"
+                ? "flex  items-center flex-col gap-3 cursor-pointer"
+                : "flex items-center flex-col gap-3 cursor-pointer"
+            }
+          >
             <div>
               <BsBank size={"30px"} />
             </div>
 
             <div>
-              <span className={ishbrews == "he" ? "block font-semibold text-right" : "block font-semibold text-left"}>
-                <span className="text-dark font-bold block text-xl mb-2">
+              <span
+                className={
+                  ishbrews == "he"
+                    ? "block font-semibold text-center"
+                    : "block font-semibold text-center"
+                }
+              >
+                <span className="text-dark font-bold block text-xl mb-1">
                   {t("Questionnaire1.part34")}
                 </span>
-                <span className={ishbrews == "he" ? "text-muted font-semibold text-[14px]" : "text-muted font-semibold text-[11px]"}>
-                {t('Questionnaire1.part35')}
+                <span
+                  className={
+                    ishbrews == "he"
+                      ? "text-muted font-semibold text-[14px]"
+                      : "text-muted font-semibold text-[14px]"
+                  }
+                >
+                  {t("Questionnaire1.part35")}
                 </span>
               </span>
             </div>
@@ -81,8 +110,8 @@ function AccountStep({ step, setStep }) {
         <div
           className={
             color === "1"
-              ? "col-md-4 card relative  cursor-pointer border border-solid rounded-md py-4 bg-primary-color px-2   d-flex items-center mb-10"
-              : "col-md-4  card  relative cursor-pointer border border-solid rounded-md border-bg-border  py-4 px-2  d-flex items-center mb-10"
+              ? "col-md-4 card relative  cursor-pointer border border-solid shadow-md rounded-md py-4 bg-primary-color px-[10px]   d-flex items-center mb-10"
+              : "col-md-4  card  relative cursor-pointer border border-solid shadow-md  rounded-md border-bg-border  py-4 px-[10px]  d-flex items-center mb-10"
           }
           id="1"
           onClick={() => setColor("1")}
@@ -95,17 +124,36 @@ function AccountStep({ step, setStep }) {
             checked="checked"
             id=""
           />
-          <label htmlFor="label" className={ishbrews == "he" ? "flex items-center flex-row-reverse gap-3 cursor-pointer" : "flex items-center gap-3 cursor-pointer"}>
+          <label
+            htmlFor="label"
+            className={
+              ishbrews == "he"
+                ? "flex items-center flex-col gap-3 cursor-pointer"
+                : "flex items-center flex-col gap-3 cursor-pointer"
+            }
+          >
             <div>
               <BsHandbagFill size={"30px"} />
             </div>
             <div>
-              <span className={ishbrews == "he" ? "block font-semibold text-right" : "block font-semibold text-left"}>
-                <span className="text-dark font-bold block text-xl mb-2">
+              <span
+                className={
+                  ishbrews == "he"
+                    ? "block font-semibold text-center"
+                    : "block font-semibold text-center"
+                }
+              >
+                <span className="text-dark font-bold block text-xl mb-1">
                   {t("Questionnaire1.part36")}
                 </span>
-                <span className={ishbrews == "he" ? "text-muted font-semibold text-[14px]" : "text-muted font-semibold text-[11px]"}>
-                {t('Questionnaire1.part37')}
+                <span
+                  className={
+                    ishbrews == "he"
+                      ? "text-muted font-semibold text-[14px]"
+                      : "text-muted font-semibold text-[14px]"
+                  }
+                >
+                  {t("Questionnaire1.part37")}
                 </span>
               </span>
             </div>
@@ -114,8 +162,8 @@ function AccountStep({ step, setStep }) {
         <div
           className={
             color === "2"
-              ? "col-md-4 card relative bg-primary-color cursor-pointer border border-solid rounded-md py-4 px-2   d-flex items-center mb-10"
-              : "col-md-4 relative  card  cursor-pointer border border-solid rounded-md border-bg-border  py-4 px-2  d-flex items-center mb-10"
+              ? "col-md-4 card relative bg-primary-color cursor-pointer shadow-md  border border-solid rounded-md py-4 px-[10px]   d-flex items-center mb-10"
+              : "col-md-4 relative  card  cursor-pointer border shadow-md  border-solid rounded-md border-bg-border  py-4 px-[10px]   d-flex items-center mb-10"
           }
           id="2"
           onClick={() => setColor("2")}
@@ -128,17 +176,36 @@ function AccountStep({ step, setStep }) {
             checked="checked"
             id=""
           />
-          <label  className={ishbrews == "he" ? "flex items-center flex-row-reverse gap-3 cursor-pointer" : "flex items-center gap-3 cursor-pointer"} htmlFor="">
+          <label
+            className={
+              ishbrews == "he"
+                ? "flex items-center flex-col gap-3 cursor-pointer"
+                : "flex items-center flex-col gap-3 cursor-pointer"
+            }
+            htmlFor=""
+          >
             <div>
               <BsFillPersonCheckFill size={"30px"} />
             </div>
             <div>
-              <span className={ishbrews == "he" ? "block font-semibold text-right" : "block font-semibold text-left"}>
-                <span className="text-dark font-bold block text-xl mb-2">
+              <span
+                className={
+                  ishbrews == "he"
+                    ? "block font-semibold text-center"
+                    : "block font-semibold text-center"
+                }
+              >
+                <span className="text-dark font-bold block text-xl mb-1">
                   {t("Questionnaire1.part38")}
                 </span>
-                <span className={ishbrews == "he" ? "text-muted font-semibold text-[14px]" : "text-muted font-semibold text-[11px]"}>
-                {t('Questionnaire1.part39')}
+                <span
+                  className={
+                    ishbrews == "he"
+                      ? "text-muted font-semibold text-[14px]"
+                      : "text-muted font-semibold text-[14px]"
+                  }
+                >
+                  {t("Questionnaire1.part39")}
                 </span>
               </span>
             </div>
@@ -146,7 +213,7 @@ function AccountStep({ step, setStep }) {
         </div>
       </div>
       {isValid && (
-        <span className="text-red-600">Please Select any of the Field </span>
+        <span className="text-red-600">{t('Questionnaire1.PleaseSelectanyoftheField')}</span>
       )}{" "}
       <div className=" flex flex-row justify-end mt-20">
         <button
