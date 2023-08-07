@@ -18,7 +18,7 @@ const SignUp = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const valueReceived = location.state?.data || '';
-  let passwordDecrypted = JSON.parse(localStorage.getItem('email'))
+  // let passwordDecrypted = JSON.parse(localStorage.getItem('email'))
   const { setEncryptedUser } = useContext(AuthUserContext);
   const [email, setEmail] = useState(valueReceived);
   const [password, setPassword] = useState("");
@@ -36,7 +36,7 @@ const SignUp = () => {
     if (value) setIsValid(emailRegex.test(value));
   };
 
-  console.log("passwordDecrypted", passwordDecrypted.email);
+  // console.log("passwordDecrypted", passwordDecrypted.email);
   // Password Encypt form
   const handleEncrypt = () => {
     const encrypted = CryptoJS.AES.encrypt(password, 'secret-key').toString();
