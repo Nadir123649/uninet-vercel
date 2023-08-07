@@ -91,8 +91,11 @@ const Signin = () => {
 // console.log("config.GoogleClientID", config.GoogleClientID);
   //login with google
   const responseGoogle = (response) => {
-    toast.success("✔️ Signin successfully");
+    // toast.success("✔️ Signin successfully");
     console.log(response);
+    if(response){
+      history.push('/questionnaire')
+    }
   };
   const onLoginFailure = (res) => {
     console.log(res);
@@ -314,9 +317,10 @@ const Signin = () => {
             </form>
             {
               ishbrews === "he" ? (
-                <p className="m-0 mt-3 text-sm font-normal text-gray-500 tracking-wider leading-5 ">
+                <p className="m-0 mt-3 text-bold font-normal text-gray-500 tracking-wider leading-5 ">
                   {t("Signup.part18")} <a href="https://uninet-io.com/term-of-use-he/" className="cursor-pointer text-primary-color" target="_blank">{t("Signup.term")}</a>
-                  &nbsp;<a href="https://uninet-io.com/privacy-policy-he/" className="cursor-pointer text-primary-color" target="_blank">{t("Signup.Privacy")}</a>{t("Signup.and")}
+                  &nbsp;{t("Signup.and")}
+                  &nbsp;<a href="https://uninet-io.com/privacy-policy-he/" className="cursor-pointer text-primary-color" target="_blank">{t("Signup.Privacy")}</a>
 
                 </p>
               ) : (

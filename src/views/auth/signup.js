@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import GoogleIcon from "../../assets/images/google-icon.png";
 import LogoIcon from "../../assets/images/Logo.webp";
-import { useHistory } from "react-router-dom";
+import { useHistory,useLocation } from "react-router-dom";
 import Api from "../../services/api";
 import Spinner from "react-bootstrap/Spinner";
 import toast, { Toaster } from "react-hot-toast";
@@ -10,12 +10,17 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
 import Navbars from "../navbar/navbar";
 import CryptoJS from 'crypto-js'
-
+import { GoogleLogin } from "@leecheuk/react-google-login";
+import { gapi } from "gapi-script";
+import { config } from "../../configs";
 const SignUp = () => {
   const history = useHistory();
   const { t } = useTranslation();
+  const location = useLocation();
+  const valueReceived = location.state?.data || '';
+  let passwordDecrypted = JSON.parse(localStorage.getItem('email'))
   const { setEncryptedUser } = useContext(AuthUserContext);
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(valueReceived);
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -31,6 +36,7 @@ const SignUp = () => {
     if (value) setIsValid(emailRegex.test(value));
   };
 
+  console.log("passwordDecrypted", passwordDecrypted.email);
   // Password Encypt form
   const handleEncrypt = () => {
     const encrypted = CryptoJS.AES.encrypt(password, 'secret-key').toString();
@@ -93,10 +99,27 @@ const SignUp = () => {
     }
   };
 
-  // console.log("encryptedPassword", encryptedPassword);
-  //  useEffect(()=>{
-  //   handleEncrypt()
-  //  },[])
+  //login with google
+  const responseGoogle = (response) => {
+    // toast.success("✔️ Signin successfully");
+    console.log(response);
+    if(response){
+      history.push('/questionnaire')
+    }
+  };
+  const onLoginFailure = (res) => {
+    console.log(res);
+    toast.error("Server Error. Please Refresh Page");
+  };
+  useEffect(() => {
+    function start() {
+      gapi.auth2.init({
+        clientId: config.GoogleClientID,
+        scope: "",
+      });
+    }
+    gapi.load("client:auth2", start);
+  });
 
   return (
     <div className="bg-bg-linear">
@@ -120,7 +143,38 @@ const SignUp = () => {
               </span>
             </p>
             {/* <fieldset> */}
-            <div className="row">
+            <GoogleLogin
+                clientId={config.GoogleClientID}
+                render={(renderProps) => (
+                  <div className="row">
+                    <div className="col-md-12">
+                      <button
+                        href="#"
+                        onClick={renderProps.onClick}
+                        className={
+                          ishbrews == "he"
+                            ? "flex items-center flex-row-reverse justify-center w-full gap-2 px-8 py-3 text-sm text-gray-700 border border-solid rounded-md border-bg-border bg-bg-btn "
+                            : "flex items-center justify-center  flex-row w-full gap-2 px-8 py-3 text-sm text-gray-700 border border-solid rounded-md border-bg-border bg-bg-btn "
+                        }
+                      >
+                        <span>
+                          <img
+                            src={GoogleIcon}
+                            className="w-5 h-5"
+                            alt="google"
+                          />
+                        </span>
+                        <span> {t("signin.part3")}</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+                uxMode="redirect"
+                onSuccess={responseGoogle}
+                onFailure={onLoginFailure}
+                cookiePolicy={"single_host_origin"}
+              />
+            {/* <div className="row">
               <div className="col-md-12">
                 <button
                   href="#"
@@ -136,7 +190,7 @@ const SignUp = () => {
                   <span> {t("signin.part3")}</span>
                 </button>
               </div>
-            </div>
+            </div> */}
             <div className="separator flex items-center text-center mt-8 mb-8 justify-center">
               <span className="text-sm font-normal text-text-color">{t("signin.part4")}</span>
             </div>
@@ -249,10 +303,10 @@ const SignUp = () => {
             </form>
             {
               ishbrews === "he" ? (
-                <p className="m-0 mt-3 text-sm font-normal text-gray-500 tracking-wider leading-5 ">
+                <p className="m-0 mt-3 text-bold font-normal text-gray-500 tracking-wider leading-5 ">
                   {t("Signup.part18")} <a href="https://uninet-io.com/term-of-use-he/" className="cursor-pointer text-primary-color" target="_blank">{t("Signup.term")}</a>
-                  &nbsp;<a href="https://uninet-io.com/privacy-policy-he/" className="cursor-pointer text-primary-color" target="_blank">{t("Signup.Privacy")}</a>{t("Signup.and")}
-
+                  &nbsp;{t("Signup.and")}
+                  &nbsp;<a href="https://uninet-io.com/privacy-policy-he/" className="cursor-pointer text-primary-color" target="_blank">{t("Signup.Privacy")}</a> 
                 </p>
               ) : (
                 <p className="m-0 mt-3 text-sm font-normal text-gray-500 tracking-wider leading-5 ">

@@ -71,7 +71,7 @@ const ForgetPassword = () => {
             <h2 className="mb-3 text-3xl font-bold text-text-color">
               {t("forgotPassword.part19")}
             </h2>
-            <p className="mb-3 text-sm text-gray-500">
+            <p className="mb-3 text-bold text-gray-500">
               {t("forgotPassword.part20")}
             </p>
             <fieldset>

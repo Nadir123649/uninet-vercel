@@ -21,20 +21,6 @@ const VerifyEmail = () => {
   const history = useHistory();
    let passwordDecrypted = JSON.parse(localStorage.getItem('email'))
 
-  //  console.log("emailGet",emailGet);
-
-  // password Decrypted
-  // const handleDecrypt = () => {
-  //   try {
-  //     const decrypted = CryptoJS.AES.decrypt(encryptedPassword, 'secret-key').toString(CryptoJS.enc.Utf8);
-  //     setDecryptedPassword(decrypted);
-  //   } catch (error) {
-  //     console.error('Error decrypting password:', error);
-  //     setDecryptedPassword(''); // Clear the decrypted password state in case of an error.
-  //   }
-  // };
-
-// console.log("decryptedPassword", decryptedPassword);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -88,16 +74,13 @@ const VerifyEmail = () => {
           }
        }).catch((e)=>{
         console.error(e);
-        toast.error("resent failed");
+        toast.error("OTP resent failed");
        })
     }catch(e){
       console.log("e",e)
     }
   }
-
-  // useEffect(()=>{
-  //   handleDecrypt()
-  // })
+   
   return (
     <div className="bg-bg-linear">
       
@@ -158,7 +141,7 @@ const VerifyEmail = () => {
                       role="status"
                       aria-hidden="true"
                     />
-                    <span className="">Loading...</span>
+                    <span className="">{t('signin.Loading')}...</span>
                   </>
                 ) : (
                   <>{t("verifyEmail.part27")}</>
@@ -179,7 +162,7 @@ const VerifyEmail = () => {
               </div>
               <p className="m-0 text-sm font-normal text-gray-500">
                 {t("verifyEmail.part31")}
-                <span className="text-primary-color cursor-pointer" onClick={()=>history.push('/signup')}>
+                <span className="text-primary-color cursor-pointer" onClick={()=>history.push('/signup' , { data: passwordDecrypted?.email })}>
                   {t("verifyEmail.edit")}
                 </span>
               </p>           
