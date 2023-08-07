@@ -4,15 +4,14 @@ import {
   BsHandbagFill,
   BsFillPersonCheckFill,
   BsChevronRight,
-  BsChevronLeft,
 } from "react-icons/bs";
 import { AuthUserContext } from "../context";
 import { useTranslation } from "react-i18next";
-import Navbars from "../views/navbar/navbar";
 function AccountStep({ step, setStep }) {
   const { t, i18n } = useTranslation();
   const [color, setColor] = useState("");
-  const {setBusinessType,businessType, ishbrew} = useContext(AuthUserContext)
+  const {setBusinessType,businessType} = useContext(AuthUserContext)
+  let ishbrews = localStorage.getItem('i18nextLng') 
    const [isValid, setIsValid] = useState(false);
   useEffect(() => {
     if (color) {
@@ -27,22 +26,22 @@ function AccountStep({ step, setStep }) {
 
   const handleWhatsAppButtonClick = () => {
     // Replace the following URL with your desired WhatsApp URL or phone number
-    const whatsappUrl = 'https://api.whatsapp.com/send?phone=972584222456';
+    const whatsappUrl = "https://api.whatsapp.com/send?phone=972584222456";
     window.location.href = whatsappUrl;
   };
 
   return (
     <div>
       
-      <h1 className={ishbrew ? "font-semibold text-2xl mb-[10px] mt-3 text-right" : "font-semibold text-2xl mb-[10px] mt-3"}>
+      <h1 className={ishbrews == "he" ? "font-semibold text-2xl mb-[10px] mt-3 text-right" : "font-semibold text-2xl mb-[10px] mt-3"}>
         {t('Questionnaire1.part32')}
       </h1>
-      <p className={ishbrew ? "text-lg font-normal text-gray-500 mb-10 text-right" : "text-base font-normal text-gray-500 mb-10"}>
+      <p className={ishbrews == "he" ? "text-lg font-normal text-gray-500 mb-10 text-right" : "text-base font-normal text-gray-500 mb-10"}>
        {t('Questionnaire1.part33')}
         <span className="cursor-pointer text-primary-color" onClick={handleWhatsAppButtonClick}>Help Page</span>
       </p>
 
-      <div className= {ishbrew ?"row justify-between flex-row-reverse mx-1" : "row justify-between mx-1" }>
+      <div className= {ishbrews == "he" ?"row justify-between flex-row-reverse mx-1" : "row justify-between mx-1" }>
         <div
           className={
             color === "0"
@@ -62,17 +61,17 @@ function AccountStep({ step, setStep }) {
             checked="checked"
             id=""
           />
-          <label htmlFor=""  className={ishbrew ? "flex items-center flex-row-reverse gap-3 cursor-pointer" : "flex items-center gap-3 cursor-pointer"}>
+          <label htmlFor=""  className={ishbrews == "he" ? "flex items-center flex-row-reverse gap-3 cursor-pointer" : "flex items-center gap-3 cursor-pointer"}>
             <div>
               <BsBank size={"30px"} />
             </div>
 
             <div>
-              <span className={ishbrew ? "block font-semibold text-right" : "block font-semibold text-left"}>
+              <span className={ishbrews == "he" ? "block font-semibold text-right" : "block font-semibold text-left"}>
                 <span className="text-dark font-bold block text-xl mb-2">
                   {t("Questionnaire1.part34")}
                 </span>
-                <span className={ishbrew ? "text-muted font-semibold text-[14px]" : "text-muted font-semibold text-[11px]"}>
+                <span className={ishbrews == "he" ? "text-muted font-semibold text-[14px]" : "text-muted font-semibold text-[11px]"}>
                 {t('Questionnaire1.part35')}
                 </span>
               </span>
@@ -96,16 +95,16 @@ function AccountStep({ step, setStep }) {
             checked="checked"
             id=""
           />
-          <label htmlFor="label" className={ishbrew ? "flex items-center flex-row-reverse gap-3 cursor-pointer" : "flex items-center gap-3 cursor-pointer"}>
+          <label htmlFor="label" className={ishbrews == "he" ? "flex items-center flex-row-reverse gap-3 cursor-pointer" : "flex items-center gap-3 cursor-pointer"}>
             <div>
               <BsHandbagFill size={"30px"} />
             </div>
             <div>
-              <span className={ishbrew ? "block font-semibold text-right" : "block font-semibold text-left"}>
+              <span className={ishbrews == "he" ? "block font-semibold text-right" : "block font-semibold text-left"}>
                 <span className="text-dark font-bold block text-xl mb-2">
                   {t("Questionnaire1.part36")}
                 </span>
-                <span className={ishbrew ? "text-muted font-semibold text-[14px]" : "text-muted font-semibold text-[11px]"}>
+                <span className={ishbrews == "he" ? "text-muted font-semibold text-[14px]" : "text-muted font-semibold text-[11px]"}>
                 {t('Questionnaire1.part37')}
                 </span>
               </span>
@@ -129,16 +128,16 @@ function AccountStep({ step, setStep }) {
             checked="checked"
             id=""
           />
-          <label  className={ishbrew ? "flex items-center flex-row-reverse gap-3 cursor-pointer" : "flex items-center gap-3 cursor-pointer"} htmlFor="">
+          <label  className={ishbrews == "he" ? "flex items-center flex-row-reverse gap-3 cursor-pointer" : "flex items-center gap-3 cursor-pointer"} htmlFor="">
             <div>
               <BsFillPersonCheckFill size={"30px"} />
             </div>
             <div>
-              <span className={ishbrew ? "block font-semibold text-right" : "block font-semibold text-left"}>
+              <span className={ishbrews == "he" ? "block font-semibold text-right" : "block font-semibold text-left"}>
                 <span className="text-dark font-bold block text-xl mb-2">
                   {t("Questionnaire1.part38")}
                 </span>
-                <span className={ishbrew ? "text-muted font-semibold text-[14px]" : "text-muted font-semibold text-[11px]"}>
+                <span className={ishbrews == "he" ? "text-muted font-semibold text-[14px]" : "text-muted font-semibold text-[11px]"}>
                 {t('Questionnaire1.part39')}
                 </span>
               </span>
@@ -149,20 +148,7 @@ function AccountStep({ step, setStep }) {
       {isValid && (
         <span className="text-red-600">Please Select any of the Field </span>
       )}{" "}
-      <div className=" flex flex-row justify-between  mt-20">
-        {/* {step === 0 ? (
-          <></>
-        ) : (
-          <button
-            onClick={() => handleBackSubmit()}
-            className=" bg-bg-secondary flex  text-base px-[22px] font-semibold flex  items-center py-[9px] text-white rounded-md "
-            id="backButton"
-          >
-            <BsChevronLeft />
-            <span>Back</span>
-          </button>
-        )} */}
-
+      <div className=" flex flex-row justify-end mt-20">
         <button
           onClick={() => {
             if (color === "") setIsValid(true);
@@ -172,7 +158,7 @@ function AccountStep({ step, setStep }) {
           }}
           className=" bg-bg-secondary   text-base px-[22px] font-semibold flex gap-1 items-center py-[9px] text-white rounded-md "
         >
-          <span>{t('Questionnaire1.part40')}</span>
+          <span>{t("Questionnaire1.part40")}</span>
           <BsChevronRight />
         </button>
       </div>

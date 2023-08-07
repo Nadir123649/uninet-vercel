@@ -1,13 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 import en from "../../assets/images/en.svg";
 import he from "../../assets/images/he.svg";
-import { AuthUserContext } from "../../context";
 import LogoIcon from "../../assets/images/Logo.webp";
 import { useTranslation } from "react-i18next";
 
 function Questionnairebar() {
   const { t, i18n } = useTranslation();
-  const { setIsHbrew } = useContext(AuthUserContext);
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
     // console.log("i18" , i18n.changeLanguage(lng));
@@ -21,12 +19,12 @@ function Questionnairebar() {
             <img src={LogoIcon} className="h-auto max-w-max-100" alt="logo" />
           
           </div>
-          <div className="flex items-center gap-3">
+          {/* <div className="flex items-center gap-3">
             <div
               className="d-flex gap-2 cursor-pointer back-color p-2"
               onClick={() => {
                 changeLanguage("en");
-                setIsHbrew(false);
+     
               }}
             >
               <img src={en} alt="en" />
@@ -36,13 +34,12 @@ function Questionnairebar() {
               className="d-flex gap-2 cursor-pointer p-2 back-color"
               onClick={() => {
                 changeLanguage("he");
-                setIsHbrew(true);
               }}
             >
               <img src={he} alt="en" />
               עברית (Hebrew)
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

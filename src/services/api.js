@@ -66,14 +66,43 @@ const Api = {
       throw error;
     }
   },
-  resetPassword: async (data) => { 
-    try{
+  resetPassword: async (data) => {
+    try {
       return await Service.post(`${config.BaseURL}/api/Login/ResetPassword`, {
-              data,
-            });
-    }catch(error){
+        data,
+      });
+    } catch (error) {
       throw error;
     }
+  },
+  resentOTP: async (data) => { 
+  try{
+  return await Service.post(`${config.BaseURL}/api/Register/ResentOtp`, {
+          data,
+        });
+  }catch(error){
+    throw error;
   }
+},
+  getExternalSystem: async (token) => {
+    try {
+      return await Service.get(
+        `${config.BaseURL}/api/Register/GetExternalSystem`,
+        token
+      );
+    } catch (error) {
+      throw error;
+    }
+  },
+  getExternalCustomizedField: async (id, token) => {
+    try {
+      return await Service.get(
+        `${config.BaseURL}/api/Register/GetExternalCustomizedFieldByExternaLSystemID?ExternalSystemId=${id}`,
+        token
+      );
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 export default Api;

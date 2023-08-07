@@ -29,9 +29,9 @@ body {
   font-family: "Poppins", sans-serif;
   scroll-behavior: smooth;
 }
-.wrapper-Div {
+/* .wrapper-Div {
   overflow: auto !important;
-}
+} */
 
 .separator {
   border-bottom: 0;
@@ -54,8 +54,14 @@ body {
   font-size: 22px !important;
   font-family: poppins;
   font-weight: 500 !important;
-  margin-bottom: 10px;
-  margin: 0;
+  color: #ffff !important;
+  margin: 5px 0px 0px 0px;
+}
+.ant-steps-icon {
+  color: #ffff !important;
+}
+.ant-steps-icon {
+  color: #ffff !important;
 }
 .ant-steps-item-description {
   font-family: poppins;
@@ -97,7 +103,7 @@ body {
 .custom-tab.active {
   color: #fff;
 }
-.nav-link{
+.nav-link {
   color: #023047;
 }
 .nav-link.active {

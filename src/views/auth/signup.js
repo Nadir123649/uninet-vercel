@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import GoogleIcon from "../../assets/images/google-icon.png";
 import LogoIcon from "../../assets/images/Logo.webp";
 import { useHistory } from "react-router-dom";
@@ -9,12 +9,12 @@ import { AuthUserContext } from "../../context";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
 import Navbars from "../navbar/navbar";
+import CryptoJS from 'crypto-js'
 
 const SignUp = () => {
   const history = useHistory();
-  const { t, i18n } = useTranslation();
-  const { setEncryptedUser, ishbrew } = useContext(AuthUserContext);
-  // console.log("ishbrew", ishbrew);
+  const { t } = useTranslation();
+  const { setEncryptedUser } = useContext(AuthUserContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
@@ -22,13 +22,20 @@ const SignUp = () => {
   const [isValid, setIsValid] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
+  const [encryptedPassword, setEncryptedPassword] = useState('');
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  let ishbrews = localStorage.getItem('i18nextLng')
   const handleEMailChange = (e) => {
     let { value } = e.target;
     setEmail(value);
     if (value) setIsValid(emailRegex.test(value));
   };
 
+  // Password Encypt form
+  const handleEncrypt = () => {
+    const encrypted = CryptoJS.AES.encrypt(password, 'secret-key').toString();
+    setEncryptedPassword(encrypted);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -39,17 +46,18 @@ const SignUp = () => {
       if (!isValid) {
         return false;
       }
-      if(password.length < 6){
+      if (password.length < 6) {
         setErrorMessage(true)
         return false;
       }
       setErrorMessage(false)
       setLoading(true);
+      handleEncrypt();
       await Api.SignUpUser({
         email,
         password,
-        TemplateId: ishbrew ? 2 : 1,
-        Lang: 1,
+        TemplateId: 1,
+        Lang: ishbrews == "he" ? 2 : 1,
       })
         .then((res) => {
           console.log("res", res);
@@ -63,12 +71,17 @@ const SignUp = () => {
             toast.error("User Failed to Register");
           } else {
             setLoading(false);
-            toast.success("User successfully registered",{
+            
+            toast.success("User successfully registered", {
               duration: 4000,
             });
+          //  console.log("encryptedPassword", encryptedPassword);
+            let resetOtData = {email, password, TemplateId: 1,
+              Lang: ishbrews == "he" ? 2 : 1, }
             history.push("/verify-email");
+            localStorage.setItem("email", JSON.stringify(resetOtData))
             setEncryptedUser(res.encryptedUser);
-            
+
           }
         })
         .catch((e) => {
@@ -80,15 +93,20 @@ const SignUp = () => {
     }
   };
 
+  // console.log("encryptedPassword", encryptedPassword);
+  //  useEffect(()=>{
+  //   handleEncrypt()
+  //  },[])
+
   return (
     <div className="bg-bg-linear">
-      <Navbars />
+      
       <div className="relative flex items-center justify-center w-full min-h-screen  wrapper-Div">
         <div className="flex flex-col items-center justify-center h-full gap-4 m-auto max-w-max-600 mb-3 mt-3">
           <div className="Logo">
             <img src={LogoIcon} className="h-auto max-w-max-83" alt="logo" />
           </div>
-          <div className="px-8 text-center bg-gray-100 rounded-md py-9 max-w-max-500 w-w-500">
+          <div className="w-full px-4 py-8 text-center bg-gray-100 mb-3 rounded-md md:px-8 max-w-max-500 md:w-w-500 ">
             <h2 className="mb-3 text-3xl font-bold text-text-color">
               {t("Signup.part10")}
             </h2>
@@ -102,31 +120,31 @@ const SignUp = () => {
               </span>
             </p>
             {/* <fieldset> */}
-              <div className="row">
-                <div className="col-md-12">
-                  <button
-                    href="#"
-                    className={
-                      ishbrew
-                        ? "flex items-center flex-row-reverse justify-center w-full gap-2 px-8 py-3 text-sm text-gray-700 border border-solid rounded-md border-bg-border bg-bg-btn "
-                        : "flex items-center justify-center  flex-row w-full gap-2 px-8 py-3 text-sm text-gray-700 border border-solid rounded-md border-bg-border bg-bg-btn "
-                    }
-                  >
-                    <span>
-                      <img src={GoogleIcon} className="w-5 h-5" alt="logo" />
-                    </span>
-                    <span> {t("signin.part3")}</span>
-                  </button>
-                </div>
+            <div className="row">
+              <div className="col-md-12">
+                <button
+                  href="#"
+                  className={
+                    ishbrews === "he"
+                      ? "flex items-center flex-row-reverse justify-center w-full gap-2 px-8 py-3 text-sm text-gray-700 border border-solid rounded-md border-bg-border bg-bg-btn "
+                      : "flex items-center justify-center  flex-row w-full gap-2 px-8 py-3 text-sm text-gray-700 border border-solid rounded-md border-bg-border bg-bg-btn "
+                  }
+                >
+                  <span>
+                    <img src={GoogleIcon} className="w-5 h-5" alt="logo" />
+                  </span>
+                  <span> {t("signin.part3")}</span>
+                </button>
               </div>
-              <div className="separator flex items-center text-center mt-8 mb-8 justify-center">
-                <span className="text-sm font-normal text-text-color">Or</span>
-              </div>
-              <form>
+            </div>
+            <div className="separator flex items-center text-center mt-8 mb-8 justify-center">
+              <span className="text-sm font-normal text-text-color">{t("signin.part4")}</span>
+            </div>
+            <form>
               <ul className="flex flex-col">
                 <li
                   className={
-                    ishbrew
+                    ishbrews === "he"
                       ? "flex flex-col items-end"
                       : "flex flex-col items-start"
                   }
@@ -134,7 +152,7 @@ const SignUp = () => {
                   <label
                     htmlFor="email"
                     className={
-                      ishbrew
+                      ishbrews === "he"
                         ? "mb-2 text-lg font-semibold text-text-color text-right"
                         : "mb-2 text-sm font-semibold text-text-color"
                     }
@@ -147,9 +165,9 @@ const SignUp = () => {
                     value={email}
                     onChange={handleEMailChange}
                     className={
-                      ishbrew
-                        ? "block w-full px-3 py-2 md:py-[10px] text-right mb-2 font-normal text-base md:text-lg leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
-                        : "block w-full px-3 py-2 md:py-[10px] mb-2 text-base md:text-lg font-normal leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
+                      ishbrews == "he"
+                        ? "block w-full px-2 py-2 md:py-[10px] text-right mb-2 text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
+                        : "block w-full px-2 py-2 md:py-[10px] mb-2 text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
                     }
                     required
                   />
@@ -160,11 +178,11 @@ const SignUp = () => {
                   ) : (
                     <span className="text-red-600"></span>
                   )}
-                  {}
+                  { }
                 </li>
                 <li
                   className={
-                    ishbrew
+                    ishbrews === "he"
                       ? "flex flex-col mt-2 items-end"
                       : "flex flex-col mt-2 items-start"
                   }
@@ -172,21 +190,21 @@ const SignUp = () => {
                   <label
                     htmlFor="password"
                     className={
-                      ishbrew
-                        ? "mb-2 text-base font-semibold text-text-color text-right"
-                        : "mb-2 text-sm font-semibold text-text-color"
+                      ishbrews === "he"
+                      ? "mb-2 text-lg font-semibold text-text-color text-right"
+                      : "mb-2 text-sm font-semibold text-text-color"
                     }
                   >
                     {t("signin.part6")}
                   </label>
-                  <div className="flex items-center w-full px-2  py-[6px]  mb-[10px] text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding">
+                  <div className={ishbrews === "he" ? "flex flex-row-reverse items-center w-full px-2  py-[6px]  mb-[10px] text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding": "flex items-center w-full px-2  py-[6px]  mb-[10px] text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"}>
                     <input
                       type={showPassword ? "text" : "password"}
                       id="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       className={
-                        ishbrew
+                        ishbrews == "he"
                           ? "form-control border-none text-right"
                           : "form-control border-none"
                       }
@@ -203,43 +221,53 @@ const SignUp = () => {
 
                   {error && !password ? (
                     <span className="text-red-600">Password required</span>
-                  ): errorMessage ? <span className="text-red-600">Password must be at least 6 characters long.</span>:(
+                  ) : errorMessage ? <span className="text-red-600">Password must be at least 6 characters long.</span> : (
                     ''
                   )}
                 </li>
               </ul>
-            {/* </fieldset> */}
-            <button
-              className=" mt-3 w-full py-[10px] mb-3 md:mt-1 text-base font-medium text-white border-none rounded-md bg-bg-secondary secondary-btn"
-              onClick={handleSubmit}
-            >
-              {loading ? (
-                <>
-                  <Spinner
-                    as="span"
-                    animation="border"
-                    size="sm"
-                    role="status"
-                    aria-hidden="true"
-                  />
-                  <span className="">Loading...</span>
-                </>
-              ) : (
-                <>{t("Signup.part17")}</>
-              )}
-            </button>
+              {/* </fieldset> */}
+              <button
+                className=" mt-3 w-full py-[10px] mb-3 md:mt-1 text-base font-medium text-white border-none rounded-md bg-bg-secondary secondary-btn"
+                onClick={handleSubmit}
+              >
+                {loading ? (
+                  <>
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                    <span className="">Loading...</span>
+                  </>
+                ) : (
+                  <>{t("Signup.part17")}</>
+                )}
+              </button>
             </form>
-            <p className="m-0 mt-3 text-sm font-normal text-gray-500 tracking-wider leading-5 ">
-              {t("signin.part9")}
-              {/* By signing up you agree to Uninet's
-            <span className="cursor-pointer text-primary-color "> term of service </span>  and <span className="cursor-pointer text-primary-color  ">
-              Privacy Policy.
-            </span> */}
-            </p>
+            {
+              ishbrews === "he" ? (
+                <p className="m-0 mt-3 text-sm font-normal text-gray-500 tracking-wider leading-5 ">
+                  {t("Signup.part18")} <a href="https://uninet-io.com/term-of-use-he/" className="cursor-pointer text-primary-color" target="_blank">{t("Signup.term")}</a>
+                  &nbsp;<a href="https://uninet-io.com/privacy-policy-he/" className="cursor-pointer text-primary-color" target="_blank">{t("Signup.Privacy")}</a>{t("Signup.and")}
+
+                </p>
+              ) : (
+                <p className="m-0 mt-3 text-sm font-normal text-gray-500 tracking-wider leading-5 ">
+                  {t("Signup.part18")} <a href="https://uninet-io.com/term-of-use-en/" className="cursor-pointer text-primary-color" target="_blank">{t("Signup.term")}</a>
+                  {t("Signup.and")} <a href="https://uninet-io.com/privacy-policy-en/" className="cursor-pointer text-primary-color" target="_blank">{t("Signup.Privacy")}</a>
+
+                </p>
+              )
+            }
+
           </div>
         </div>
         <Toaster position="top-center" reverseOrder={false} />
       </div>
+      <Navbars />
     </div>
   );
 };

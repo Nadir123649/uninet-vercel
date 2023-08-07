@@ -14,6 +14,7 @@ function ResetPassword() {
   let query= new URLSearchParams(window.location.search);
   console.log("query", query);
   let UserResetToken = query.get("UserResetToken");
+  let ishbrews = localStorage.getItem('i18nextLng') 
   const initalialResetPasswordValue = {
     password: "",
     confirmPassword: "",
@@ -58,7 +59,7 @@ function ResetPassword() {
     });
     return errors;
   };
-
+  
   const handleSubmit = async (e) => {
     // e.preventDefault();
     try {
@@ -74,6 +75,7 @@ function ResetPassword() {
         setCheckConfirmPassword(true)
         return false
       }
+      
       setErrorMessage1(false)
       setErrorMessage(false)
       setCheckConfirmPassword(false)
@@ -111,8 +113,8 @@ function ResetPassword() {
   };
   return (
     <div className="bg-bg-linear">
-      <Navbars />
-      <div className="relative flex items-center justify-center w-full h-screen  wrapper-Div">
+      
+      <div className="relative flex flex-col items-center justify-center w-full h-screen  wrapper-Div">
         <div className="flex flex-col items-center justify-center w-full  gap-4  mx-3 md:max-w-max-600 md:mx-0 lg:px-8">
           <div className="Logo ">
             <img src={LogoIcon} className="h-auto max-w-max-83" alt="verify" />
@@ -215,6 +217,7 @@ function ResetPassword() {
             </form>
           </div>
         </div>
+        <Navbars />
       </div>
       <Toaster position="top-center" reverseOrder={false} />
     </div>

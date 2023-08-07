@@ -1,9 +1,12 @@
 import request from "./requests";
 
-function get(url) {
+function get(url, token) {
   return request({
     method: "GET",
     url,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
 }
 function getWithBody(url, data, token) {

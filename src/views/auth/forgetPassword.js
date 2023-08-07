@@ -15,7 +15,7 @@ const ForgetPassword = () => {
   const [error, setError] = useState(false);
   const [isValid, setIsValid] = useState(true);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const {ishbrew } = useContext(AuthUserContext);
+  let ishbrews = localStorage.getItem('i18nextLng') 
   const handleEmailChange = (e) => {
     try {
       const inputValue = e.target.value;
@@ -61,8 +61,8 @@ const ForgetPassword = () => {
   };
   return (
     <div className="bg-bg-linear">
-      <Navbars />
-      <div className="relative flex items-center justify-center w-full h-screen  wrapper-Div">
+      
+      <div className="relative flex flex-col items-center justify-center w-full h-screen  wrapper-Div">
         <div className="flex flex-col items-center justify-center w-full mt-3 gap-4  mx-3 md:max-w-max-600 md:mx-0 lg:px-8">
           <div className="Logo ">
             <img src={LogoIcon} className="h-auto max-w-max-83" alt="verify" />
@@ -71,20 +71,20 @@ const ForgetPassword = () => {
             <h2 className="mb-3 text-3xl font-bold text-text-color">
               {t("forgotPassword.part19")}
             </h2>
-            <p className="mb-3 text-xs text-gray-500">
+            <p className="mb-3 text-sm text-gray-500">
               {t("forgotPassword.part20")}
             </p>
             <fieldset>
               <ul className="flex flex-col  mb-3">
                 <li className={
-                    ishbrew
+                    ishbrews == "he"
                       ? "flex flex-col items-end mt-2 text-right"
                       : "flex flex-col items-start mt-2"
                   }>
                   <label
                     htmlFor="email"
                     className={
-                      ishbrew
+                      ishbrews == "he"
                         ? "mb-2 text-lg font-semibold text-text-color text-right"
                         : "mb-2 text-sm font-semibold text-text-color"
                     }
@@ -97,14 +97,14 @@ const ForgetPassword = () => {
                     value={email}
                     onChange={(e) => handleEmailChange(e)}
                     className={
-                      ishbrew
+                      ishbrews == "he"
                         ? "block w-full px-2 py-2 md:py-[10px] text-right mb-2 text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
                         : "block w-full px-2 py-2 md:py-[10px] mb-2 text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
                     }
                     required
                   />
                 </li>
-                <div className={ishbrew ? "text-right": "text-left"}>
+                <div className={ishbrews == "he" ? "text-right": "text-left"}>
                 {error && !email ? (
                   <span className="text-red-600">Email required</span>
                 ) : !isValid ? (
@@ -116,7 +116,7 @@ const ForgetPassword = () => {
                 
               </ul>
 
-              <div className={ishbrew ? "flex flex-row-reverse justify-center gap-4 mx-12 submit-email": "flex row justify-center gap-4 mx-12 submit-email"}>
+              <div className={ishbrews == "he" ? "flex flex-row-reverse justify-center gap-4 mx-12 submit-email": "flex row justify-center gap-4 mx-12 submit-email"}>
                 <button
                   type="submit"
                   className="w-2/5 py-[10px] text-white border-none rounded-md outline-none bg-bg-secondary"
@@ -147,6 +147,7 @@ const ForgetPassword = () => {
             </fieldset>
           </form>
         </div>
+      <Navbars />
       </div>
       <Toaster position="top-center" reverseOrder={false} />
     </div>

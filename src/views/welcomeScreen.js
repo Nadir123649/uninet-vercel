@@ -1,6 +1,5 @@
 import React from "react";
 
-
 const WelcomeScreen = () => {
   const handleWhatsAppButtonClick = () => {
     // Replace the following URL with your desired WhatsApp URL or phone number

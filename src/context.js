@@ -3,9 +3,9 @@ export const AuthUserContext = createContext();
 const AuthState = (props) => {
     const [encryptedUser,setEncryptedUser] = useState('')
     const [businessType, setBusinessType] = useState("")
-    const [ishbrew,setIsHbrew] = useState(false)
+
   return (
-    <AuthUserContext.Provider value={{ encryptedUser, setEncryptedUser,setBusinessType ,businessType, ishbrew, setIsHbrew}}>
+    <AuthUserContext.Provider value={{ encryptedUser, setEncryptedUser,setBusinessType ,businessType}}>
       {props.children}
     </AuthUserContext.Provider>
   );

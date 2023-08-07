@@ -5,19 +5,15 @@ import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import { useTranslation } from "react-i18next";
 import toast, { Toaster } from "react-hot-toast";
 
-const AccountInfo = ({ step, setStep }) => {
-  const initialQuestionnaireValues = {
-    FirstName: "",
-    LastName: "",
-    MobileNumber: "",
-    OrganizationRole: "",
-  };
+const AccountInfo = ({
+  step,
+  setStep,
+  questionnaireValues,
+  setQuestionnaireValues,
+}) => {
   const { t, i18n } = useTranslation();
   const { businessType } = useContext(AuthUserContext);
   const [formError, setFormError] = useState({});
-  const [questionnaireValues, setQuestionnaireValues] = useState({
-    ...initialQuestionnaireValues,
-  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -73,7 +69,7 @@ const AccountInfo = ({ step, setStep }) => {
       ];
       await Api.SecondQuestionnaire(data, token)
         .then((res) => {
-          if (res?.result) {
+          if (res) {
             setStep(step + 1);
           } else {
             toast.error("Something went wrong");
@@ -211,7 +207,7 @@ const AccountInfo = ({ step, setStep }) => {
           onClick={() => addQuestionnaireData()}
           className=" bg-bg-secondary   text-base px-[22px] font-semibold flex gap-1 items-center py-[9px] text-white rounded-md "
         >
-          <span>{t('Questionnaire1.part40')}</span>
+          <span>{t("Questionnaire1.part40")}</span>
           <BsChevronRight />
         </button>
       </div>
