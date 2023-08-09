@@ -30,7 +30,7 @@
         "signis" : "Sign In"
     },
     "forgotPassword": {
-        "part19": "Forgot Password",
+        "part19": "Forgot Password ?",
         "part20" : "Enter your email to reset your password",
         "part21": "Email", 
         "part22": "Submit",
@@ -42,8 +42,9 @@
         "part26": "Verified code",
         "part27": "Submit",
         "part28": "Still haven't received a code?",
-        "part29": "Check your spam/updates folder or get a new code",
+        "part29": "Check your spam/updates folder or",
         "part30": "Or",
+        "getNewCode" : "get a new code",
         "part31": "Noticed a typo in your email? ",
         "edit" : "Edit email address"
     },
@@ -94,6 +95,7 @@
         "part60": "Please enter Password",
         "part61": "Please enter Confirm Password",
         "part62": "password reset successful",
-        "part63": "Password does not match"
+        "part63": "Password does not match",
+        "part64": "Something went wrong"
     }
 }

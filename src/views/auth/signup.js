@@ -4,7 +4,7 @@ import LogoIcon from "../../assets/images/Logo.webp";
 import { useHistory,useLocation } from "react-router-dom";
 import Api from "../../services/api";
 import Spinner from "react-bootstrap/Spinner";
-import toast, { Toaster } from "react-hot-toast";
+import { toast } from 'react-toastify';
 import { AuthUserContext } from "../../context";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
@@ -18,7 +18,6 @@ const SignUp = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const valueReceived = location.state?.data || '';
-  // let passwordDecrypted = JSON.parse(localStorage.getItem('email'))
   const { setEncryptedUser } = useContext(AuthUserContext);
   const [email, setEmail] = useState(valueReceived);
   const [password, setPassword] = useState("");
@@ -36,7 +35,6 @@ const SignUp = () => {
     if (value) setIsValid(emailRegex.test(value));
   };
 
-  // console.log("passwordDecrypted", passwordDecrypted.email);
   // Password Encypt form
   const handleEncrypt = () => {
     const encrypted = CryptoJS.AES.encrypt(password, 'secret-key').toString();
@@ -66,33 +64,24 @@ const SignUp = () => {
         Lang: ishbrews == "he" ? 2 : 1,
       })
         .then((res) => {
-          console.log("res", res);
-          if (
-            res.textResponse === "User already Exist ,Otp Sent For Verification"
-          ) {
+          // console.log("resSigup", res?.textResponse);
+          if (res?.textResponse == "User already Exist ") {
             toast.error("User already Exist, Signup with another account");
             setLoading(false);
-          } else if (res.textResponse === "User Failed to Register") {
+          }  else {
             setLoading(false);
-            toast.error("User Failed to Register");
-          } else {
-            setLoading(false);
-            
-            toast.success("User successfully registered", {
-              duration: 4000,
-            });
-          //  console.log("encryptedPassword", encryptedPassword);
-            let resetOtData = {email, password, TemplateId: 1,
+            let EncryptedUserId = res?.encryptedUser
+            let resetOtData = {email, EncryptedUserId, TemplateId: 1,
               Lang: ishbrews == "he" ? 2 : 1, }
             history.push("/verify-email");
-            localStorage.setItem("email", JSON.stringify(resetOtData))
+            localStorage.setItem("user-details", JSON.stringify(resetOtData))
             setEncryptedUser(res.encryptedUser);
 
           }
         })
         .catch((e) => {
           console.error(e?.data?.error);
-          toast.error(e?.data?.error);
+          toast.error(e);
         });
     } catch (e) {
       console.log("e", e);
@@ -108,8 +97,10 @@ const SignUp = () => {
     }
   };
   const onLoginFailure = (res) => {
-    console.log(res);
-    toast.error("Server Error. Please Refresh Page");
+    if(res.error === "popup_closed_by_user"){
+    } else{
+      toast.error("Server Error. Please Refresh Page");
+    }
   };
   useEffect(() => {
     function start() {
@@ -305,7 +296,7 @@ const SignUp = () => {
               ishbrews === "he" ? (
                 <p className="m-0 mt-3 text-bold font-normal text-gray-500 tracking-wider leading-5 ">
                   {t("Signup.part18")} <a href="https://uninet-io.com/term-of-use-he/" className="cursor-pointer text-primary-color" target="_blank">{t("Signup.term")}</a>
-                  &nbsp;{t("Signup.and")}
+                  {/* &nbsp;{t("Signup.and")} */}
                   &nbsp;<a href="https://uninet-io.com/privacy-policy-he/" className="cursor-pointer text-primary-color" target="_blank">{t("Signup.Privacy")}</a> 
                 </p>
               ) : (
@@ -319,7 +310,7 @@ const SignUp = () => {
 
           </div>
         </div>
-        <Toaster position="top-center" reverseOrder={false} />
+        {/* <Toaster position="top-center" reverseOrder={false} /> */}
       </div>
       <Navbars />
     </div>

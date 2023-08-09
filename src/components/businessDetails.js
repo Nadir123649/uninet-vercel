@@ -4,8 +4,11 @@ import { useTranslation } from "react-i18next";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import SelectField from "./selectField";
 import Api from "../services/api";
+import Spinner from "react-bootstrap/Spinner";
+import { useHistory } from "react-router-dom";
 
 const BusinessDetails = ({ step, setStep, isLastStep }) => {
+  const history = useHistory();
   const { t, i18n } = useTranslation();
   const initialQuestionnaireValues = {
     externalSystemId: null,
@@ -14,14 +17,24 @@ const BusinessDetails = ({ step, setStep, isLastStep }) => {
     ...initialQuestionnaireValues,
   });
   const [externalSystem, setExternalSystem] = useState({});
+  const [inputFieldDetails, setInputFieldDetails] = useState([]);
   const [inputFieldList, setInputFieldList] = useState([]);
-
+  const [error, setError] = useState(false);
+  const [logoIcons,setLogoIcons] = useState(null);
+  const [videoLinks,setvideoLinks] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(false);
+  const [errorMessageVideo, setErrorMessageVideo] = useState('');
+  const [videoLinksVideo, setVideoLinksVideo] = useState('')
+  const [videoLinksVideoOne, setVideoLinksVideoOne] = useState('')
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [errorMessageImage, setErrorMessageImage] = useState('');
+  const [errorMessageImageOne, setErrorMessageImageOne] = useState('');
+  const [loading, setLoading] = useState(false)
+  // console.log("questionnaireValues",questionnaireValues?.externalSystemId);
   const handleWhatsAppButtonClick = () => {
-    // Replace the following URL with your desired WhatsApp URL or phone number
     const whatsappUrl = "https://api.whatsapp.com/send?phone=972584222456";
     window.location.href = whatsappUrl;
   };
-
   const onExternalSystemChange = (value) => {
     setQuestionnaireValues((prev) => ({
       ...prev,
@@ -31,12 +44,153 @@ const BusinessDetails = ({ step, setStep, isLastStep }) => {
     Api.getExternalCustomizedField(value?.value, token)
       .then(async (res) => {
         setInputFieldList(res?.listInputLabelDetails);
+        setLogoIcons(res?.logoIcon)
+        setvideoLinks(res?.videoLink)
+        setInputFieldDetails(res?.listInputLabelDetails)
       })
       .catch((e) => {
         console.error(e.message);
       });
   };
 
+  const handleInputChange = (fieldName, newValue) => {
+    try {
+      setInputFieldDetails(prevDetails => {
+        const updatedDetails = prevDetails.map(field => {
+          if (field?.FieldLabelName === fieldName) {
+            return {
+              ...field,
+              FieldLabelValue: newValue
+            };
+          }
+          return field;
+        });
+        return updatedDetails;
+      })
+    } catch (e) {
+      console.log("e", e);
+    }
+  }
+  
+  //video field 
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      const allowedTypes = ['video/mp4', 'video/webm', 'video/ogg'];
+      if (allowedTypes.includes(selectedFile.type) ===true) {
+        setErrorMessageVideo('');
+        setVideoLinksVideo(selectedFile)
+      } else {
+        setErrorMessageVideo('Please select a valid video file (MP4, WebM, or OGG).');
+      }
+    }
+  };
+
+  // Image field
+  const handleImageChange = (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      if (selectedFile.type.startsWith('image/') === true) {
+        setSelectedImage(selectedFile);
+        setErrorMessageImage('');
+      } else {
+        setSelectedImage(null);
+        setErrorMessageImage('Please select a valid image file.');
+      }
+    }
+  };
+
+  const handleSUbmit = async () => {
+    try {
+      if (inputFieldList.length === 0) {
+        setError(true)
+        return false;
+      };
+      
+      
+     
+      let data = {
+        listInputLabelDetails: []
+      };
+      let hasError = false;
+      inputFieldDetails.forEach((element) => {
+        if (!element?.FieldLabelValue) {
+          hasError = true;
+        }
+      });
+      setErrorMessage(hasError);
+      if (!hasError) {
+        data.listInputLabelDetails = [];
+        inputFieldDetails.forEach((element) => {
+          data.listInputLabelDetails.push({
+            FieldLabelName: element?.FieldLabelName,
+            FieldLabelValue: element?.FieldLabelValue,
+          });
+        });
+      }
+      setError(false)
+      if(!selectedImage){
+        setErrorMessageImageOne(true)
+        return false
+      }
+      setErrorMessageImageOne(false)
+      if(!videoLinksVideo){
+        setVideoLinksVideoOne(true)
+        return false
+      }
+      setVideoLinksVideoOne(false)
+      setLoading(true)
+      data.ExternalSystemId = questionnaireValues?.externalSystemId;
+      data.Companyid = "1014"
+      data.logoIcon = selectedImage
+      data.videoLink = videoLinksVideo
+      
+      if (data.listInputLabelDetails.length === 5) {
+        const token = localStorage?.getItem("accessToken");
+        await Api.SaveExternalCustomizedExternalSystemId(data, token)
+        .then((response) => {
+          // console.log("response", response);
+          if(response === false) {
+            history.push('/welcomeScreen')
+            setLoading(false)
+          } else {
+            history.push('/welcomeScreen')
+            setLoading(false)
+          }
+          
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false)
+
+        });
+      }
+      
+      // Update data object
+
+
+      // inputFieldDetails.forEach((element)=>{
+      // if(!element?.FieldLabelValue){
+      //   setErrorMessage(true)
+      //   return false
+      // }
+      // setErrorMessage(false)
+      //   data.listInputLabelDetails.push({
+      //     FieldLabelName: element?.FieldLabelName,
+      //     FieldLabelValue: element?.FieldLabelValue
+      //   });
+      // })
+
+      // data.ExternalSystemId = questionnaireValues?.externalSystemId;
+      // console.log("data",data);
+
+
+    } catch (e) {
+      console.log("e", e);
+      setLoading(false)
+    }
+  }
+ 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     Api.getExternalSystem(token)
@@ -58,13 +212,13 @@ const BusinessDetails = ({ step, setStep, isLastStep }) => {
         {t("Questionnaire3.part49")}
       </h1>
       <p className="text-base font-normal text-gray-500">
-        if you need more info, please check out.
+        {t('Questionnaire1.pleasecheckout')}
         <span
           className="cursor-pointer text-primary-color"
           onClick={handleWhatsAppButtonClick}
         >
           {" "}
-          Help Page{" "}
+          {t('Questionnaire1.part42')}{" "}
         </span>
       </p>
 
@@ -83,6 +237,10 @@ const BusinessDetails = ({ step, setStep, isLastStep }) => {
             defaultValue={questionnaireValues?.externalSystemId}
             handleChange={onExternalSystemChange}
           />
+          {
+            error && <span className="text-red-600">
+              Please select at least one of the following
+            </span>}
           {/* <input
             className="block w-full px-2 py-[10px] mb-[10px] text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
             type="text"
@@ -112,7 +270,7 @@ const BusinessDetails = ({ step, setStep, isLastStep }) => {
               className="cursor-pointer text-primary-color"
               onClick={handleWhatsAppButtonClick}
             >
-              Help Page
+              {t('Questionnaire1.part42')}
             </span>
           </p>
         </div>
@@ -122,30 +280,70 @@ const BusinessDetails = ({ step, setStep, isLastStep }) => {
         <div className="col-md-12">
           {inputFieldList &&
             inputFieldList?.map((item, idx) => {
+              // console.log("item?.FieldLabelValue", item?.FieldLabelValue);
               return (
-                <div key={idx}>
-                  <label
-                    htmlFor="firstNameInput"
-                    className="mb-[10px] text-sm font-semibold text-text-color "
-                  >
-                    {item?.FieldLabelName}
-                    <span className="text-primary-color"> * </span>
-                  </label>
-                  <input
-                    className="block w-full px-2 py-[10px] mb-[10px] text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
-                    type={item?.FieldTypeDesc}  
-                    id="listLabel"
-                    placeholder="label"
-                    value={item?.FieldLabelValue}
+                <div>
+                  <div key={idx}>
+                    <label
+                      htmlFor="firstNameInput"
+                      className="mb-[10px] text-sm font-semibold text-text-color "
+                    >
+                      {item?.FieldLabelName}
+                      <span className="text-primary-color"> * </span>
+                    </label>
+                    <input
+                      className="block w-full px-2 py-[10px] mb-[10px] text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
+                      type={item?.FieldTypeDesc}
+                      // id="listLabel"
+                      placeholder="label"
+                      value={item?.FieldLabelValue}
+                      onChange={event => {
+                        handleInputChange(item.FieldLabelName, event.target.value);
+                      }}
                     // onChange={}
-                  />
+                    />
+                  </div>
+                  {
+            errorMessage && <span className="text-red-600">All Input Field required</span>
+          }
                 </div>
               );
             })}
+            {
+              logoIcons  && <div><label htmlFor="firstNameInput"
+              className="mb-[10px] text-sm font-semibold text-text-color ">Icon Image</label>
+            <input type="file" onChange={handleImageChange} accept="image/*" required className="block w-full px-2 py-[10px] mb-[10px] text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
+            />
+            {errorMessageImage ? <span className="text-red-600">{errorMessageImage}</span>: 
+            errorMessageImageOne && <span className="text-red-600">Field required</span> 
+            }
+            </div>
+            }
+            {
+              videoLinks && <div><label htmlFor="firstNameInput"
+              className="mb-[10px] text-sm font-semibold text-text-color ">Icon Video</label>
+            <input type="file"
+              id="videoInput"
+              name="videoInput"
+              accept="video/mp4, video/webm, video/ogg"
+              required 
+              onChange={handleFileChange}
+              className="block w-full px-2 py-[10px] mb-[10px] text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
+            />
+            {errorMessageVideo ? <span className="text-red-600">{errorMessageVideo}</span>:
+            videoLinksVideoOne && <span className="text-red-600">Field required</span>
+            }
+            </div>
+            }
+            
+                  
+         
+
+
         </div>
       </div>
 
-      <div className=" flex flex-row justify-between  mt-20">
+      <div className=" flex flex-row justify-end  mt-20">
         {step === 0 || isLastStep ? (
           <></>
         ) : (
@@ -160,11 +358,24 @@ const BusinessDetails = ({ step, setStep, isLastStep }) => {
         )}
 
         <button
-          onClick={() => setStep(step + 1)}
+          onClick={() => handleSUbmit()}
           className=" bg-bg-secondary   text-base px-[22px] font-semibold flex gap-1 items-center py-[9px] text-white rounded-md "
         >
-          <span>Continue</span>
-          <BsChevronRight />
+          {loading ? (
+                  <>
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                    <span className="">{t("signin.Loading")}...</span>
+                  </>
+                ) : (
+                  <><span>{t("Questionnaire1.part40")}</span>
+                  <BsChevronRight /></>
+                )}
         </button>
       </div>
     </div>

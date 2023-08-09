@@ -4,7 +4,7 @@ import { AuthUserContext } from "../context";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import { useTranslation } from "react-i18next";
 import toast, { Toaster } from "react-hot-toast";
-
+import Spinner from "react-bootstrap/Spinner";
 const AccountInfo = ({
   step,
   setStep,
@@ -14,7 +14,10 @@ const AccountInfo = ({
   const { t, i18n } = useTranslation();
   const { businessType } = useContext(AuthUserContext);
   const [formError, setFormError] = useState({});
-  let ishbrews = localStorage.getItem('i18nextLng') 
+  
+  const [error,setError] = useState(false);
+  const [loading,setLaoding] = useState(false);
+  let ishbrews = localStorage.getItem('i18nextLng')
   const handleChange = (e) => {
     const { name, value } = e.target;
     setQuestionnaireValues((prev) => ({
@@ -34,16 +37,16 @@ const AccountInfo = ({
     const errors = {};
 
     if (!values?.FirstName) {
-      errors.FirstName = t('Questionnaire1.firstName');
+      errors.FirstName = t("Questionnaire1.firstName");
     }
     if (!values?.LastName) {
-      errors.LastName = t('Questionnaire1.lastNAme');
+      errors.LastName = t("Questionnaire1.lastNAme");
     }
     if (!values?.MobileNumber) {
-      errors.MobileNumber = t('Questionnaire1.mobileNo');
+      errors.MobileNumber = t("Questionnaire1.mobileNo");
     }
     if (!values?.OrganizationRole) {
-      errors.OrganizationRole = t('Questionnaire1.organizationrole');
+      errors.OrganizationRole = t("Questionnaire1.organizationrole");
     }
     Object.keys(errors).map((key) => {
       if (Object.keys(errors[key])?.length === 0) delete errors[key];
@@ -52,8 +55,17 @@ const AccountInfo = ({
     return errors;
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    // e.preventDefault();
     try {
+      if (!questionnaireValues?.FirstName || 
+        !questionnaireValues?.LastName || 
+        !questionnaireValues?.MobileNumber || 
+        !questionnaireValues?.OrganizationRole) {
+          setError(true)
+          return false;
+      }
+      setLaoding(true)
       const token = localStorage?.getItem("accessToken");
       const data = [
         {
@@ -70,79 +82,98 @@ const AccountInfo = ({
       await Api.SecondQuestionnaire(data, token)
         .then((res) => {
           if (res) {
+            setLaoding(false)
             setStep(step + 1);
           } else {
+            setLaoding(false)
             toast.error("Something went wrong");
           }
         })
         .catch((e) => {
-          console.error(e?.data?.error);
+          setLaoding(false)
+          console.error(e);
         });
     } catch (e) {
       console.log("e", e);
     }
   };
-  const addQuestionnaireData = () => {
-    const validateForm = validate(questionnaireValues);
-    setFormError(validateForm);
-    if (Object.keys(validateForm)?.length === 0) {
-      handleSubmit();
-    }
-  };
+  // const addQuestionnaireData = () => {
+  //   const validateForm = validate(questionnaireValues);
+  //   setFormError(validateForm);
+  //   if (Object.keys(validateForm)?.length === 0) {
+  //     handleSubmit();
+  //   }
+  // };
 
-  useEffect(()=>{
-    const validateForm = validate(questionnaireValues);
-    setFormError(validateForm);
-  },[ishbrews])
+  // useEffect(() => {
+  //   const validateForm = validate(questionnaireValues);
+  //   setFormError(validateForm);
+  // }, [ishbrews])
   return (
     <div>
-      <h1 className="font-semibold text-2xl mb-[10px] mt-3">
-        {t('Questionnaire2.part43')}
+      <h1 className="font-semibold text-2xl text-center mb-[10px] mt-3">
+        {t("Questionnaire2.part43")}
       </h1>
-      <p className="text-base font-normal text-gray-500 mb-10">
-      {t('Questionnaire2.part48')}
+      <p className="text-base font-normal text-gray-500 text-center mb-10">
+        {t("Questionnaire2.part48")}
       </p>
       <div className="row">
-        <div className="col-md-6 flex flex-col">
+        <div className="col-md-6 flex flex-col flex-start">
           <label
             htmlFor="firstNameInput"
-            className="mb-[10px] text-sm font-semibold text-text-color"
+            className={
+              ishbrews === "he"
+                ? "mb-[10px] text-sm font-semibold text-right text-text-color"
+                : "mb-[10px] text-sm font-semibold text-text-color"
+            }
           >
-            {t('Questionnaire2.part44')}
+            {t("Questionnaire2.part44")}
           </label>
           <input
-            className="block w-full px-2 py-[10px] mb-[10px] text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
+            className={
+              ishbrews === "he"
+                ? "block w-full px-2 py-[10px]  mb-[10px] text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border text-right bg-clip-padding"
+                : "block w-full px-2 py-[10px]  mb-[10px] text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
+            }
             type="text"
             id="firstNameInput"
             name="FirstName"
-            placeholder="Enter your first name"
+            placeholder={t("Questionnaire2.part44")}
             value={questionnaireValues?.FirstName}
             onChange={handleChange}
           />
-          {formError?.FirstName ? (
-            <p className="text-red-600 ">{formError?.FirstName}</p>
+          {error && !questionnaireValues?.FirstName ? (
+            <p className="text-red-600 ">{t('Questionnaire1.firstName')}</p>
           ) : (
             ""
           )}
         </div>
-        <div className="col-md-6 flex flex-col">
+        <div className="col-md-6 flex flex-col flex-start">
           <label
             htmlFor="lastNameInput"
-            className="mb-[10px] text-sm font-semibold text-text-color"
+            className={
+              ishbrews === "he"
+                ? "mb-[10px] text-sm font-semibold text-right text-text-color"
+                : "mb-[10px] text-sm font-semibold text-text-color"
+            }
           >
-            {t('Questionnaire2.part45')}
+            {t("Questionnaire2.part45")}
           </label>
           <input
-            className="block w-full px-2 py-[10px]  mb-[10px] text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
+            className={
+              ishbrews === "he"
+                ? "block w-full px-2 py-[10px]  mb-[10px] text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border text-right bg-clip-padding"
+                : "block w-full px-2 py-[10px]  mb-[10px] text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
+            }
             type="text"
             id="lastNameInput"
-            placeholder="Last Name"
+            placeholder={t("Questionnaire2.part45")}
             name="LastName"
             value={questionnaireValues?.LastName}
             onChange={handleChange}
           />
-          {formError?.LastName ? (
-            <p className="text-red-600 ">{formError?.LastName}</p>
+          {error && !questionnaireValues?.LastName ? (
+            <p className="text-red-600 ">{t('Questionnaire1.lastNAme')}</p>
           ) : (
             ""
           )}
@@ -150,22 +181,30 @@ const AccountInfo = ({
         <div className="col-md-6 flex flex-col">
           <label
             htmlFor="mobileNumberInput"
-            className="mb-[10px] text-sm font-semibold text-text-color"
+            className={
+              ishbrews === "he"
+                ? "mb-[10px] text-sm font-semibold text-right text-text-color"
+                : "mb-[10px] text-sm font-semibold text-text-color"
+            }
           >
-            {t('Questionnaire2.part46')}
+            {t("Questionnaire2.part46")}
           </label>
 
           <input
-            className="block w-full px-2 py-[10px]  mb-[10px] text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
-            type="text"
+            className={
+              ishbrews === "he"
+                ? "block w-full px-2 py-[10px]  mb-[10px] text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border text-right bg-clip-padding"
+                : "block w-full px-2 py-[10px]  mb-[10px] text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
+            }
+            type="number"
             id="mobileNumberInput"
-            placeholder="Mobile number"
+            placeholder={t("Questionnaire2.part46")}
             name="MobileNumber"
             value={questionnaireValues?.MobileNumber}
             onChange={handleChange}
           />
-          {formError?.MobileNumber ? (
-            <p className="text-red-600 ">{formError?.MobileNumber}</p>
+          {error && !questionnaireValues?.MobileNumber ? (
+            <p className="text-red-600 ">{t('Questionnaire1.mobileNo')}</p>
           ) : (
             ""
           )}
@@ -173,21 +212,29 @@ const AccountInfo = ({
         <div className="col-md-6 flex flex-col">
           <label
             htmlFor="roleInput"
-            className="mb-[10px]  text-sm font-semibold text-text-color"
+            className={
+              ishbrews === "he"
+                ? "mb-[10px] text-sm font-semibold text-right text-text-color"
+                : "mb-[10px] text-sm font-semibold text-text-color"
+            }
           >
-            {t('Questionnaire2.part47')}
+            {t("Questionnaire2.part47")}
           </label>
           <input
             type="text"
             id="roleInput"
-            className="block w-full px-2 py-[10px]  mb-[10px] text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
-            placeholder="Enter your role"
+            className={
+              ishbrews === "he"
+                ? "block w-full px-2 py-[10px]  mb-[10px] text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border text-right bg-clip-padding"
+                : "block w-full px-2 py-[10px]  mb-[10px] text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
+            }
+            placeholder={t("Questionnaire2.part47")}
             name="OrganizationRole"
             value={questionnaireValues?.OrganizationRole}
             onChange={handleChange}
           />
-          {formError?.OrganizationRole ? (
-            <p className="text-red-600 ">{formError?.OrganizationRole}</p>
+          {error && !questionnaireValues?.OrganizationRole ? (
+            <p className="text-red-600 ">{t('Questionnaire1.organizationrole')}</p>
           ) : (
             ""
           )}
@@ -203,16 +250,30 @@ const AccountInfo = ({
             id="backButton"
           >
             <BsChevronLeft />
-            <span>{t('Questionnaire2.Back')}</span>
+            <span>{t("Questionnaire2.Back")}</span>
           </button>
         )}
 
         <button
-          onClick={() => addQuestionnaireData()}
+          onClick={() => handleSubmit()}
           className=" bg-bg-secondary   text-base px-[22px] font-semibold flex gap-1 items-center py-[9px] text-white rounded-md "
         >
-          <span>{t("Questionnaire1.part40")}</span>
-          <BsChevronRight />
+          {loading ? (
+                  <>
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                    <span className="">{t("signin.Loading")}...</span>
+                  </>
+                ) : (
+                  <><span>{t("Questionnaire1.part40")}</span>
+                  <BsChevronRight /></>
+                )}
+          
         </button>
       </div>
     </div>

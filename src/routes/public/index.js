@@ -14,7 +14,8 @@ import {
   verifyEmail,
   welcomeScreen,
   resetPassword,
-  mainConsole
+  mainConsole,
+  loginScreen
 } from "../pathName";
 
 export const PublicRoutes = [
@@ -57,6 +58,11 @@ export const PublicRoutes = [
     title: "Main Console",
     component: MainConsole,
     path: mainConsole
+    },
+    {
+      title: "Sign in",
+      component: Signin,
+      path: loginScreen,
     }
   
 ];

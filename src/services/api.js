@@ -104,5 +104,18 @@ const Api = {
       throw error;
     }
   },
+  SaveExternalCustomizedExternalSystemId : async (data,token)=>{
+    try{
+      console.log(data);
+      console.log(token);
+      return await Service.postWithAuthentication({
+        url: `${config.BaseURL}/api/Register/SaveExternalCustomizedExternalSystemId`,
+        token,
+        data: data,
+      });
+    }catch(error) {
+      throw error;
+    }
+  }
 };
 export default Api;

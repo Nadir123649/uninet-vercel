@@ -2,10 +2,11 @@ import React, { useEffect, useState, useContext } from "react";
 // import InputField from "../../components/inputField";
 import GoogleIcon from "../../assets/images/google-icon.png";
 import LogoIcon from "../../assets/images/Logo.webp";
-import { useHistory } from "react-router-dom";
+import { useHistory,useLocation } from "react-router-dom";
 import Api from "../../services/api";
 import Spinner from "react-bootstrap/Spinner";
-import toast, { Toaster } from "react-hot-toast";
+// import toast, { Toaster } from "react-hot-toast";
+import { toast } from 'react-toastify';
 import { GoogleLogin } from "@leecheuk/react-google-login";
 import { config } from "../../configs";
 import { gapi } from "gapi-script";
@@ -15,6 +16,8 @@ import { useTranslation } from "react-i18next";
 const Signin = () => {
   const { t, i18n } = useTranslation();
   const history = useHistory();
+  const location = useLocation();
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
@@ -51,33 +54,41 @@ const Signin = () => {
       await Api.SignInUser({
         email,
         password,
+        Lang: ishbrews == "he" ? 2 : 1,
       })
         .then(async (res) => {
-          console.log("res", res);
-          if (res.Success === true) {
-            setLoading(false);
-            localStorage.setItem("accessToken", res?.accessToken);
-
-            toast.success("✔️ Signin successfully", {
-              duration: 4000,
-            });
-            if (
-              res?.Q1_Q2_InidicationRes === true &&
-              res?.Q3_InidicationRes === true
-            ) {
-              history.push("/welcomeScreen");
-            } else if (res?.Q1_Q2_InidicationRes === false) {
-              history.push("/questionnaire");
+          console.log("res",res);
+          if(res.Success === true){
+            if (res?.verified === true) {
+              setLoading(false);
+              localStorage.setItem("accessToken", res?.accessToken);
+              if (
+                res?.Q1_Q2_InidicationRes === true &&
+                res?.Q3_InidicationRes === true
+              ) {
+                history.push("/welcomeScreen");
+              } else if (res?.Q1_Q2_InidicationRes === false) {
+                history.push("/questionnaire");
+              } else {
+                history.push({
+                  pathname: "/questionnaire",
+                  state: 2,
+                });
+              }
             } else {
-              history.push({
-                pathname: "/questionnaire",
-                state: 2,
-              });
+              setLoading(false);
+              let EncryptedUserId =res?.EncryptedUserId
+              let response = {EncryptedUserId, email ,TemplateId: 1,
+                Lang: ishbrews == "he" ? 2 : 1}
+              localStorage.setItem("user-details", JSON.stringify(response))
+              // toast.error("The user is not verified. Please verify first.");
+              history.push("/verify-email", );
             }
-          } else {
+          } else{
             setLoading(false);
-            toast.error("Invalid login credentials");
+            toast.error("User invalid credentials");
           }
+          
         })
         .catch((e) => {
           console.error(e?.data?.error);
@@ -98,8 +109,13 @@ const Signin = () => {
     }
   };
   const onLoginFailure = (res) => {
-    console.log(res);
-    toast.error("Server Error. Please Refresh Page");
+    console.log(res.error);
+    if(res.error === "popup_closed_by_user"){
+
+    } else{
+      toast.error("Server Error. Please Refresh Page");
+    }
+    
   };
   useEffect(() => {
     function start() {
@@ -319,7 +335,7 @@ const Signin = () => {
               ishbrews === "he" ? (
                 <p className="m-0 mt-3 text-bold font-normal text-gray-500 tracking-wider leading-5 ">
                   {t("Signup.part18")} <a href="https://uninet-io.com/term-of-use-he/" className="cursor-pointer text-primary-color" target="_blank">{t("Signup.term")}</a>
-                  &nbsp;{t("Signup.and")}
+                  
                   &nbsp;<a href="https://uninet-io.com/privacy-policy-he/" className="cursor-pointer text-primary-color" target="_blank">{t("Signup.Privacy")}</a>
 
                 </p>
@@ -346,7 +362,7 @@ const Signin = () => {
             {/* </p> */}
           </div>
         </div>
-        <Toaster position="top-center" reverseOrder={false} />
+        {/* <Toaster position="top-center" reverseOrder={false} /> */}
       </div>
       <Navbars />
     </div>

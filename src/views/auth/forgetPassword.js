@@ -39,9 +39,10 @@ const ForgetPassword = () => {
       setLoading(true);
       await Api.forgotPassword({
         email,
+        Lang: ishbrews == "he" ? 2 : 1,
       })
         .then((response) => {
-          console.log("response", response);
+          // console.log("response", response);
           if (response === false) {
             toast.error("Email is not valid! Please user valid email");
           } else {
@@ -53,7 +54,7 @@ const ForgetPassword = () => {
         })
         .catch((e) => {
           console.error(e?.data?.error);
-          // toast.error(e?.data?.error);
+          toast.error(e);
         });
     } catch (err) {
       console.log("err", err);

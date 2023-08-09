@@ -158,14 +158,14 @@ const MainConsole = () => {
           <div className="flex flex-col md:flex-row flex-wrap gap-3">
             <input
               type="text"
-              className="w-full md:w-w-1/6  max-w-130 px-2 text-sm py-[11px] md:text-lg  mb-3 font-normal leading-normal text-text-color   bg-white border border-black appearance-none bg-clip-padding"
+              className="w-full max-w-full md:w-w-1/6   md:max-w-max-150  px-2 text-sm py-[11px] md:text-lg  mb-3 font-normal leading-normal text-text-color   bg-white border border-black appearance-none bg-clip-padding"
               id="supplierName"
               // value={supplierName}
               // onChange={handleChange}
               placeholder="Supplier name"
             />
             <input
-              className="w-full md:w-w-1/6  max-w-130 px-2 text-sm py-[11px] md:text-lg mb-3  font-normal leading-normal text-text-color   bg-white border border-solid appearance-none border-black  bg-clip-padding"
+              className="w-full max-w-full  md:w-w-1/6  md:max-w-max-150  px-2 text-sm py-[11px] md:text-lg mb-3  font-normal leading-normal text-text-color   bg-white border border-solid appearance-none border-black  bg-clip-padding"
               id="supplierId"
               // value={supplierId}
               // onChange={handleChange}
@@ -173,7 +173,7 @@ const MainConsole = () => {
             />
             <input
               type="number"
-              className="w-full md:w-w-1/6   max-w-130 px-2 text-sm py-[11px] md:text-lg font-normal leading-normal text-text-color   bg-white border border-solid appearance-none border-black bg-clip-padding"
+              className="w-full max-w-full  md:w-w-1/6  md:max-w-max-150 px-2 text-sm py-[11px] md:text-lg font-normal leading-normal text-text-color   bg-white border border-solid appearance-none border-black bg-clip-padding"
               id="docNumber"
               // value={docNumber}
               // onChange={handleChange}
@@ -181,7 +181,7 @@ const MainConsole = () => {
             />
             <input
               type="text"
-              className="w-full md:w-w-1/6  max-w-130 px-2  text-sm py-[11px] md:text-lg font-normal leading-normal text-text-color   bg-white border border-solid border-black  appearance-none bg-clip-padding"
+              className="w-full max-w-full  md:w-w-1/6 md:max-w-max-150 px-2  text-sm py-[11px] md:text-lg font-normal leading-normal text-text-color   bg-white border border-solid border-black  appearance-none bg-clip-padding"
               id="docType"
               // value={docType}
               // onChange={handleChange}
@@ -189,7 +189,7 @@ const MainConsole = () => {
             />
             <input
               type="text"
-              className="w-full md:w-w-1/6  max-w-130 px-2  mt-2  text-sm py-[11px] md:text-lg  font-normal leading-normal text-text-color bg-white border border-solid appearance-none border-black bg-clip-padding"
+              className="w-full max-w-full  md:w-w-1/6 md:max-w-max-150 px-2  mt-2  text-sm py-[11px] md:text-lg  font-normal leading-normal text-text-color bg-white border border-solid appearance-none border-black bg-clip-padding"
               // value={docDate}
               // onChange={handleChange}
               placeholder="Doc date"
@@ -198,7 +198,7 @@ const MainConsole = () => {
           <div className="flex flex-col md:flex-row flex-wrap gap-3 mt-5">
             <input
               type="text"
-              className="w-full md:w-w-1/6  max-w-130 px-2 text-sm py-[11px] md:text-lg  mb-1 font-normal leading-normal text-text-color   bg-white border border-black appearance-none bg-clip-padding"
+              className="w-full max-w-full  md:w-w-1/6 md:max-w-max-150 px-2 text-sm py-[11px] md:text-lg  mb-1 font-normal leading-normal text-text-color   bg-white border border-black appearance-none bg-clip-padding"
               id="supplierName"
               // value={supplierName}
               // onChange={handleChange}
@@ -206,7 +206,7 @@ const MainConsole = () => {
             />
             <input
               type="text"
-              className="w-full md:w-w-1/6  max-w-130 px-2 text-sm py-[11px] md:text-lg mb-1  font-normal leading-normal text-text-color   bg-white border border-solid appearance-none border-black  bg-clip-padding"
+              className="w-full max-w-full  md:w-w-1/6 md:max-w-max-150 px-2 text-sm py-[11px] md:text-lg mb-1  font-normal leading-normal text-text-color   bg-white border border-solid appearance-none border-black  bg-clip-padding"
               id="supplierId"
               // value={supplierId}
               // onChange={handleChange}
@@ -214,7 +214,7 @@ const MainConsole = () => {
             />
             <input
               type="text"
-              className="w-full md:w-w-1/6   max-w-130 px-2 text-sm py-[11px] md:text-lg font-normal leading-normal text-text-color   bg-white border border-solid appearance-none  border-black bg-clip-padding"
+              className="w-full max-w-full  md:w-w-1/6  md:max-w-max-150 px-2 text-sm py-[11px] md:text-lg font-normal leading-normal text-text-color   bg-white border border-solid appearance-none  border-black bg-clip-padding"
               id="docNumber"
               // value={docNumber}
               // onChange={handleChange}
@@ -224,7 +224,7 @@ const MainConsole = () => {
           <div className="mr-4">
             <input
               type="text"
-              className="w-full max-w-md px-2 text-center mt-5 py-[11px] text-lg font-normal leading-normal text-gray-900 bg-white border border-solid  border-black focus:outline-none "
+              className="w-full px-2 text-center mt-5 py-[11px] text-lg font-normal leading-normal text-gray-900 bg-white border border-solid  border-black focus:outline-none "
               placeholder="Expenses Type"
             />
           </div>

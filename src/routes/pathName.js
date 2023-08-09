@@ -6,5 +6,6 @@ const welcomeScreen = "/welcomeScreen"
 const resetPassword = "/reset-password"
 const questionnaire = "/questionnaire";
 const mainConsole = "/main-console";
+const loginScreen = "/signin"
 
-export { signIn, signUp,forgetPassword,verifyEmail ,welcomeScreen,questionnaire, resetPassword ,mainConsole };
+export { signIn, signUp,forgetPassword,verifyEmail ,welcomeScreen,questionnaire, resetPassword ,mainConsole,loginScreen };

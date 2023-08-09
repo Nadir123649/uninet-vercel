@@ -4,6 +4,7 @@ import {
   BsHandbagFill,
   BsFillPersonCheckFill,
   BsChevronRight,
+  BsChevronLeft
 } from "react-icons/bs";
 import { AuthUserContext } from "../context";
 import { useTranslation } from "react-i18next";
@@ -24,32 +25,32 @@ function AccountStep({ step, setStep }) {
     setColor(businessType);
   }, [businessType]);
 
-  const handleWhatsAppButtonClick = () => {
-    // Replace the following URL with your desired WhatsApp URL or phone number
-    const whatsappUrl = "https://api.whatsapp.com/send?phone=972584222456";
-    window.location.href = whatsappUrl;
-  };
-
   return (
     <div>
       <h1
         className={
           ishbrews == "he"
-            ? "font-semibold text-2xl mb-[10px] mt-3 text-right"
-            : "font-semibold text-2xl mb-[10px] mt-3"
+            ? "font-semibold text-xl md:text-2xl mb-[6px]  md:mb-[10px] mt-3 text-center"
+            : "font-semibold  text-xl md:text-2xl mb-[6px] md:mb-[10px] text-center mt-3"
         }
       >
         {t("Questionnaire1.part32")}
       </h1>
-      <p className={ishbrews == "he" ? "text-lg font-normal text-gray-500 mb-10 text-right" : "text-base font-normal text-gray-500 mb-10"}>
-       {t('Questionnaire1.part33')}
-       &nbsp;<span className="cursor-pointer text-primary-color" onClick={handleWhatsAppButtonClick}>{t('Questionnaire1.part42')}</span>
+      <p
+        className={
+          ishbrews === "he"
+            ? "text-base md:text-lg font-normal text-gray-500 mb-5 md:mb-10 text-center"
+            : "text-xs md:text-base font-normal text-gray-500 mb-5 text-center md:mb-10"
+        }
+      >
+        {t("Questionnaire1.part33")}
+        &nbsp;
       </p>
       <div
         className={
           ishbrews == "he"
-            ? "row justify-between flex-row-reverse mx-1"
-            : "row justify-between mx-1"
+            ? "flex row justify-between flex-col md:flex-row-reverse mx-1"
+            : "flex flex-col md:flex-row justify-between mx-1"
         }
       >
         <div
@@ -213,9 +214,17 @@ function AccountStep({ step, setStep }) {
         </div>
       </div>
       {isValid && (
-        <span className="text-red-600">{t('Questionnaire1.PleaseSelectanyoftheField')}</span>
+        <span className="text-red-600">
+          {t("Questionnaire1.PleaseSelectanyoftheField")}
+        </span>
       )}{" "}
-      <div className=" flex flex-row justify-end mt-20">
+      <div
+        className={
+          ishbrews === "he"
+            ? " flex flex-row justify-start mt-10 md:mt-20"
+            : " flex flex-row justify-end mt-10 md:mt-20"
+        }
+      >
         <button
           onClick={() => {
             if (color === "") setIsValid(true);
@@ -223,10 +232,20 @@ function AccountStep({ step, setStep }) {
               setStep(step + 1);
             }
           }}
-          className=" bg-bg-secondary   text-base px-[22px] font-semibold flex gap-1 items-center py-[9px] text-white rounded-md "
+          className={
+            ishbrews === "he"
+              ? " bg-bg-secondary text-base px-[22px] font-semibold flex gap-1 flex-row-reverse items-center py-[9px] text-white rounded-md "
+              : " bg-bg-secondary text-base px-[22px] font-semibold flex gap-1 items-center py-[9px] text-white rounded-md "
+          }
         >
-          <span>{t("Questionnaire1.part40")}</span>
-          <BsChevronRight />
+          {
+            ishbrews === "he" ? 
+            <div className="flex items-center gap-2"> 
+            <BsChevronLeft /><span>{t("Questionnaire1.part40")}</span></div> : 
+            <div className="flex items-center gap-2"> <span>{t("Questionnaire1.part40")}</span>
+            <BsChevronRight /></div>
+          }
+         
         </button>
       </div>
     </div>

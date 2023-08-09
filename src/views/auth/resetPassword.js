@@ -14,11 +14,11 @@ function ResetPassword() {
   let query= new URLSearchParams(window.location.search);
   let UserResetToken = query.get("UserResetToken");
   let ishbrews = localStorage.getItem('i18nextLng') 
-  console.log("ishbrews", ishbrews);
   const initalialResetPasswordValue = {
     password: "",
     confirmPassword: "",
   }
+  console.log("UserResetToken", UserResetToken);
   const { t, i18n } = useTranslation();
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -27,6 +27,7 @@ function ResetPassword() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [checkConfirmPassword, setCheckConfirmPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
+  const [error,setError] = useState(false)
   const [errorMessage1, setErrorMessage1] = useState(false);
   const [passwordValue, setPasswordValue] = useState({
     ...initalialResetPasswordValue,
@@ -63,8 +64,12 @@ function ResetPassword() {
   };
   
   const handleSubmit = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     try {
+      if(!passwordValue?.password || !passwordValue?.confirmPassword){
+        setError(true)
+        return false
+      }
       if( passwordValue?.password.length < 6){
         setErrorMessage(true)
         return false
@@ -73,50 +78,59 @@ function ResetPassword() {
         setErrorMessage1(true)
         return false
       }
+      setErrorMessage1(false)
+      setErrorMessage(false)
       if (passwordValue?.password !== passwordValue?.confirmPassword) {
         setCheckConfirmPassword(true)
         return false
       }
       
-      setErrorMessage1(false)
-      setErrorMessage(false)
+      
       setCheckConfirmPassword(false)
       setLoading(true)
-      await Api.resetPassword({
-        ResetPasswordToken: UserResetToken,
-        passwordEncrypted: passwordValue?.password
-      }).then((res) => {
-        console.log(res);
-        if (res === false) {
-          setLoading(false)
-          toast.error("Something went wrong")
-        } else {
-          toast.success(t("resetPassword.part62"))
-          setLoading(false)
-          history.push('/')
-        }
-      }).catch((err) => {
-        console.error(err);
-        toast.error(e?.data?.error);
-      })
+      console.log("UserResetToken", UserResetToken);
+      if(UserResetToken === null) {
+       toast.error('The user reset token is missing. Please click on the Reset Password button again in the email you have received.')
+       setLoading(false)
+      } else {
+         await Api.resetPassword({
+          ResetPasswordToken: UserResetToken,
+          passwordEncrypted: passwordValue?.password,
+          Lang: ishbrews == "he" ? 2 : 1,
+        }).then((res) => {
+          console.log(res);
+          if (res === false) {
+            setLoading(false)
+            toast.error("The user reset token is missing. Please click on the Reset Password button again in the email you have received.")
+          } else {
+            // toast.success(t("resetPassword.part62"))
+            setLoading(false)
+            history.push('/')
+          }
+        }).catch((err) => {
+          console.error(err);
+          toast.error(e?.data?.error);
+        })
+      }
+      
     } catch (e) {
       setLoading(false)
       console.log("e", e);
     }
   }
-  const resetPasswordData = (e) => {
-    e.preventDefault();
+  // const resetPasswordData = (e) => {
+  //   e.preventDefault();
     
-    const validateForm = validate(passwordValue);
-    setFormError(validateForm);
-    if (Object.keys(validateForm)?.length === 0) {
-      handleSubmit();
-    }
-  };
-  useEffect(()=>{
-   const validateForm =  validate(passwordValue)
-    setFormError(validateForm);
-  },[ishbrews])
+  //   const validateForm = validate(passwordValue);
+  //   setFormError(validateForm);
+  //   if (Object.keys(validateForm)?.length === 0) {
+  //     handleSubmit();
+  //   }
+  // };
+  // useEffect(()=>{
+  //  const validateForm =  validate(passwordValue)
+  //   setFormError(validateForm);
+  // },[])
   return (
     <div className="bg-bg-linear">
       
@@ -157,8 +171,8 @@ function ResetPassword() {
                     </div>
                   </div>
 
-                  {formError?.password ? (
-                    <p className="text-red-600 ">{formError?.password}</p>
+                  {error && !passwordValue?.password ? (
+                    <p className="text-red-600 ">{t("resetPassword.part60")}</p>
                   ) : errorMessage === true ? <span className="text-red-600">Password must be at least 6 characters long.</span>:(
                     ''
                   )}
@@ -189,8 +203,8 @@ function ResetPassword() {
                     </div>
                   </div>
 
-                  {formError?.confirmPassword ? (
-                    <p className="text-red-600 ">{formError?.confirmPassword}</p>
+                  {error && !passwordValue?.confirmPassword ? (
+                    <p className="text-red-600 ">{t("resetPassword.part61")}</p>
                   ) : checkConfirmPassword ? <p className="text-red-600 "> {t('resetPassword.part63')} </p> : errorMessage1 ? <span className="text-red-600">Password must be at least 6 characters long.</span> : (
                     ""
                   )}
@@ -201,7 +215,7 @@ function ResetPassword() {
                 <button
                  
                   className="w-full py-[11px] text-white border-none rounded-md outline-none bg-bg-secondary"
-                  onClick={resetPasswordData}
+                  onClick={handleSubmit}
                 >
                   {loading ? (
                     <>
