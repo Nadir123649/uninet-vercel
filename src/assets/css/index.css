@@ -144,8 +144,8 @@ body {
   > .ant-steps-item
   > .ant-steps-item-container
   > .ant-steps-item-tail {
-  display: none !important;
-  visibility: hidden;
+  margin-left: 280px;
+  inset: 0;
 }
 .ant-steps
   .ant-steps-item-finish
@@ -181,6 +181,9 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+.ant-steps-item-tail{
+  display: none !important;
+}
 /* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
@@ -195,6 +198,9 @@ input[type="number"] {
   .ant-steps.ant-steps-vertical {
     flex-direction: row;
     flex-wrap: wrap;
+  }
+  .nav-item{
+    width: 33.3%;
   }
 }
 @media (max-width: 420px) {

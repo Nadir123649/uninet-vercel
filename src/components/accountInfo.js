@@ -14,10 +14,10 @@ const AccountInfo = ({
   const { t, i18n } = useTranslation();
   const { businessType } = useContext(AuthUserContext);
   const [formError, setFormError] = useState({});
-  
-  const [error,setError] = useState(false);
-  const [loading,setLaoding] = useState(false);
-  let ishbrews = localStorage.getItem('i18nextLng')
+
+  const [error, setError] = useState(false);
+  const [loading, setLaoding] = useState(false);
+  let ishbrews = localStorage.getItem("i18nextLng");
   const handleChange = (e) => {
     const { name, value } = e.target;
     setQuestionnaireValues((prev) => ({
@@ -58,14 +58,16 @@ const AccountInfo = ({
   const handleSubmit = async (e) => {
     // e.preventDefault();
     try {
-      if (!questionnaireValues?.FirstName || 
-        !questionnaireValues?.LastName || 
-        !questionnaireValues?.MobileNumber || 
-        !questionnaireValues?.OrganizationRole) {
-          setError(true)
-          return false;
+      if (
+        !questionnaireValues?.FirstName ||
+        !questionnaireValues?.LastName ||
+        !questionnaireValues?.MobileNumber ||
+        !questionnaireValues?.OrganizationRole
+      ) {
+        setError(true);
+        return false;
       }
-      setLaoding(true)
+      setLaoding(true);
       const token = localStorage?.getItem("accessToken");
       const data = [
         {
@@ -82,15 +84,15 @@ const AccountInfo = ({
       await Api.SecondQuestionnaire(data, token)
         .then((res) => {
           if (res) {
-            setLaoding(false)
+            setLaoding(false);
             setStep(step + 1);
           } else {
-            setLaoding(false)
+            setLaoding(false);
             toast.error("Something went wrong");
           }
         })
         .catch((e) => {
-          setLaoding(false)
+          setLaoding(false);
           console.error(e);
         });
     } catch (e) {
@@ -117,7 +119,7 @@ const AccountInfo = ({
       <p className="text-base font-normal text-gray-500 text-center mb-10">
         {t("Questionnaire2.part48")}
       </p>
-      <div className="row">
+      <div className={ishbrews === "he" ? "row flex-row-reverse" : "row"}>
         <div className="col-md-6 flex flex-col flex-start">
           <label
             htmlFor="firstNameInput"
@@ -143,7 +145,13 @@ const AccountInfo = ({
             onChange={handleChange}
           />
           {error && !questionnaireValues?.FirstName ? (
-            <p className="text-red-600 ">{t('Questionnaire1.firstName')}</p>
+            <p
+              className={
+                ishbrews === "he" ? "text-red-600 text-right " : "text-red-600 "
+              }
+            >
+              {t("Questionnaire1.firstName")}
+            </p>
           ) : (
             ""
           )}
@@ -173,7 +181,13 @@ const AccountInfo = ({
             onChange={handleChange}
           />
           {error && !questionnaireValues?.LastName ? (
-            <p className="text-red-600 ">{t('Questionnaire1.lastNAme')}</p>
+            <p
+              className={
+                ishbrews === "he" ? "text-red-600 text-right " : "text-red-600 "
+              }
+            >
+              {t("Questionnaire1.lastNAme")}
+            </p>
           ) : (
             ""
           )}
@@ -204,7 +218,13 @@ const AccountInfo = ({
             onChange={handleChange}
           />
           {error && !questionnaireValues?.MobileNumber ? (
-            <p className="text-red-600 ">{t('Questionnaire1.mobileNo')}</p>
+            <p
+              className={
+                ishbrews === "he" ? "text-red-600 text-right " : "text-red-600 "
+              }
+            >
+              {t("Questionnaire1.mobileNo")}
+            </p>
           ) : (
             ""
           )}
@@ -234,23 +254,45 @@ const AccountInfo = ({
             onChange={handleChange}
           />
           {error && !questionnaireValues?.OrganizationRole ? (
-            <p className="text-red-600 ">{t('Questionnaire1.organizationrole')}</p>
+            <p
+              className={
+                ishbrews === "he" ? "text-red-600 text-right " : "text-red-600 "
+              }
+            >
+              {t("Questionnaire1.organizationrole")}
+            </p>
           ) : (
             ""
           )}
         </div>
       </div>
-      <div className=" flex flex-row justify-between  mt-20">
+      <div
+        className={
+          ishbrews === "he"
+            ? " flex flex-row-reverse  justify-between  mt-20"
+            : " flex flex-row justify-between  mt-20"
+        }
+      >
         {step === 0 ? (
           <></>
         ) : (
           <button
             onClick={() => setStep(step - 1)}
-            className=" bg-bg-secondary flex  text-base px-[22px] font-semibold flex  items-center py-[9px] text-white rounded-md "
+            className=" bg-bg-secondary flex  text-base px-[22px] font-semibold items-center py-[9px] text-white rounded-md "
             id="backButton"
           >
-            <BsChevronLeft />
-            <span>{t("Questionnaire2.Back")}</span>
+            {ishbrews === "he" ? (
+              <div className="flex items-center gap-2">
+                {" "}
+                <span>{t("Questionnaire2.Back")}</span>
+                <BsChevronRight />
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <BsChevronLeft />
+                <span>{t("Questionnaire2.Back")}</span>
+              </div>
+            )}
           </button>
         )}
 
@@ -259,21 +301,32 @@ const AccountInfo = ({
           className=" bg-bg-secondary   text-base px-[22px] font-semibold flex gap-1 items-center py-[9px] text-white rounded-md "
         >
           {loading ? (
-                  <>
-                    <Spinner
-                      as="span"
-                      animation="border"
-                      size="sm"
-                      role="status"
-                      aria-hidden="true"
-                    />
-                    <span className="">{t("signin.Loading")}...</span>
-                  </>
-                ) : (
-                  <><span>{t("Questionnaire1.part40")}</span>
-                  <BsChevronRight /></>
-                )}
-          
+            <>
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+              <span className="">{t("signin.Loading")}...</span>
+            </>
+          ) : (
+            <>
+              {ishbrews === "he" ? (
+                <div className="flex items-center gap-2">
+                  <BsChevronLeft />
+                  <span>{t("Questionnaire1.part40")}</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  {" "}
+                  <span>{t("Questionnaire1.part40")}</span>
+                  <BsChevronRight />
+                </div>
+              )}
+            </>
+          )}
         </button>
       </div>
     </div>

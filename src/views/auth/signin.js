@@ -233,8 +233,8 @@ const Signin = () => {
                     onChange={handleEmailChange}
                     className={
                       ishbrews == "he"
-                        ? "block w-full px-2 py-2 md:py-[10px] text-right mb-2 text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
-                        : "block w-full px-2 py-2 md:py-[10px] mb-2 text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
+                        ? "block w-full px-[22px] py-2 md:py-[10px] text-right font-normal mb-2 text-xs md:text-lg  leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
+                        : "block w-full px-[22px] py-2 md:py-[10px] mb-2 font-normal text-xs md:text-lg  leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
                     }
                     required
                   />
@@ -244,7 +244,7 @@ const Signin = () => {
                     <span className="text-red-600">{t('signin.Invalidemail')}</span>
                   ) : (
                     <span className="text-red-600"></span>
-                  )}
+                  )}  
                 </li>
                 <li
                   className={

@@ -18,11 +18,11 @@ function Questionnairebar() {
         <div
           className={
             ishbrews === "he"
-              ? "col-md-12 p-0 d-flex pt-3 px-0 justify-end "
+              ? "col-md-12 p-0 d-flex pt-3 px-0 justify-end pr-10"
               : "col-md-12 p-0 d-flex pt-3 px-0 justify-start "
           }
         >
-          <div className="Logo ">
+          <div className="Logo  mr-4">
             <img src={LogoIcon} className="h-auto max-w-max-100" alt="logo" />
           </div>
         </div>

@@ -4,7 +4,7 @@ import {
   BsHandbagFill,
   BsFillPersonCheckFill,
   BsChevronRight,
-  BsChevronLeft
+  BsChevronLeft,
 } from "react-icons/bs";
 import { AuthUserContext } from "../context";
 import { useTranslation } from "react-i18next";
@@ -238,14 +238,17 @@ function AccountStep({ step, setStep }) {
               : " bg-bg-secondary text-base px-[22px] font-semibold flex gap-1 items-center py-[9px] text-white rounded-md "
           }
         >
-          {
-            ishbrews === "he" ? 
-            <div className="flex items-center gap-2"> 
-            <BsChevronLeft /><span>{t("Questionnaire1.part40")}</span></div> : 
-            <div className="flex items-center gap-2"> <span>{t("Questionnaire1.part40")}</span>
-            <BsChevronRight /></div>
-          }
-         
+          {ishbrews === "he" ? (
+            <div className="flex items-center gap-2">
+              <BsChevronLeft />
+              <span>{t("Questionnaire1.part40")}</span>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <span>{t("Questionnaire1.part40")}</span>
+              <BsChevronRight />
+            </div>
+          )}
         </button>
       </div>
     </div>

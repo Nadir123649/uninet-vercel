@@ -65,8 +65,10 @@
         "lastNAme": "Please enter your last name",
         "mobileNo": "Please enter your mobile number",
         "organizationrole": "Please enter organization role",
-        "pleasecheckout":"if you need more info, please check out.",
-        "accountType": "Account Type"
+        "pleasecheckout":"If you need more info, please check out.",
+        "accountType": "Account Type",
+        "User details" :"User details",
+        "Connect to Uninet" : "Connect to Uninet"
 
     },
     "Questionnaire2" : {

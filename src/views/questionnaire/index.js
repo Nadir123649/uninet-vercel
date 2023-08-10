@@ -30,10 +30,10 @@ const Questionnaire = () => {
       title: t("Questionnaire1.accountType"),
     },
     {
-      title: "User details",
+      title: t("Questionnaire1.User details"),
     },
     {
-      title: "Connect to Uninet",
+      title:   t("Questionnaire1.Connect to Uninet"),
     },
   ];
 
@@ -50,7 +50,7 @@ const Questionnaire = () => {
   };
 
   return (
-    <div className="container-fluid bg-bg-linear">
+    <div className="container-fluid bg-bg-linear p-0">
       <div className="container d-flex px-2 flex-column  min-h-screen md:px-2 ">
         <Questionnairebar />
 
