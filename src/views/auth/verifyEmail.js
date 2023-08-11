@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import verify from "../../assets/images/verify-email.png";
 import LogoIcon from "../../assets/images/Logo.webp";
 import Api from "../../services/api";
@@ -8,19 +8,22 @@ import { AuthUserContext } from "../../context";
 import { useTranslation } from "react-i18next";
 import Navbars from "../navbar/navbar";
 import { useHistory,useLocation } from "react-router";
-import CryptoJS from 'crypto-js';
+// import CryptoJS from 'crypto-js';
 
 const VerifyEmail = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const location = useLocation();
+  let query= new URLSearchParams(window.location.search);
+  let OTP = query.get("Otp");
+  let encryptedUsers = query.get("encrypteduserid");
+  // console.log("hello",OTP,encryptedUsers );
   const { encryptedUser } = useContext(AuthUserContext)
   let ishbrews = localStorage.getItem('i18nextLng')
-  const [otp, setOTP] = useState("");
+  const [otp, setOTP] = useState(OTP || "");
   const valueReceived = location.state?.data || '';
-  console.log("valueReceived", valueReceived);
+  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false)
-  const [decryptedPassword, setDecryptedPassword] = useState('');
   const history = useHistory();
   let passwordDecrypted = JSON.parse(localStorage.getItem('user-details'))
   const handleSubmit = async (e) => {
@@ -33,8 +36,8 @@ const VerifyEmail = () => {
       setLoading(true);
       await Api.SignUPWithOtp({
         Otp: otp,
-        EncryptedUser: passwordDecrypted?.EncryptedUserId,
-        Lang: ishbrews == "he" ? 2 : 1,
+        EncryptedUser: passwordDecrypted?.EncryptedUserId || encryptedUsers ,
+        Lang: ishbrews === "he" ? 2 : 1,
       })
         .then((res) => {
           if(!passwordDecrypted?.EncryptedUserId) {
@@ -67,7 +70,7 @@ const VerifyEmail = () => {
     try {
       await Api.resentOTP({
         Email: passwordDecrypted?.email,
-        EncryptedUserId: passwordDecrypted?.EncryptedUserId,
+        EncryptedUserId: passwordDecrypted?.EncryptedUserId || encryptedUsers,
         TemplateId: passwordDecrypted?.TemplateId,
         Lang: passwordDecrypted?.Lang,
       }).then((res) => {
@@ -95,7 +98,7 @@ const VerifyEmail = () => {
       <div className="relative flex items-center justify-center w-full h-screen  wrapper-Div mb-4">
         <div className="flex flex-col items-center justify-center w-full mt-3 gap-4  mx-3 md:max-w-max-600 md:mx-0 lg:px-8">
           <div className=" Logo mt-4 ">
-            <img src={LogoIcon} className="h-auto max-w-max-83" alt="logo" />
+            <img src={LogoIcon} className="h-auto max-w-max-83 cursor-pointer" alt="logo" onClick={()=>history.push("/")}/>
           </div>
           <div className="w-full px-4 py-8 text-center bg-gray-100 rounded-md md:px-12 max-w-max-500 md:w-w-500">
             <div className="verify-box">
@@ -119,10 +122,10 @@ const VerifyEmail = () => {
             <fieldset>
               <form>
                 <ul className="flex flex-col">
-                  <li className={ishbrews == "he" ? "flex flex-col items-end" : "flex flex-col items-start"}>
+                  <li className={ishbrews === "he" ? "flex flex-col items-end" : "flex flex-col items-start"}>
                     <label
                       htmlFor="text"
-                      className={ishbrews == "he" ? "mb-2 text-base font-semibold text-text-color" : "mb-2 text-sm font-semibold text-text-color"}
+                      className={ishbrews === "he" ? "mb-2 text-base font-semibold text-text-color" : "mb-2 text-sm font-semibold text-text-color"}
                     >
                       {t("verifyEmail.part26")}
                     </label>
@@ -132,7 +135,7 @@ const VerifyEmail = () => {
                       onChange={(e) => setOTP(e.target.value)}
                       id="text"
                       className={
-                        ishbrews == "he"
+                        ishbrews === "he"
                           ? "block w-full px-3 py-2 md:py-[10px] text-right mb-2 font-normal text-base md:text-lg leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
                           : "block w-full px-3 py-2 md:py-[10px] mb-2 text-base md:text-lg font-normal leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
                       }

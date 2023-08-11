@@ -1,16 +1,13 @@
 import React from "react";
-import en from "../../assets/images/en.svg";
-import he from "../../assets/images/he.svg";
 import LogoIcon from "../../assets/images/Logo.webp";
-import { useTranslation } from "react-i18next";
+
+import { useHistory } from "react-router-dom";
 
 function Questionnairebar() {
-  const { t, i18n } = useTranslation();
+  const history = useHistory();
+
   let ishbrews = localStorage.getItem("i18nextLng");
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-    // console.log("i18" , i18n.changeLanguage(lng));
-  };
+  
 
   return (
     <div className="container-fluid px-4  md:px-4">
@@ -23,7 +20,7 @@ function Questionnairebar() {
           }
         >
           <div className="Logo  mr-4">
-            <img src={LogoIcon} className="h-auto max-w-max-100" alt="logo" />
+            <img src={LogoIcon} className="h-auto max-w-max-100" alt="logo" onClick={()=>history.push("/")} />
           </div>
         </div>
       </div>

@@ -6,16 +6,16 @@ import Navbars from "../navbar/navbar";
 import Api from "../../services/api";
 import Spinner from "react-bootstrap/Spinner";
 import toast, { Toaster } from "react-hot-toast";
-import {AuthUserContext} from "../../context"
+// import { AuthUserContext } from "../../context";
 const ForgetPassword = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const history = useHistory();
   const [email, setEmails] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [isValid, setIsValid] = useState(true);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  let ishbrews = localStorage.getItem('i18nextLng') 
+  let ishbrews = localStorage.getItem("i18nextLng");
   const handleEmailChange = (e) => {
     try {
       const inputValue = e.target.value;
@@ -39,7 +39,7 @@ const ForgetPassword = () => {
       setLoading(true);
       await Api.forgotPassword({
         email,
-        Lang: ishbrews == "he" ? 2 : 1,
+        Lang: ishbrews === "he" ? 2 : 1,
       })
         .then((response) => {
           // console.log("response", response);
@@ -62,11 +62,15 @@ const ForgetPassword = () => {
   };
   return (
     <div className="bg-bg-linear">
-      
       <div className="relative flex flex-col items-center justify-center w-full h-screen  wrapper-Div">
         <div className="flex flex-col items-center justify-center w-full mt-3 gap-4  mx-3 md:max-w-max-600 md:mx-0 lg:px-8">
           <div className="Logo ">
-            <img src={LogoIcon} className="h-auto max-w-max-83" alt="verify" />
+            <img
+              src={LogoIcon}
+              className="h-auto max-w-max-83 cursor-pointer"
+              alt="verify"
+              onClick={() => history.push("/")}
+            />
           </div>
           <form className="w-full px-4 py-8 text-center bg-gray-100 rounded-md md:px-12 max-w-max-500 md:w-w-500">
             <h2 className="mb-3 text-3xl font-bold text-text-color">
@@ -77,15 +81,17 @@ const ForgetPassword = () => {
             </p>
             <fieldset>
               <ul className="flex flex-col  mb-3">
-                <li className={
-                    ishbrews == "he"
+                <li
+                  className={
+                    ishbrews === "he"
                       ? "flex flex-col items-end mt-2 text-right"
                       : "flex flex-col items-start mt-2"
-                  }>
+                  }
+                >
                   <label
                     htmlFor="email"
                     className={
-                      ishbrews == "he"
+                      ishbrews === "he"
                         ? "mb-2 text-lg font-semibold text-text-color text-right"
                         : "mb-2 text-sm font-semibold text-text-color"
                     }
@@ -98,26 +104,35 @@ const ForgetPassword = () => {
                     value={email}
                     onChange={(e) => handleEmailChange(e)}
                     className={
-                      ishbrews == "he"
+                      ishbrews === "he"
                         ? "block w-full px-2 py-2 md:py-[10px] text-right mb-2 text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
                         : "block w-full px-2 py-2 md:py-[10px] mb-2 text-base md:text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
                     }
                     required
                   />
                 </li>
-                <div className={ishbrews == "he" ? "text-right": "text-left"}>
-                {error && !email ? (
-                  <span className="text-red-600">{t('signin.Emailisrequired')}</span>
-                ) : !isValid ? (
-                  <span className="text-red-600">{t('signin.Invalidemail')}</span>
-                ) : (
-                  <span className="text-red-600"></span>
-                )}
+                <div className={ishbrews === "he" ? "text-right" : "text-left"}>
+                  {error && !email ? (
+                    <span className="text-red-600">
+                      {t("signin.Emailisrequired")}
+                    </span>
+                  ) : !isValid ? (
+                    <span className="text-red-600">
+                      {t("signin.Invalidemail")}
+                    </span>
+                  ) : (
+                    <span className="text-red-600"></span>
+                  )}
                 </div>
-                
               </ul>
 
-              <div className={ishbrews == "he" ? "flex flex-row-reverse justify-center gap-4 mx-12 submit-email": "flex row justify-center gap-4 mx-12 submit-email"}>
+              <div
+                className={
+                  ishbrews === "he"
+                    ? "flex flex-row-reverse justify-center gap-4 mx-12 submit-email"
+                    : "flex row justify-center gap-4 mx-12 submit-email"
+                }
+              >
                 <button
                   type="submit"
                   className="w-2/5 py-[10px] text-white border-none rounded-md outline-none bg-bg-secondary"
@@ -148,7 +163,7 @@ const ForgetPassword = () => {
             </fieldset>
           </form>
         </div>
-      <Navbars />
+        <Navbars />
       </div>
       <Toaster position="top-center" reverseOrder={false} />
     </div>

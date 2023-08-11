@@ -3,7 +3,6 @@
   margin: 0;
   padding: 0;
 }
-
 ol,
 ul {
   list-style: none;
@@ -16,11 +15,7 @@ input:focus {
 *:focus {
   outline: none;
 }
-.form-control:focus {
-  border-color: inherit;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
+
 html,
 body {
   height: 100%;
@@ -29,9 +24,6 @@ body {
   font-family: "Poppins", sans-serif;
   scroll-behavior: smooth;
 }
-/* .wrapper-Div {
-  overflow: auto !important;
-} */
 .container {
   max-width: 1440px !important;
 }
@@ -81,6 +73,11 @@ body {
   border-color: none !important;
 }
 
+.form-control:focus {
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
 .card {
   width: 30.5%;
 }
@@ -116,6 +113,13 @@ body {
   border: none;
 }
 
+.nav-item {
+  width: 33.3%;
+  padding: 5px 0px;
+}
+.nav-item button {
+  margin: auto;
+}
 .ant-steps .ant-steps-item-process .ant-steps-item-icon {
   background-color: #219ebc;
   border-color: #219ebc;
@@ -181,26 +185,43 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-.ant-steps-item-tail{
+.ant-steps-item-tail {
   display: none !important;
 }
 /* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+/* .pdf-viewer{
+  border: 2px solid red;
+} */
 @media (max-width: 767px) {
   .wrapper-Div {
     background: linear-gradient(to right, #8ecae6, #219ebc, #8ecae6) !important;
   }
   .card {
     width: 100%;
+    padding: 15px 6px !important;
   }
   .ant-steps.ant-steps-vertical {
     flex-direction: row;
     flex-wrap: wrap;
   }
+  .nav-item {
+    max-width: 33.3%;
+  }
+  .ant-steps-item-title {
+    font-size: 18px !important;
+  }
+  .Amount-input{
+    margin-top: 14px !important;
+  }
+  .Amount-input-data{
+    margin: 0 !important;
+  }
   .nav-item{
-    width: 33.3%;
+    font-size: 14px !important;
   }
 }
 @media (max-width: 420px) {

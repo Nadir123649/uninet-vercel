@@ -2,10 +2,10 @@ import React, { createContext, useState } from "react";
 export const AuthUserContext = createContext();
 const AuthState = (props) => {
     const [encryptedUser,setEncryptedUser] = useState('')
-    const [businessType, setBusinessType] = useState("")
+    
 
   return (
-    <AuthUserContext.Provider value={{ encryptedUser, setEncryptedUser,setBusinessType ,businessType}}>
+    <AuthUserContext.Provider value={{ encryptedUser, setEncryptedUser}}>
       {props.children}
     </AuthUserContext.Provider>
   );

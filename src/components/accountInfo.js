@@ -10,9 +10,10 @@ const AccountInfo = ({
   setStep,
   questionnaireValues,
   setQuestionnaireValues,
+  businessType
 }) => {
-  const { t, i18n } = useTranslation();
-  const { businessType } = useContext(AuthUserContext);
+  const { t } = useTranslation();
+  // const { businessType } = useContext(AuthUserContext);
   const [formError, setFormError] = useState({});
 
   const [error, setError] = useState(false);

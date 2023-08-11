@@ -106,8 +106,6 @@ const Api = {
   },
   SaveExternalCustomizedExternalSystemId : async (data,token)=>{
     try{
-      console.log(data);
-      console.log(token);
       return await Service.postWithAuthentication({
         url: `${config.BaseURL}/api/Register/SaveExternalCustomizedExternalSystemId`,
         token,
@@ -115,6 +113,24 @@ const Api = {
       });
     }catch(error) {
       throw error;
+    }
+  },
+  GetDigitalDocumentToApproveListByUser : async (token) =>{
+    try{
+     return await Service.get(`${config.BaseURL}/api/UninetOutPutControllercs/GetDigitalDocumentToApproveListByUser`, token)
+    }catch(error) {
+      throw error;
+    }
+  },
+  InsertUserDigitalDocToUninetSystem : async (data,token) =>{
+    try{
+      return await Service.postWithAuthentication({
+        url: `${config.BaseURL}/api/UninetOutPutControllercs/InsertUserDigitalDocToUninetSystem`,
+        token,
+        data: data,
+      });
+    }catch(error) {
+     throw error;
     }
   }
 };

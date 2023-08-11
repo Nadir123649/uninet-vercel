@@ -20,7 +20,7 @@ module.exports = {
       backgroundImage: {
         "bg-linear": "linear-gradient(to right, #8ECAE6, #219EBC, #FFFF)",
         "bg-sidebar": "linear-gradient(to right, #8ECAE6, #219EBC, #4C7A91)",
-        // "bg-sec": "linear-gradient(135deg, #8ecaeb, #219ebc, #023047, #ffb703, #fb8500)",
+        // "bg-sec": "linear-gradient(135deg, #8ecaeb, #219ebc, #023047, #ffb703, #fb8500)", 
       },
       colors: {
         "bg-none": "linear-gradient(to right, #8ECAE6, #219EBC, #FFFF)",

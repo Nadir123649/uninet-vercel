@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState , useEffect } from "react";
 import {
   BsBank,
   BsHandbagFill,
@@ -6,12 +6,11 @@ import {
   BsChevronRight,
   BsChevronLeft,
 } from "react-icons/bs";
-import { AuthUserContext } from "../context";
+// import { AuthUserContext } from "../context";
 import { useTranslation } from "react-i18next";
-function AccountStep({ step, setStep }) {
-  const { t, i18n } = useTranslation();
-  const [color, setColor] = useState("");
-  const { setBusinessType, businessType } = useContext(AuthUserContext);
+function AccountStep({ step, setStep,businessType,setBusinessType }) {
+  const { t } = useTranslation();
+  const [color, setColor] = useState(localStorage.getItem("accountStep") || "");
   let ishbrews = localStorage.getItem("i18nextLng");
   const [isValid, setIsValid] = useState(false);
   useEffect(() => {
@@ -20,16 +19,21 @@ function AccountStep({ step, setStep }) {
       setBusinessType(color);
     }
   }, [color]);
-
+  localStorage.setItem("accountStep", color);
+  let colors = localStorage.getItem("accountStep")
+  
   useEffect(() => {
     setColor(businessType);
   }, [businessType]);
-
+  useEffect(() => {
+    localStorage.setItem("accountStep", color);
+  }, [color]);
+  
   return (
     <div>
       <h1
         className={
-          ishbrews == "he"
+          ishbrews === "he"
             ? "font-semibold text-xl md:text-2xl mb-[6px]  md:mb-[10px] mt-3 text-center"
             : "font-semibold  text-xl md:text-2xl mb-[6px] md:mb-[10px] text-center mt-3"
         }
@@ -39,8 +43,8 @@ function AccountStep({ step, setStep }) {
       <p
         className={
           ishbrews === "he"
-            ? "text-base md:text-lg font-normal text-gray-500 mb-5 md:mb-10 text-center"
-            : "text-xs md:text-base font-normal text-gray-500 mb-5 text-center md:mb-10"
+            ? "text-base md:text-lg font-normal text-gray-500 mb-4 md:mb-10 text-center"
+            : "text-xs md:text-base font-normal text-gray-500 mb-4 text-center md:mb-10"
         }
       >
         {t("Questionnaire1.part33")}
@@ -48,7 +52,7 @@ function AccountStep({ step, setStep }) {
       </p>
       <div
         className={
-          ishbrews == "he"
+          ishbrews === "he"
             ? "flex row justify-between flex-col md:flex-row-reverse mx-1"
             : "flex flex-col md:flex-row justify-between mx-1"
         }
@@ -56,8 +60,8 @@ function AccountStep({ step, setStep }) {
         <div
           className={
             color === "0"
-              ? "col-md-4 card relative cursor-pointer border border-solid rounded-md py-4 bg-primary-color shadow-md px-[10px]  d-flex items-center mb-10"
-              : "col-md-4 card relative cursor-pointer border border-solid rounded-md border-bg-border shadow-md py-4 px-[10px]  d-flex items-center mb-10"
+              ? "col-md-4 card relative cursor-pointer border border-solid rounded-md py-4 bg-primary-color shadow-md px-[10px]  d-flex items-center mb-3"
+              : "col-md-4 card relative cursor-pointer border border-solid rounded-md border-bg-border shadow-md py-4 px-[10px]  d-flex items-center mb-3"
           }
           id="0"
           onClick={() => {
@@ -75,7 +79,7 @@ function AccountStep({ step, setStep }) {
           <label
             htmlFor=""
             className={
-              ishbrews == "he"
+              ishbrews === "he"
                 ? "flex  items-center flex-col gap-3 cursor-pointer"
                 : "flex items-center flex-col gap-3 cursor-pointer"
             }
@@ -87,19 +91,19 @@ function AccountStep({ step, setStep }) {
             <div>
               <span
                 className={
-                  ishbrews == "he"
+                  ishbrews === "he"
                     ? "block font-semibold text-center"
                     : "block font-semibold text-center"
                 }
               >
-                <span className="text-dark font-bold block text-xl mb-1">
+                <span className="text-dark font-bold block text-lg md:text-xl mb-1">
                   {t("Questionnaire1.part34")}
                 </span>
                 <span
                   className={
-                    ishbrews == "he"
-                      ? "text-muted font-semibold text-[14px]"
-                      : "text-muted font-semibold text-[14px]"
+                    ishbrews === "he"
+                      ? "text-muted font-semibold text-xs md:text-[14px]"
+                      : "text-muted font-semibold text-xs md:text-[14px]"
                   }
                 >
                   {t("Questionnaire1.part35")}
@@ -111,8 +115,8 @@ function AccountStep({ step, setStep }) {
         <div
           className={
             color === "1"
-              ? "col-md-4 card relative  cursor-pointer border border-solid shadow-md rounded-md py-4 bg-primary-color px-[10px]   d-flex items-center mb-10"
-              : "col-md-4  card  relative cursor-pointer border border-solid shadow-md  rounded-md border-bg-border  py-4 px-[10px]  d-flex items-center mb-10"
+              ? "col-md-4 card relative  cursor-pointer border border-solid shadow-md rounded-md py-4 bg-primary-color px-[10px]   d-flex items-center mb-3"
+              : "col-md-4  card  relative cursor-pointer border border-solid shadow-md  rounded-md border-bg-border  py-4 px-[10px]  d-flex items-center mb-3"
           }
           id="1"
           onClick={() => setColor("1")}
@@ -128,7 +132,7 @@ function AccountStep({ step, setStep }) {
           <label
             htmlFor="label"
             className={
-              ishbrews == "he"
+              ishbrews === "he"
                 ? "flex items-center flex-col gap-3 cursor-pointer"
                 : "flex items-center flex-col gap-3 cursor-pointer"
             }
@@ -139,19 +143,19 @@ function AccountStep({ step, setStep }) {
             <div>
               <span
                 className={
-                  ishbrews == "he"
+                  ishbrews === "he"
                     ? "block font-semibold text-center"
                     : "block font-semibold text-center"
                 }
               >
-                <span className="text-dark font-bold block text-xl mb-1">
+                <span className="text-dark font-bold block text-lg md:text-xl mb-1">
                   {t("Questionnaire1.part36")}
                 </span>
                 <span
                   className={
-                    ishbrews == "he"
-                      ? "text-muted font-semibold text-[14px]"
-                      : "text-muted font-semibold text-[14px]"
+                    ishbrews === "he"
+                      ? "text-muted font-semibold text-xs md:text-[14px]"
+                      : "text-muted font-semibold text-xs md:text-[14px]"
                   }
                 >
                   {t("Questionnaire1.part37")}
@@ -163,8 +167,8 @@ function AccountStep({ step, setStep }) {
         <div
           className={
             color === "2"
-              ? "col-md-4 card relative bg-primary-color cursor-pointer shadow-md  border border-solid rounded-md py-4 px-[10px]   d-flex items-center mb-10"
-              : "col-md-4 relative  card  cursor-pointer border shadow-md  border-solid rounded-md border-bg-border  py-4 px-[10px]   d-flex items-center mb-10"
+              ? "col-md-4 card relative bg-primary-color cursor-pointer shadow-md  border border-solid rounded-md py-4 px-[10px]   d-flex items-center mb-3"
+              : "col-md-4 relative  card  cursor-pointer border shadow-md  border-solid rounded-md border-bg-border  py-4 px-[10px]   d-flex items-center mb-3"
           }
           id="2"
           onClick={() => setColor("2")}
@@ -179,7 +183,7 @@ function AccountStep({ step, setStep }) {
           />
           <label
             className={
-              ishbrews == "he"
+              ishbrews === "he"
                 ? "flex items-center flex-col gap-3 cursor-pointer"
                 : "flex items-center flex-col gap-3 cursor-pointer"
             }
@@ -191,19 +195,19 @@ function AccountStep({ step, setStep }) {
             <div>
               <span
                 className={
-                  ishbrews == "he"
+                  ishbrews === "he"
                     ? "block font-semibold text-center"
                     : "block font-semibold text-center"
                 }
               >
-                <span className="text-dark font-bold block text-xl mb-1">
+                <span className="text-dark font-bold block text-lg md:text-xl mb-1">
                   {t("Questionnaire1.part38")}
                 </span>
                 <span
                   className={
-                    ishbrews == "he"
-                      ? "text-muted font-semibold text-[14px]"
-                      : "text-muted font-semibold text-[14px]"
+                    ishbrews === "he"
+                      ? "text-muted font-semibold text-xs md:text-[14px]"
+                      : "text-muted font-semibold text-xs md:text-[14px]"
                   }
                 >
                   {t("Questionnaire1.part39")}
@@ -221,8 +225,8 @@ function AccountStep({ step, setStep }) {
       <div
         className={
           ishbrews === "he"
-            ? " flex flex-row justify-start mt-10 md:mt-20"
-            : " flex flex-row justify-end mt-10 md:mt-20"
+            ? " flex flex-row justify-start mt-8 md:mt-20"
+            : " flex flex-row justify-end mt-8 md:mt-20"
         }
       >
         <button

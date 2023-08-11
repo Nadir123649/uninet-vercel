@@ -15,7 +15,8 @@ const Questionnaire = () => {
     MobileNumber: "",
     OrganizationRole: "",
   };
-  const { t, i18n } = useTranslation();
+  const [businessType, setBusinessType] = useState("")
+  const { t } = useTranslation();
   const [step, setStep] = useState(0);
   const location = useLocation();
   const data = location.state;
@@ -44,7 +45,6 @@ const Questionnaire = () => {
     }
   }, [data]);
   const handleWhatsAppButtonClick = () => {
-    // Replace the following URL with your desired WhatsApp URL or phone number
     const whatsappUrl = "https://api.whatsapp.com/send?phone=972584222456";
     window.location.href = whatsappUrl;
   };
@@ -74,6 +74,8 @@ const Questionnaire = () => {
                 setStep={setStep}
                 questionnaireValues={questionnaireValues}
                 setQuestionnaireValues={setQuestionnaireValues}
+                setBusinessType = {setBusinessType}
+                businessType={businessType}
               />
             ) : step === 1 ? (
               <AccountsInfo
@@ -81,6 +83,8 @@ const Questionnaire = () => {
                 setStep={setStep}
                 questionnaireValues={questionnaireValues}
                 setQuestionnaireValues={setQuestionnaireValues}
+                setBusinessType = {setBusinessType}
+                businessType={businessType}
               />
             ) : (
               <BusinessDetails

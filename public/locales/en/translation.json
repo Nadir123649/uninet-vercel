@@ -65,7 +65,7 @@
         "lastNAme": "Please enter your last name",
         "mobileNo": "Please enter your mobile number",
         "organizationrole": "Please enter organization role",
-        "pleasecheckout":"If you need more info, please check out.",
+        "pleasecheckout":"If you need more info, please check out?",
         "accountType": "Account Type",
         "User details" :"User details",
         "Connect to Uninet" : "Connect to Uninet"
@@ -99,5 +99,20 @@
         "part62": "password reset successful",
         "part63": "Password does not match",
         "part64": "Something went wrong"
+    },
+    "main-console" : {
+        "part65":  "Inbox",
+        "part66": "Entered",
+        "part67": "Rejected",
+        "part68": "Supplier name ",
+        "part69": "Supplier ID",
+        "part70": "Doc number",
+        "part71": "Doc type",
+        "part72": "Doc Date",
+        "part73": "Total Amount",
+        "part74": "VAT amount",
+        "part75": "Expense type",
+        "part76": "Enter doc",
+        "part77": "Reject doc" 
     }
 }

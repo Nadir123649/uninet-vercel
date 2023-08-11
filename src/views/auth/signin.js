@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 // import InputField from "../../components/inputField";
 import GoogleIcon from "../../assets/images/google-icon.png";
 import LogoIcon from "../../assets/images/Logo.webp";
-import { useHistory,useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Api from "../../services/api";
 import Spinner from "react-bootstrap/Spinner";
 // import toast, { Toaster } from "react-hot-toast";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import { GoogleLogin } from "@leecheuk/react-google-login";
 import { config } from "../../configs";
 import { gapi } from "gapi-script";
@@ -14,10 +14,10 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import Navbars from "../navbar/navbar";
 import { useTranslation } from "react-i18next";
 const Signin = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const history = useHistory();
-  const location = useLocation();
-  
+  // const location = useLocation();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
@@ -26,8 +26,8 @@ const Signin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  let ishbrews = localStorage.getItem('i18nextLng') 
-  
+  let ishbrews = localStorage.getItem("i18nextLng");
+
   const handleEmailChange = (e) => {
     const inputValue = e.target.value;
     setEmail(inputValue);
@@ -54,11 +54,11 @@ const Signin = () => {
       await Api.SignInUser({
         email,
         password,
-        Lang: ishbrews == "he" ? 2 : 1,
+        Lang: ishbrews === "he" ? 2 : 1,
       })
         .then(async (res) => {
-          console.log("res",res);
-          if(res.Success === true){
+          console.log("res", res);
+          if (res.Success === true) {
             if (res?.verified === true) {
               setLoading(false);
               localStorage.setItem("accessToken", res?.accessToken);
@@ -66,7 +66,7 @@ const Signin = () => {
                 res?.Q1_Q2_InidicationRes === true &&
                 res?.Q3_InidicationRes === true
               ) {
-                history.push("/welcomeScreen");
+                history.push("/main-console");
               } else if (res?.Q1_Q2_InidicationRes === false) {
                 history.push("/questionnaire");
               } else {
@@ -77,18 +77,21 @@ const Signin = () => {
               }
             } else {
               setLoading(false);
-              let EncryptedUserId =res?.EncryptedUserId
-              let response = {EncryptedUserId, email ,TemplateId: 1,
-                Lang: ishbrews == "he" ? 2 : 1}
-              localStorage.setItem("user-details", JSON.stringify(response))
+              let EncryptedUserId = res?.EncryptedUserId;
+              let response = {
+                EncryptedUserId,
+                email,
+                TemplateId: 1,
+                Lang: ishbrews === "he" ? 2 : 1,
+              };
+              localStorage.setItem("user-details", JSON.stringify(response));
               // toast.error("The user is not verified. Please verify first.");
-              history.push("/verify-email", );
+              history.push("/verify-email");
             }
-          } else{
+          } else {
             setLoading(false);
             toast.error("User invalid credentials");
           }
-          
         })
         .catch((e) => {
           console.error(e?.data?.error);
@@ -99,23 +102,21 @@ const Signin = () => {
       toast.error("Server Error. Please Refresh Page");
     }
   };
-// console.log("config.GoogleClientID", config.GoogleClientID);
+  // console.log("config.GoogleClientID", config.GoogleClientID);
   //login with google
   const responseGoogle = (response) => {
     // toast.success("✔️ Signin successfully");
     console.log(response);
-    if(response){
-      history.push('/questionnaire')
+    if (response) {
+      history.push("/questionnaire");
     }
   };
   const onLoginFailure = (res) => {
     console.log(res.error);
-    if(res.error === "popup_closed_by_user"){
-
-    } else{
+    if (res.error === "popup_closed_by_user") {
+    } else {
       toast.error("Server Error. Please Refresh Page");
     }
-    
   };
   useEffect(() => {
     function start() {
@@ -128,7 +129,6 @@ const Signin = () => {
   });
   return (
     <div className="bg-bg-linear">
-      
       <div className="relative flex items-center justify-center w-full min-h-screen  wrapper-Div">
         <div className="flex flex-col items-center justify-center w-full gap-4  mx-3 md:max-w-max-600 md:mx-0 lg:px-8">
           <div className="Logo mt-4">
@@ -149,36 +149,36 @@ const Signin = () => {
             </p>
             {/* <fieldset> */}
             <GoogleLogin
-                clientId={config.GoogleClientID}
-                render={(renderProps) => (
-                  <div className="row">
-                    <div className="col-md-12">
-                      <button
-                        href="#"
-                        onClick={renderProps.onClick}
-                        className={
-                          ishbrews == "he"
-                            ? "flex items-center flex-row-reverse justify-center w-full gap-2 px-8 py-3 text-sm text-gray-700 border border-solid rounded-md border-bg-border bg-bg-btn "
-                            : "flex items-center justify-center  flex-row w-full gap-2 px-8 py-3 text-sm text-gray-700 border border-solid rounded-md border-bg-border bg-bg-btn "
-                        }
-                      >
-                        <span>
-                          <img
-                            src={GoogleIcon}
-                            className="w-5 h-5"
-                            alt="google"
-                          />
-                        </span>
-                        <span> {t("signin.part3")}</span>
-                      </button>
-                    </div>
+              clientId={config.GoogleClientID}
+              render={(renderProps) => (
+                <div className="row">
+                  <div className="col-md-12">
+                    <button
+                      href="#"
+                      onClick={renderProps.onClick}
+                      className={
+                        ishbrews === "he"
+                          ? "flex items-center flex-row-reverse justify-center w-full gap-2 px-8 py-3 text-sm text-gray-700 border border-solid rounded-md border-bg-border bg-bg-btn "
+                          : "flex items-center justify-center  flex-row w-full gap-2 px-8 py-3 text-sm text-gray-700 border border-solid rounded-md border-bg-border bg-bg-btn "
+                      }
+                    >
+                      <span>
+                        <img
+                          src={GoogleIcon}
+                          className="w-5 h-5"
+                          alt="google"
+                        />
+                      </span>
+                      <span> {t("signin.part3")}</span>
+                    </button>
                   </div>
-                )}
-                uxMode="redirect"
-                onSuccess={responseGoogle}
-                onFailure={onLoginFailure}
-                cookiePolicy={"single_host_origin"}
-              />
+                </div>
+              )}
+              uxMode="redirect"
+              onSuccess={responseGoogle}
+              onFailure={onLoginFailure}
+              cookiePolicy={"single_host_origin"}
+            />
             {/* <div className="row">
               <div className="col-md-12">
                 <button
@@ -195,23 +195,23 @@ const Signin = () => {
                 </button>
               </div>
             </div> */}
-              
-              <div className="separator flex items-center text-center mt-4 md:mt-8 mb-4 md:mb-8 justify-center">
-                <span
-                  className={
-                    ishbrews == "he"
-                      ? "text-base font-normal md:text-base text-text-color text-right "
-                      : "text-xs font-normal md:text-sm text-text-color"
-                  }
-                >
-                  {t("signin.part4")}
-                </span>
-              </div>
-              <form >
+
+            <div className="separator flex items-center text-center mt-4 md:mt-8 mb-4 md:mb-8 justify-center">
+              <span
+                className={
+                  ishbrews === "he"
+                    ? "text-base font-normal md:text-base text-text-color text-right "
+                    : "text-xs font-normal md:text-sm text-text-color"
+                }
+              >
+                {t("signin.part4")}
+              </span>
+            </div>
+            <form>
               <ul className="flex flex-col">
                 <li
                   className={
-                    ishbrews == "he"
+                    ishbrews === "he"
                       ? "flex flex-col items-end"
                       : "flex flex-col items-start"
                   }
@@ -219,9 +219,9 @@ const Signin = () => {
                   <label
                     htmlFor="email"
                     className={
-                      ishbrews == "he"
-                      ? "mb-2 text-lg font-semibold text-text-color text-right"
-                      : "mb-2 text-sm font-semibold text-text-color"
+                      ishbrews === "he"
+                        ? "mb-2 text-lg font-semibold text-text-color text-right"
+                        : "mb-2 text-sm font-semibold text-text-color"
                     }
                   >
                     {t("signin.part5")}
@@ -232,23 +232,27 @@ const Signin = () => {
                     value={email}
                     onChange={handleEmailChange}
                     className={
-                      ishbrews == "he"
+                      ishbrews === "he"
                         ? "block w-full px-[22px] py-2 md:py-[10px] text-right font-normal mb-2 text-xs md:text-lg  leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
                         : "block w-full px-[22px] py-2 md:py-[10px] mb-2 font-normal text-xs md:text-lg  leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
                     }
                     required
                   />
                   {error && !email ? (
-                    <span className="text-red-600">{t('signin.Emailisrequired')}</span>
+                    <span className="text-red-600">
+                      {t("signin.Emailisrequired")}
+                    </span>
                   ) : !isValid ? (
-                    <span className="text-red-600">{t('signin.Invalidemail')}</span>
+                    <span className="text-red-600">
+                      {t("signin.Invalidemail")}
+                    </span>
                   ) : (
                     <span className="text-red-600"></span>
-                  )}  
+                  )}
                 </li>
                 <li
                   className={
-                    ishbrews == "he"
+                    ishbrews === "he"
                       ? "flex flex-col items-end mt-2 text-right"
                       : "flex flex-col items-start mt-2"
                   }
@@ -256,19 +260,25 @@ const Signin = () => {
                   <label
                     htmlFor="password"
                     className={
-                      ishbrews == "he"
-                      ? "mb-2 text-lg font-semibold text-text-color text-right"
-                      : "mb-2 text-sm font-semibold text-text-color"
+                      ishbrews === "he"
+                        ? "mb-2 text-lg font-semibold text-text-color text-right"
+                        : "mb-2 text-sm font-semibold text-text-color"
                     }
                   >
                     {t("signin.part6")}
                   </label>
-                  <div className={ishbrews === "he" ? "flex flex-row-reverse items-center w-full px-2  py-[6px]  mb-[10px] text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding": "flex items-center w-full px-2  py-[6px]  mb-[10px] text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"}>
+                  <div
+                    className={
+                      ishbrews === "he"
+                        ? "flex flex-row-reverse items-center w-full px-2  py-[6px]  mb-[10px] text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
+                        : "flex items-center w-full px-2  py-[6px]  mb-[10px] text-lg font-medium leading-normal text-gray-900 bg-white border border-solid rounded-lg appearance-none border-bg-border bg-clip-padding"
+                    }
+                  >
                     <input
                       type={showPassword ? "text" : "password"}
                       id="password"
                       className={
-                        ishbrews == "he"
+                        ishbrews === "he"
                           ? "form-control border-none text-right"
                           : "form-control border-none"
                       }
@@ -286,7 +296,9 @@ const Signin = () => {
                   </div>
 
                   {error && !password ? (
-                    <span className="text-red-600">{t('signin.Passwordisrequired')}</span>
+                    <span className="text-red-600">
+                      {t("signin.Passwordisrequired")}
+                    </span>
                   ) : errorMessage ? (
                     <span className="text-red-600">
                       Password must be at least 6 characters long.
@@ -298,7 +310,7 @@ const Signin = () => {
               </ul>
               <div
                 className={
-                  ishbrews == "he"
+                  ishbrews === "he"
                     ? " flex justify-start gap-3 mb-3 text-xs font-semibold mt-2"
                     : "flex justify-end gap-3 mb-3 text-xs font-semibold mt-2"
                 }
@@ -331,31 +343,54 @@ const Signin = () => {
                 )}
               </button>
             </form>
-            {
-              ishbrews === "he" ? (
-                <p className="m-0 mt-3 text-bold font-normal text-gray-500 tracking-wider leading-5 ">
-                  {t("Signup.part18")} <a href="https://uninet-io.com/term-of-use-he/" className="cursor-pointer text-primary-color" target="_blank">{t("Signup.term")}</a>
-                  
-                  &nbsp;<a href="https://uninet-io.com/privacy-policy-he/" className="cursor-pointer text-primary-color" target="_blank">{t("Signup.Privacy")}</a>
-
-                </p>
-              ) : (
-                <p className="m-0 mt-3 text-sm font-normal text-gray-500 tracking-wider leading-5 ">
-                  {t("Signup.part18")} <a href="https://uninet-io.com/term-of-use-en/" className="cursor-pointer text-primary-color" target="_blank">{t("Signup.term")}</a>
-                  {t("Signup.and")} <a href="https://uninet-io.com/privacy-policy-en/" className="cursor-pointer text-primary-color" target="_blank">{t("Signup.Privacy")}</a>
-
-                </p>
-              )
-            }
+            {ishbrews === "he" ? (
+              <p className="m-0 mt-3 text-bold font-normal text-gray-500 tracking-wider leading-5 ">
+                {t("Signup.part18")}{" "}
+                <a
+                  href="https://uninet-io.com/term-of-use-he/"
+                  className="cursor-pointer text-primary-color"
+                  target="_blank"
+                >
+                  {t("Signup.term")}
+                </a>
+                &nbsp;
+                <a
+                  href="https://uninet-io.com/privacy-policy-he/"
+                  className="cursor-pointer text-primary-color"
+                  target="_blank"
+                >
+                  {t("Signup.Privacy")}
+                </a>
+              </p>
+            ) : (
+              <p className="m-0 mt-3 text-sm font-normal text-gray-500 tracking-wider leading-5 ">
+                {t("Signup.part18")}{" "}
+                <a
+                  href="https://uninet-io.com/term-of-use-en/"
+                  className="cursor-pointer text-primary-color"
+                  target="_blank"
+                >
+                  {t("Signup.term")}
+                </a>
+                {t("Signup.and")}{" "}
+                <a
+                  href="https://uninet-io.com/privacy-policy-en/"
+                  className="cursor-pointer text-primary-color"
+                  target="_blank"
+                >
+                  {t("Signup.Privacy")}
+                </a>
+              </p>
+            )}
             {/* <p
               className={
-                ishbrews == "he"
+                ishbrews === "he"
                   ? "m-0 mt-3 text-base font-normal text-gray-500 tracking-wider leading-5 text-right "
                   : "m-0 mt-3 text-sm font-normal text-gray-500 tracking-wider leading-5 "
               }
             >
               {t("signin.part9")} */}
-              {/* By signing in you agree to Uninet's
+            {/* By signing in you agree to Uninet's
             <span className="cursor-pointer text-primary-color "> term of service </span>  and <span className="cursor-pointer text-primary-color  ">
               Privacy Policy.
             </span> */}

@@ -4,7 +4,7 @@ import he from "../../assets/images/he.svg";
 import { useTranslation } from "react-i18next";
 
 function Navbars() {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
     // console.log("i18" , i18n.changeLanguage(lng));
@@ -18,7 +18,6 @@ function Navbars() {
             className="d-flex gap-2 cursor-pointer back-color p-2"
             onClick={() => {
               changeLanguage("en");
-              
             }}
           >
             <img src={en} alt="en" />
@@ -28,7 +27,6 @@ function Navbars() {
             className="d-flex gap-2 cursor-pointer p-2 back-color"
             onClick={() => {
               changeLanguage("he");
-              
             }}
           >
             <img src={he} alt="en" />
