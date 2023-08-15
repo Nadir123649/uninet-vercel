@@ -29,7 +29,6 @@ const SignUp = () => {
   const [errorMessage, setErrorMessage] = useState(false);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   let ishbrews = localStorage.getItem("i18nextLng");
- 
 
   const handleEMailChange = (e) => {
     let { value } = e.target;
@@ -113,7 +112,7 @@ const SignUp = () => {
   });
 
   return (
-    <div className={ishbrews === "he" ? "bg-bg-reverse" :"bg-bg-linear"} >
+    <div className={ishbrews === "he" ? "bg-bg-reverse" : "bg-bg-linear"}>
       <div className="relative flex items-center justify-center w-full min-h-screen  wrapper-Div">
         <div className="flex flex-col items-center justify-center mx-3 h-full gap-4 m-auto max-w-max-600 mb-3 mt-3">
           <div className="Logo">
