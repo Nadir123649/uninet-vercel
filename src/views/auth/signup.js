@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import GoogleIcon from "../../assets/images/google-icon.png";
 import LogoIcon from "../../assets/images/Logo.webp";
+import NeedHelp from "../../components/needHelp";
 import { useHistory, useLocation } from "react-router-dom";
 import Api from "../../services/api";
 import Spinner from "react-bootstrap/Spinner";
@@ -112,7 +113,7 @@ const SignUp = () => {
   });
 
   return (
-    <div className="bg-bg-linear">
+    <div className={ishbrews === "he" ? "bg-bg-reverse" :"bg-bg-linear"} >
       <div className="relative flex items-center justify-center w-full min-h-screen  wrapper-Div">
         <div className="flex flex-col items-center justify-center mx-3 h-full gap-4 m-auto max-w-max-600 mb-3 mt-3">
           <div className="Logo">
@@ -358,6 +359,7 @@ const SignUp = () => {
         {/* <Toaster position="top-center" reverseOrder={false} /> */}
       </div>
       <Navbars />
+      <NeedHelp />
     </div>
   );
 };

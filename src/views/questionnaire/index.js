@@ -6,6 +6,7 @@ import QuestionaireStepper from "../../components/questionnaireStepper";
 import BusinessDetails from "../../components/businessDetails";
 import Questionnairebar from "../navbar/questionnairebar";
 import { useTranslation } from "react-i18next";
+import NeedHelp from "../../components/needHelp";
 import { useLocation } from "react-router-dom";
 import Navbars from "../navbar/navbar";
 const Questionnaire = () => {
@@ -15,7 +16,7 @@ const Questionnaire = () => {
     MobileNumber: "",
     OrganizationRole: "",
   };
-  const [businessType, setBusinessType] = useState("")
+  const [businessType, setBusinessType] = useState("");
   const { t } = useTranslation();
   const [step, setStep] = useState(0);
   const location = useLocation();
@@ -34,7 +35,7 @@ const Questionnaire = () => {
       title: t("Questionnaire1.User details"),
     },
     {
-      title:   t("Questionnaire1.Connect to Uninet"),
+      title: t("Questionnaire1.Connect to Uninet"),
     },
   ];
 
@@ -44,13 +45,15 @@ const Questionnaire = () => {
       setIsLastStep(true);
     }
   }, [data]);
-  const handleWhatsAppButtonClick = () => {
-    const whatsappUrl = "https://api.whatsapp.com/send?phone=972584222456";
-    window.location.href = whatsappUrl;
-  };
 
   return (
-    <div className="container-fluid bg-bg-linear p-0">
+    <div
+      className={
+        ishbrews === "he"
+          ? "container-fluid bg-bg-reverse p-0"
+          : "container-fluid bg-bg-linear p-0"
+      }
+    >
       <div className="container d-flex px-2 flex-column  min-h-screen md:px-2 ">
         <Questionnairebar />
 
@@ -74,7 +77,7 @@ const Questionnaire = () => {
                 setStep={setStep}
                 questionnaireValues={questionnaireValues}
                 setQuestionnaireValues={setQuestionnaireValues}
-                setBusinessType = {setBusinessType}
+                setBusinessType={setBusinessType}
                 businessType={businessType}
               />
             ) : step === 1 ? (
@@ -83,7 +86,7 @@ const Questionnaire = () => {
                 setStep={setStep}
                 questionnaireValues={questionnaireValues}
                 setQuestionnaireValues={setQuestionnaireValues}
-                setBusinessType = {setBusinessType}
+                setBusinessType={setBusinessType}
                 businessType={businessType}
               />
             ) : (
@@ -96,17 +99,7 @@ const Questionnaire = () => {
           </div>
         </div>
         <Navbars />
-        <div className= {ishbrews === "he" ? "fixed  left-5 bottom-5" : "fixed  right-5 bottom-5" }>
-          <button
-            className="cursor-pointer rounded-md bg-bg-secondary text-center py-[6px] px-2"
-            onClick={handleWhatsAppButtonClick}
-          >
-            {/* <span className="cursor-pointer text-white">
-              {t("Questionnaire1.part42")}
-            </span> */} 
-            <BsWhatsapp size={"35px"} className="white-icon" />
-          </button>
-        </div>
+        <NeedHelp />
       </div>
     </div>
   );

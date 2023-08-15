@@ -8,6 +8,7 @@ import Spinner from "react-bootstrap/Spinner";
 // import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Navbars from "../navbar/navbar";
+import NeedHelp from "../../components/needHelp";
 // import { AuthUserContext } from "../../context";
 
 function ResetPassword() {
@@ -137,7 +138,7 @@ function ResetPassword() {
   //   setFormError(validateForm);
   // },[])
   return (
-    <div className="bg-bg-linear">
+    <div className={ishbrews === "he" ? "bg-bg-reverse" :"bg-bg-linear"} >
       <div className="relative flex flex-col items-center justify-center w-full h-screen  wrapper-Div">
         <div className="flex flex-col items-center justify-center w-full  gap-4  mx-3 md:max-w-max-600 md:mx-0 lg:px-8">
           <div className="Logo ">
@@ -294,6 +295,7 @@ function ResetPassword() {
           </div>
         </div>
         <Navbars />
+        <NeedHelp /> 
       </div>
       <Toaster position="top-center" reverseOrder={false} />
     </div>

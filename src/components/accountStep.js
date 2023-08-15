@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BsBank,
   BsHandbagFill,
@@ -8,7 +8,7 @@ import {
 } from "react-icons/bs";
 // import { AuthUserContext } from "../context";
 import { useTranslation } from "react-i18next";
-function AccountStep({ step, setStep,businessType,setBusinessType }) {
+function AccountStep({ step, setStep, businessType, setBusinessType }) {
   const { t } = useTranslation();
   const [color, setColor] = useState(localStorage.getItem("accountStep") || "");
   let ishbrews = localStorage.getItem("i18nextLng");
@@ -20,15 +20,15 @@ function AccountStep({ step, setStep,businessType,setBusinessType }) {
     }
   }, [color]);
   localStorage.setItem("accountStep", color);
-  let colors = localStorage.getItem("accountStep")
-  
+  let colors = localStorage.getItem("accountStep");
+
   useEffect(() => {
     setColor(businessType);
   }, [businessType]);
   useEffect(() => {
     localStorage.setItem("accountStep", color);
   }, [color]);
-  
+
   return (
     <div>
       <h1
@@ -102,8 +102,8 @@ function AccountStep({ step, setStep,businessType,setBusinessType }) {
                 <span
                   className={
                     ishbrews === "he"
-                      ? "text-muted font-semibold text-xs md:text-[14px]"
-                      : "text-muted font-semibold text-xs md:text-[14px]"
+                      ? " font-semibold text-xs md:text-[14px]"
+                      : "font-semibold text-xs md:text-[14px]"
                   }
                 >
                   {t("Questionnaire1.part35")}
@@ -154,8 +154,8 @@ function AccountStep({ step, setStep,businessType,setBusinessType }) {
                 <span
                   className={
                     ishbrews === "he"
-                      ? "text-muted font-semibold text-xs md:text-[14px]"
-                      : "text-muted font-semibold text-xs md:text-[14px]"
+                      ? " font-semibold text-xs md:text-[14px]"
+                      : " font-semibold text-xs md:text-[14px]"
                   }
                 >
                   {t("Questionnaire1.part37")}
@@ -206,8 +206,8 @@ function AccountStep({ step, setStep,businessType,setBusinessType }) {
                 <span
                   className={
                     ishbrews === "he"
-                      ? "text-muted font-semibold text-xs md:text-[14px]"
-                      : "text-muted font-semibold text-xs md:text-[14px]"
+                      ? " font-semibold text-xs md:text-[14px]"
+                      : " font-semibold text-xs md:text-[14px]"
                   }
                 >
                   {t("Questionnaire1.part39")}

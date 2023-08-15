@@ -9,6 +9,7 @@ import Spinner from "react-bootstrap/Spinner";
 import { toast } from "react-toastify";
 import { GoogleLogin } from "@leecheuk/react-google-login";
 import { config } from "../../configs";
+import NeedHelp from "../../components/needHelp";
 import { gapi } from "gapi-script";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import Navbars from "../navbar/navbar";
@@ -128,7 +129,7 @@ const Signin = () => {
     gapi.load("client:auth2", start);
   });
   return (
-    <div className="bg-bg-linear">
+    <div className={ishbrews === "he" ? "bg-bg-reverse" :"bg-bg-linear"} >
       <div className="relative flex items-center justify-center w-full min-h-screen  wrapper-Div">
         <div className="flex flex-col items-center justify-center w-full gap-4  mx-3 md:max-w-max-600 md:mx-0 lg:px-8">
           <div className="Logo mt-4">
@@ -400,6 +401,7 @@ const Signin = () => {
         {/* <Toaster position="top-center" reverseOrder={false} /> */}
       </div>
       <Navbars />
+      <NeedHelp />
     </div>
   );
 };

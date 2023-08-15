@@ -7,42 +7,42 @@ import toast, { Toaster } from "react-hot-toast";
 import { AuthUserContext } from "../../context";
 import { useTranslation } from "react-i18next";
 import Navbars from "../navbar/navbar";
-import { useHistory,useLocation } from "react-router";
+import { useHistory, useLocation } from "react-router";
+import NeedHelp from "../../components/needHelp";
 // import CryptoJS from 'crypto-js';
 
 const VerifyEmail = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  let query= new URLSearchParams(window.location.search);
+  let query = new URLSearchParams(window.location.search);
   let OTP = query.get("Otp");
   let encryptedUsers = query.get("encrypteduserid");
   // console.log("hello",OTP,encryptedUsers );
-  const { encryptedUser } = useContext(AuthUserContext)
-  let ishbrews = localStorage.getItem('i18nextLng')
+  const { encryptedUser } = useContext(AuthUserContext);
+  let ishbrews = localStorage.getItem("i18nextLng");
   const [otp, setOTP] = useState(OTP || "");
-  const valueReceived = location.state?.data || '';
-  
+  const valueReceived = location.state?.data || "";
+
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false)
+  const [error, setError] = useState(false);
   const history = useHistory();
-  let passwordDecrypted = JSON.parse(localStorage.getItem('user-details'))
+  let passwordDecrypted = JSON.parse(localStorage.getItem("user-details"));
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       if (!otp) {
-        setError(true)
+        setError(true);
         return false;
       }
       setLoading(true);
       await Api.SignUPWithOtp({
         Otp: otp,
-        EncryptedUser: passwordDecrypted?.EncryptedUserId || encryptedUsers ,
+        EncryptedUser: passwordDecrypted?.EncryptedUserId || encryptedUsers,
         Lang: ishbrews === "he" ? 2 : 1,
       })
         .then((res) => {
-          if(!passwordDecrypted?.EncryptedUserId) {
-            toast.error("EncryptedUser is missing")
-            
+          if (!passwordDecrypted?.EncryptedUserId) {
+            toast.error("EncryptedUser is missing");
           } else {
             if (res.Success === false) {
               setLoading(false);
@@ -53,7 +53,6 @@ const VerifyEmail = () => {
               localStorage.setItem("accessToken", res?.accessToken);
             }
           }
-          
         })
         .catch((e) => {
           setLoading(false);
@@ -73,32 +72,42 @@ const VerifyEmail = () => {
         EncryptedUserId: passwordDecrypted?.EncryptedUserId || encryptedUsers,
         TemplateId: passwordDecrypted?.TemplateId,
         Lang: passwordDecrypted?.Lang,
-      }).then((res) => {
-        // console.log("res", res);
-        if (res.textResponse === "OTP sent successfully") {
-          toast.success("OTP sent successfully");
-        } else if (res.textResponse === "Can't send OTP more than five times in the last five minutes") {
-          toast.error("Can't send OTP more than five times in the last five minutes");
-        }
-        else {
-          toast.error("user is already validated no need for otp");
-        }
-      }).catch((e) => {
-        console.error(e);
-        toast.error("OTP resent failed");
       })
+        .then((res) => {
+          // console.log("res", res);
+          if (res.textResponse === "OTP sent successfully") {
+            toast.success("OTP sent successfully");
+          } else if (
+            res.textResponse ===
+            "Can't send OTP more than five times in the last five minutes"
+          ) {
+            toast.error(
+              "Can't send OTP more than five times in the last five minutes"
+            );
+          } else {
+            toast.error("user is already validated no need for otp");
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+          toast.error("OTP resent failed");
+        });
     } catch (e) {
-      console.log("e", e)
+      console.log("e", e);
     }
-  }
+  };
 
   return (
-    <div className="bg-bg-linear">
-
+    <div className={ishbrews === "he" ? "bg-bg-reverse" : "bg-bg-linear"}>
       <div className="relative flex items-center justify-center w-full h-screen  wrapper-Div mb-4">
         <div className="flex flex-col items-center justify-center w-full mt-3 gap-4  mx-3 md:max-w-max-600 md:mx-0 lg:px-8">
           <div className=" Logo mt-4 ">
-            <img src={LogoIcon} className="h-auto max-w-max-83 cursor-pointer" alt="logo" onClick={()=>history.push("/")}/>
+            <img
+              src={LogoIcon}
+              className="h-auto max-w-max-83 cursor-pointer"
+              alt="logo"
+              onClick={() => history.push("/")}
+            />
           </div>
           <div className="w-full px-4 py-8 text-center bg-gray-100 rounded-md md:px-12 max-w-max-500 md:w-w-500">
             <div className="verify-box">
@@ -111,21 +120,39 @@ const VerifyEmail = () => {
             <h2 className="mb-3 text-3xl font-bold text-text-color">
               {t("verifyEmail.part24")}
             </h2>
-            {
-              ishbrews === "he" ? <p className="mb-3  text-sm text-gray-500">
-                <span className="text-primary-color">{passwordDecrypted?.email}</span><span>{t("verifyEmail.part25")}</span>
-              </p> : <p className="mb-3  text-sm text-gray-500">
-                <span>{t("verifyEmail.part25")}</span> <span className="text-primary-color">{passwordDecrypted?.email}</span>
+            {ishbrews === "he" ? (
+              <p className="mb-3  text-sm text-gray-500">
+                <span className="text-primary-color">
+                  {passwordDecrypted?.email}
+                </span>
+                <span>{t("verifyEmail.part25")}</span>
               </p>
-            }
+            ) : (
+              <p className="mb-3  text-sm text-gray-500">
+                <span>{t("verifyEmail.part25")}</span>{" "}
+                <span className="text-primary-color">
+                  {passwordDecrypted?.email}
+                </span>
+              </p>
+            )}
 
             <fieldset>
               <form>
                 <ul className="flex flex-col">
-                  <li className={ishbrews === "he" ? "flex flex-col items-end" : "flex flex-col items-start"}>
+                  <li
+                    className={
+                      ishbrews === "he"
+                        ? "flex flex-col items-end"
+                        : "flex flex-col items-start"
+                    }
+                  >
                     <label
                       htmlFor="text"
-                      className={ishbrews === "he" ? "mb-2 text-base font-semibold text-text-color" : "mb-2 text-sm font-semibold text-text-color"}
+                      className={
+                        ishbrews === "he"
+                          ? "mb-2 text-base font-semibold text-text-color"
+                          : "mb-2 text-sm font-semibold text-text-color"
+                      }
                     >
                       {t("verifyEmail.part26")}
                     </label>
@@ -141,7 +168,9 @@ const VerifyEmail = () => {
                       }
                       required
                     />
-                    {error && !otp && <span className="text-red-600">OTP Required</span>}
+                    {error && !otp && (
+                      <span className="text-red-600">OTP Required</span>
+                    )}
                   </li>
                 </ul>
                 <button
@@ -157,7 +186,7 @@ const VerifyEmail = () => {
                         role="status"
                         aria-hidden="true"
                       />
-                      <span className="">{t('signin.Loading')}...</span>
+                      <span className="">{t("signin.Loading")}...</span>
                     </>
                   ) : (
                     <>{t("verifyEmail.part27")}</>
@@ -169,7 +198,12 @@ const VerifyEmail = () => {
               </p>
               <p className="m-0 text-sm font-normal text-gray-500">
                 {t("verifyEmail.part29")} &nbsp;
-                <span className="text-primary-color cursor-pointer" onClick={handleResetOtp}>{t('verifyEmail.getNewCode')}</span>
+                <span
+                  className="text-primary-color cursor-pointer"
+                  onClick={handleResetOtp}
+                >
+                  {t("verifyEmail.getNewCode")}
+                </span>
               </p>
               <div className="separator flex items-center text-center justify-center mt-3 mb-3">
                 <span className="text-sm font-normal text-text-color ">
@@ -178,7 +212,12 @@ const VerifyEmail = () => {
               </div>
               <p className="m-0 text-sm font-normal text-gray-500">
                 {t("verifyEmail.part31")}
-                <span className="text-primary-color cursor-pointer" onClick={() => history.push('/signup', { data: passwordDecrypted?.email })}>
+                <span
+                  className="text-primary-color cursor-pointer"
+                  onClick={() =>
+                    history.push("/signup", { data: passwordDecrypted?.email })
+                  }
+                >
                   {t("verifyEmail.edit")}
                 </span>
               </p>
@@ -188,6 +227,7 @@ const VerifyEmail = () => {
         <Toaster position="top-center" reverseOrder={false} />
       </div>
       <Navbars />
+      <NeedHelp /> 
     </div>
   );
 };
