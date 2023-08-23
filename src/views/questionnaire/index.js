@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import AccountsType from "../../components/accountStep";
-import { BsWhatsapp } from "react-icons/bs";
 import AccountsInfo from "../../components/accountInfo";
 import QuestionaireStepper from "../../components/questionnaireStepper";
 import BusinessDetails from "../../components/businessDetails";
@@ -9,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import NeedHelp from "../../components/needHelp";
 import { useLocation } from "react-router-dom";
 import Navbars from "../navbar/navbar";
+import { ToastContainer } from "react-toastify";
 const Questionnaire = () => {
   const initialQuestionnaireValues = {
     FirstName: "",
@@ -17,6 +17,7 @@ const Questionnaire = () => {
     OrganizationRole: "",
   };
   const [businessType, setBusinessType] = useState("");
+
   const { t } = useTranslation();
   const [step, setStep] = useState(0);
   const location = useLocation();
@@ -32,10 +33,10 @@ const Questionnaire = () => {
       title: t("Questionnaire1.accountType"),
     },
     {
-      title: t("Questionnaire1.User details"),
+      title: t("Questionnaire1.UserDetails"),
     },
     {
-      title: t("Questionnaire1.Connect to Uninet"),
+      title: t("Questionnaire1.ConnectToUninet"),
     },
   ];
 
@@ -45,6 +46,13 @@ const Questionnaire = () => {
       setIsLastStep(true);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (localStorage.getItem("Q1_Q2_InidicationRes") === "true") {
+      setStep(2);
+      setIsLastStep(true);
+    }
+  }, [localStorage]);
 
   return (
     <div
@@ -100,6 +108,7 @@ const Questionnaire = () => {
         </div>
         <Navbars />
         <NeedHelp />
+        <ToastContainer rtl={ishbrews === "he" ? true : false} />
       </div>
     </div>
   );

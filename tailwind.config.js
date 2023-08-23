@@ -21,7 +21,7 @@ module.exports = {
         "bg-linear": "linear-gradient(to right, #8ECAE6, #219EBC, #FFFF)",
         "bg-reverse" : "linear-gradient(to right, #FFFF , #219EBC, #8ECAE6)",
         "bg-sidebar": "linear-gradient(to right, #8ECAE6, #219EBC, #4C7A91)",
-        // "bg-sec": "linear-gradient(135deg, #8ecaeb, #219ebc, #023047, #ffb703, #fb8500)", 
+      
       },
       colors: {
         "bg-none": "linear-gradient(to right, #8ECAE6, #219EBC, #FFFF)",
@@ -42,7 +42,7 @@ module.exports = {
       },
       screens: {
         "sm": "640px",
-        "md": "768px",
+        "md": "992px",
         "lg": "1024px",
         "xl": "1280px",
         "2xl": "1536px",

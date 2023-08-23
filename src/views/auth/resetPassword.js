@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import LogoIcon from "../../assets/images/Logo.webp";
 import Api from "../../services/api";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import toast, { Toaster } from "react-hot-toast";
+import { ToastContainer, toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
 // import { useHistory } from "react-router-dom";
@@ -19,7 +19,6 @@ function ResetPassword() {
     password: "",
     confirmPassword: "",
   };
-  console.log("UserResetToken", UserResetToken);
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -89,11 +88,8 @@ function ResetPassword() {
 
       setCheckConfirmPassword(false);
       setLoading(true);
-      console.log("UserResetToken", UserResetToken);
       if (UserResetToken === null) {
-        toast.error(
-          "The user reset token is missing. Please click on the Reset Password button again in the email you have received."
-        );
+        toast.error(t("resetPassword.resetPasswordErrorMsg"));
         setLoading(false);
       } else {
         await Api.resetPassword({
@@ -102,16 +98,17 @@ function ResetPassword() {
           Lang: ishbrews === "he" ? 2 : 1,
         })
           .then((res) => {
-            console.log(res);
-            if (res === false) {
+            if (res?.success === false) {
               setLoading(false);
-              toast.error(
-                "The user reset token is missing. Please click on the Reset Password button again in the email you have received."
-              );
+              toast.error(res?.textResponse);
             } else {
-              // toast.success(t("resetPassword.part62"))
+              toast.success(t(res?.textResponse), {
+                autoClose: 1000,
+              });
               setLoading(false);
-              history.push("/");
+              setTimeout(() => {
+                history.push("/");
+              }, 2000);
             }
           })
           .catch((err) => {
@@ -138,7 +135,7 @@ function ResetPassword() {
   //   setFormError(validateForm);
   // },[])
   return (
-    <div className={ishbrews === "he" ? "bg-bg-reverse" :"bg-bg-linear"} >
+    <div className={ishbrews === "he" ? "bg-bg-reverse" : "bg-bg-linear"}>
       <div className="relative flex flex-col items-center justify-center w-full h-screen  wrapper-Div">
         <div className="flex flex-col items-center justify-center w-full  gap-4  mx-3 md:max-w-max-600 md:mx-0 lg:px-8">
           <div className="Logo ">
@@ -201,7 +198,7 @@ function ResetPassword() {
                     <p className="text-red-600 ">{t("resetPassword.part60")}</p>
                   ) : errorMessage === true ? (
                     <span className="text-red-600">
-                      Password must be at least 6 characters long.
+                      {t("signin.passwordErrorMsg")}
                     </span>
                   ) : (
                     ""
@@ -262,7 +259,7 @@ function ResetPassword() {
                     </p>
                   ) : errorMessage1 ? (
                     <span className="text-red-600">
-                      Password must be at least 6 characters long.
+                      {t("signin.passwordErrorMsg")}
                     </span>
                   ) : (
                     ""
@@ -295,9 +292,9 @@ function ResetPassword() {
           </div>
         </div>
         <Navbars />
-        <NeedHelp /> 
+        <NeedHelp />
       </div>
-      <Toaster position="top-center" reverseOrder={false} />
+      <ToastContainer rtl={ishbrews === "he" ? true : false} />
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import Navbars from "../navbar/navbar";
 import Api from "../../services/api";
 import Spinner from "react-bootstrap/Spinner";
-import toast, { Toaster } from "react-hot-toast";
+import { ToastContainer, toast } from "react-toastify";
 import NeedHelp from "../../components/needHelp";
 // import { AuthUserContext } from "../../context";
 const ForgetPassword = () => {
@@ -43,13 +43,10 @@ const ForgetPassword = () => {
         Lang: ishbrews === "he" ? 2 : 1,
       })
         .then((response) => {
-          // console.log("response", response);
-          if (response === false) {
-            toast.error("Email is not valid! Please user valid email");
+          if (response?.success === false) {
+            toast.error(response?.textResponse);
           } else {
-            toast.success(
-              "Reset password Link Sent by email address! Please Check your email "
-            );
+            toast.success(response?.textResponse);
           }
           setLoading(false);
         })
@@ -62,7 +59,7 @@ const ForgetPassword = () => {
     }
   };
   return (
-    <div className={ishbrews === "he" ? "bg-bg-reverse" :"bg-bg-linear"} >
+    <div className={ishbrews === "he" ? "bg-bg-reverse" : "bg-bg-linear"}>
       <div className="relative flex flex-col items-center justify-center w-full h-screen  wrapper-Div">
         <div className="flex flex-col items-center justify-center w-full mt-3 gap-4  mx-3 md:max-w-max-600 md:mx-0 lg:px-8">
           <div className="Logo ">
@@ -167,7 +164,7 @@ const ForgetPassword = () => {
         <Navbars />
         <NeedHelp />
       </div>
-      <Toaster position="top-center" reverseOrder={false} />
+      <ToastContainer rtl={ishbrews === "he" ? true : false} />
     </div>
   );
 };

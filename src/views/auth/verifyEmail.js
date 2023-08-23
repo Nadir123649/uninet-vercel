@@ -3,7 +3,7 @@ import verify from "../../assets/images/verify-email.png";
 import LogoIcon from "../../assets/images/Logo.webp";
 import Api from "../../services/api";
 import Spinner from "react-bootstrap/Spinner";
-import toast, { Toaster } from "react-hot-toast";
+import { ToastContainer, toast } from "react-toastify";
 import { AuthUserContext } from "../../context";
 import { useTranslation } from "react-i18next";
 import Navbars from "../navbar/navbar";
@@ -17,7 +17,6 @@ const VerifyEmail = () => {
   let query = new URLSearchParams(window.location.search);
   let OTP = query.get("Otp");
   let encryptedUsers = query.get("encrypteduserid");
-  // console.log("hello",OTP,encryptedUsers );
   const { encryptedUser } = useContext(AuthUserContext);
   let ishbrews = localStorage.getItem("i18nextLng");
   const [otp, setOTP] = useState(OTP || "");
@@ -46,7 +45,7 @@ const VerifyEmail = () => {
           } else {
             if (res.Success === false) {
               setLoading(false);
-              toast.error("Please Enter Valid OTP");
+              toast.error(res?.textResponse);
             } else {
               setLoading(false);
               history.push("/questionnaire");
@@ -71,21 +70,14 @@ const VerifyEmail = () => {
         Email: passwordDecrypted?.email,
         EncryptedUserId: passwordDecrypted?.EncryptedUserId || encryptedUsers,
         TemplateId: passwordDecrypted?.TemplateId,
-        Lang: passwordDecrypted?.Lang,
+        Lang: ishbrews === "he" ? 2 : 1,
       })
         .then((res) => {
           // console.log("res", res);
-          if (res.textResponse === "OTP sent successfully") {
-            toast.success("OTP sent successfully");
-          } else if (
-            res.textResponse ===
-            "Can't send OTP more than five times in the last five minutes"
-          ) {
-            toast.error(
-              "Can't send OTP more than five times in the last five minutes"
-            );
+          if (res.sucess) {
+            toast.success(res?.textResponse);
           } else {
-            toast.error("user is already validated no need for otp");
+            toast.error(res?.textResponse);
           }
         })
         .catch((e) => {
@@ -99,7 +91,7 @@ const VerifyEmail = () => {
 
   return (
     <div className={ishbrews === "he" ? "bg-bg-reverse" : "bg-bg-linear"}>
-      <div className="relative flex items-center justify-center w-full h-screen  wrapper-Div mb-4">
+      <div className="relative flex items-center justify-center w-full h-screen mb-4">
         <div className="flex flex-col items-center justify-center w-full mt-3 gap-4  mx-3 md:max-w-max-600 md:mx-0 lg:px-8">
           <div className=" Logo mt-4 ">
             <img
@@ -169,7 +161,9 @@ const VerifyEmail = () => {
                       required
                     />
                     {error && !otp && (
-                      <span className="text-red-600">OTP Required</span>
+                      <span className="text-red-600">
+                        {t("verifyEmail.OTPRequired")}
+                      </span>
                     )}
                   </li>
                 </ul>
@@ -224,10 +218,10 @@ const VerifyEmail = () => {
             </fieldset>
           </div>
         </div>
-        <Toaster position="top-center" reverseOrder={false} />
       </div>
       <Navbars />
-      <NeedHelp /> 
+      <NeedHelp />
+      <ToastContainer rtl={ishbrews === "he" ? true : false} />
     </div>
   );
 };

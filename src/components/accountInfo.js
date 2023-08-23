@@ -3,19 +3,23 @@ import Api from "../services/api";
 import { AuthUserContext } from "../context";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import { useTranslation } from "react-i18next";
-import toast, { Toaster } from "react-hot-toast";
+// import toast, { Toaster } from "react-hot-toast";
+import { toast } from "react-toastify";
 import Spinner from "react-bootstrap/Spinner";
+import { useHistory } from "react-router-dom";
 const AccountInfo = ({
   step,
   setStep,
   questionnaireValues,
   setQuestionnaireValues,
-  businessType
+  businessType,
 }) => {
+  const { setBusinessId } = useContext(AuthUserContext);
+
   const { t } = useTranslation();
   // const { businessType } = useContext(AuthUserContext);
   const [formError, setFormError] = useState({});
-
+  const history = useHistory();
   const [error, setError] = useState(false);
   const [loading, setLaoding] = useState(false);
   let ishbrews = localStorage.getItem("i18nextLng");
@@ -70,32 +74,97 @@ const AccountInfo = ({
       }
       setLaoding(true);
       const token = localStorage?.getItem("accessToken");
-      const data = [
-        {
-          BusinessType: businessType,
-          FirstName: questionnaireValues?.FirstName,
-          LastName: questionnaireValues?.LastName,
-          MobileNumber: questionnaireValues?.MobileNumber,
-          OrganizationRole: questionnaireValues?.OrganizationRole,
-          OrganizationName: "OrganizationB",
-          OrganizationType: 1,
-          ExternalSystemId: 2,
-        },
-      ];
-      await Api.SecondQuestionnaire(data, token)
-        .then((res) => {
-          if (res) {
-            setLaoding(false);
-            setStep(step + 1);
-          } else {
-            setLaoding(false);
-            toast.error("Something went wrong");
-          }
-        })
-        .catch((e) => {
-          setLaoding(false);
-          console.error(e);
-        });
+      const refreshToken = localStorage.getItem("refreshToken");
+
+      const data = {
+        RegisterUserReq: [
+          {
+            BusinessType: parseInt(businessType),
+            FirstName: questionnaireValues?.FirstName,
+            LastName: questionnaireValues?.LastName,
+            MobileNumber: questionnaireValues?.MobileNumber,
+            OrganizationRole: questionnaireValues?.OrganizationRole,
+            OrganizationName: "OrganizationB",
+            OrganizationType: 1,
+            ExternalSystemId: 2,
+          },
+        ],
+        Lang: ishbrews === "he" ? 2 : 1,
+      };
+      if (token) {
+        await Api.SecondQuestionnaire(data, token)
+          .then((res) => {
+            if (res?.addBusinessToUserResult?.result === true) {
+              localStorage.setItem(
+                "businessId",
+                res?.addBusinessToUserResult?.businessRequests?.[0]?.BusinessId
+              );
+
+              setBusinessId(
+                res?.addBusinessToUserResult?.businessRequests?.[0]?.BusinessId
+              );
+              localStorage.setItem("Q1_Q2_InidicationRes", true);
+              setLaoding(false);
+              setStep(step + 1);
+            } else {
+              toast?.error(res?.textResponse);
+              setLaoding(false);
+              // setStep(step + 1);
+              // toast.error(ishbrews === "he" ? "החברה לא התווספה" : "Error Occured Company Wasnt Added");
+            }
+          })
+          .catch(async (e) => {
+            if (e?.status === 401) {
+              if (refreshToken) {
+                await Api.refreshToken({
+                  authenticationToken: refreshToken,
+                })
+                  .then(async (res) => {
+                    await Api.SecondQuestionnaire(data, res?.accessToken)
+                      .then((res) => {
+                        if (res?.addBusinessToUserResult?.result === true) {
+                          localStorage.setItem("Q1_Q2_InidicationRes", true);
+                          localStorage.setItem(
+                            "businessId",
+                            res?.addBusinessToUserResult?.businessRequests?.[0]
+                              ?.BusinessId
+                          );
+
+                          setBusinessId(
+                            res?.addBusinessToUserResult?.businessRequests?.[0]
+                              ?.BusinessId
+                          );
+                          setLaoding(false);
+                          setStep(step + 1);
+                        } else {
+                          setLaoding(false);
+                          history.push("/");
+                        }
+                      })
+                      .catch((err) => {
+                        history.push("/");
+                      });
+                  })
+                  .catch((err) => {
+                    console.log("Something went wrong", err.statusText);
+                    if (err?.status === 400) {
+                      setLaoding(false);
+                      history.push("/");
+                    }
+                  });
+              } else {
+                setLaoding(false);
+                history.push("/");
+              }
+            } else {
+              history.push("/");
+            }
+          });
+      } else {
+        setLaoding(false);
+        toast.error("You need to sign in or sign up before continuing");
+        history.push("/");
+      }
     } catch (e) {
       console.log("e", e);
     }
@@ -112,6 +181,7 @@ const AccountInfo = ({
   //   const validateForm = validate(questionnaireValues);
   //   setFormError(validateForm);
   // }, [ishbrews])
+
   return (
     <div>
       <h1 className="font-semibold text-2xl text-center mb-[10px] mt-3">

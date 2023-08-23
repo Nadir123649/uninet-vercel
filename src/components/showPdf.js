@@ -1,36 +1,31 @@
-import React, { useState } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
-import "react-pdf/dist/esm/Page/AnnotationLayer.css";
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-const ShowPdf = ({pdfFile}) => {
- 
-  const [isPDFLoaded, setIsPDFLoaded] = useState(false);
+import React from "react";
+
+const ShowPdf = ({ pdfFile, setIsPDFLoaded }) => {
   const pdfURL = pdfFile?.docInfoUrl;
-  let ishbrews = localStorage.getItem("i18nextLng");
-  console.log("ishbrews", ishbrews);
   const handlePDFLoad = () => {
-    console.log(pdfURL);
     if (pdfURL) {
-      console.log("hello");
-      setIsPDFLoaded(true);
+      setIsPDFLoaded(false);
     }
   };
-  console.log(isPDFLoaded);
   return (
-    <div className="w-full md:w-1/2 bg-white p-4">
+    <div className="w-full md:w-1/2 h-full">
+     
       <div className="pdf-viewer">
-        {!isPDFLoaded && pdfURL && (
-          <div className="h-screen flex justify-center items-center ">
-            <h1 className="text-xl  font-bold">Loading ...</h1>
-          </div>
+        {pdfURL ? (
+          <iframe
+          className="min-h-screen "
+            src={pdfURL}
+            title="PDF Viewer"
+            width="100%"
+            height="100%"
+            onLoad={handlePDFLoad}
+          ></iframe>
+        ) : (
+          <></>
+          // <div className="flex justify-center items-center h-full">
+          //   <h1 className="text-xl font-bold">Loading ...</h1>
+          // </div>
         )}
-        <object
-          data={pdfURL}
-          type="application/pdf"
-          width="100%"
-          height="650px"
-          onLoad={handlePDFLoad}
-        />
       </div>
     </div>
   );

@@ -5,18 +5,19 @@ import NeedHelp from "../../components/needHelp";
 import { useHistory, useLocation } from "react-router-dom";
 import Api from "../../services/api";
 import Spinner from "react-bootstrap/Spinner";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { AuthUserContext } from "../../context";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
 import Navbars from "../navbar/navbar";
 import CryptoJS from "crypto-js";
 import { GoogleLogin } from "@leecheuk/react-google-login";
+import queryString from "query-string";
 import { gapi } from "gapi-script";
 import { config } from "../../configs";
 const SignUp = () => {
   const history = useHistory();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const location = useLocation();
   const valueReceived = location.state?.data || "";
   const { setEncryptedUser } = useContext(AuthUserContext);
@@ -27,9 +28,11 @@ const SignUp = () => {
   const [isValid, setIsValid] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
+  const [googleError, setGoogleError] = useState("");
+
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   let ishbrews = localStorage.getItem("i18nextLng");
-
+  localStorage.removeItem("businessId");
   const handleEMailChange = (e) => {
     let { value } = e.target;
     setEmail(value);
@@ -61,8 +64,8 @@ const SignUp = () => {
       })
         .then((res) => {
           console.log("resSigup", res);
-          if (res?.textResponse === "User already Exist ") {
-            toast.error("User already Exist, Signup with another account");
+          if (res?.sucess === false) {
+            toast.error(res?.textResponse);
             setLoading(false);
           } else {
             setLoading(false);
@@ -88,17 +91,31 @@ const SignUp = () => {
   };
 
   //login with google
-  const responseGoogle = (response) => {
-    // toast.success("✔️ Signin successfully");
-    console.log(response);
+  const responseGoogle = async (response) => {
     if (response) {
-      history.push("/questionnaire");
+      await Api.SignInWithGoogle({
+        Email: response?.profileObj?.email,
+        GoogleId: response?.tokenId,
+      })
+        .then(async (res) => {
+          if (res.success === true) {
+            toast.success(res?.message);
+            history.push("/questionnaire");
+            // localStorage.setItem("accessToken", res?.accessToken);
+            // localStorage.setItem("refreshToken", res?.refreshToken);
+          } else {
+            toast.error(res?.message);
+          }
+        })
+        .catch((e) => {
+          toast.error("Server Error. Please Refresh Page");
+        });
     }
   };
   const onLoginFailure = (res) => {
     if (res.error === "popup_closed_by_user") {
     } else {
-      toast.error("Server Error. Please Refresh Page");
+      setGoogleError(res?.details + " Enable cookies and refresh the page");
     }
   };
   useEffect(() => {
@@ -111,6 +128,18 @@ const SignUp = () => {
     gapi.load("client:auth2", start);
   });
 
+  useEffect(() => {
+    const queryParams = queryString.parse(window.location.search);
+    const referringURL = queryParams.lang || "unknown";
+    if (referringURL === "en") {
+      i18n.changeLanguage("en");
+    }
+    if (referringURL === "he") {
+      i18n.changeLanguage("he");
+    } else {
+      i18n.changeLanguage("en");
+    }
+  }, []);
   return (
     <div className={ishbrews === "he" ? "bg-bg-reverse" : "bg-bg-linear"}>
       <div className="relative flex items-center justify-center w-full min-h-screen  wrapper-Div">
@@ -168,6 +197,11 @@ const SignUp = () => {
               onFailure={onLoginFailure}
               cookiePolicy={"single_host_origin"}
             />
+            {googleError !== "" ? (
+              <span className="text-red-600">{googleError}</span>
+            ) : (
+              <></>
+            )}
             {/* <div className="row">
               <div className="col-md-12">
                 <button
@@ -285,7 +319,7 @@ const SignUp = () => {
                     </span>
                   ) : errorMessage ? (
                     <span className="text-red-600">
-                      Password must be at least 6 characters long.
+                      {t("signin.passwordErrorMsg")}
                     </span>
                   ) : (
                     ""
@@ -320,6 +354,7 @@ const SignUp = () => {
                   href="https://uninet-io.com/term-of-use-he/"
                   className="cursor-pointer text-primary-color"
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   {t("Signup.term")}
                 </a>
@@ -329,6 +364,7 @@ const SignUp = () => {
                   href="https://uninet-io.com/privacy-policy-he/"
                   className="cursor-pointer text-primary-color"
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   {t("Signup.Privacy")}
                 </a>
@@ -340,6 +376,7 @@ const SignUp = () => {
                   href="https://uninet-io.com/term-of-use-en/"
                   className="cursor-pointer text-primary-color"
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   {t("Signup.term")}
                 </a>
@@ -348,6 +385,7 @@ const SignUp = () => {
                   href="https://uninet-io.com/privacy-policy-en/"
                   className="cursor-pointer text-primary-color"
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   {t("Signup.Privacy")}
                 </a>
@@ -359,6 +397,7 @@ const SignUp = () => {
       </div>
       <Navbars />
       <NeedHelp />
+      <ToastContainer rtl={ishbrews === "he" ? true : false} />
     </div>
   );
 };

@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 // import InputField from "../../components/inputField";
 import GoogleIcon from "../../assets/images/google-icon.png";
 import LogoIcon from "../../assets/images/Logo.webp";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import Api from "../../services/api";
 import Spinner from "react-bootstrap/Spinner";
-// import toast, { Toaster } from "react-hot-toast";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { GoogleLogin } from "@leecheuk/react-google-login";
 import { config } from "../../configs";
 import NeedHelp from "../../components/needHelp";
@@ -14,10 +13,14 @@ import { gapi } from "gapi-script";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import Navbars from "../navbar/navbar";
 import { useTranslation } from "react-i18next";
+import queryString from "query-string";
+import { AuthUserContext } from "../../context";
+
 const Signin = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const history = useHistory();
-  // const location = useLocation();
+
+  const { setBusinessId } = useContext(AuthUserContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,9 +29,12 @@ const Signin = () => {
   const [isValid, setIsValid] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
+  const [googleError, setGoogleError] = useState("");
+
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   let ishbrews = localStorage.getItem("i18nextLng");
-
+  localStorage.removeItem("Q1_Q2_InidicationRes");
+  localStorage.removeItem("businessId");
   const handleEmailChange = (e) => {
     const inputValue = e.target.value;
     setEmail(inputValue);
@@ -58,11 +64,12 @@ const Signin = () => {
         Lang: ishbrews === "he" ? 2 : 1,
       })
         .then(async (res) => {
-          console.log("res", res);
           if (res.Success === true) {
+            setBusinessId(res?.BusinessId);
             if (res?.verified === true) {
               setLoading(false);
               localStorage.setItem("accessToken", res?.accessToken);
+              localStorage.setItem("refreshToken", res?.refreshToken);
               if (
                 res?.Q1_Q2_InidicationRes === true &&
                 res?.Q3_InidicationRes === true
@@ -91,34 +98,63 @@ const Signin = () => {
             }
           } else {
             setLoading(false);
-            toast.error("User invalid credentials");
+
+            toast.error(res?.textResponse);
           }
         })
         .catch((e) => {
-          console.error(e?.data?.error);
+          console.log("error message", e);
+
           toast.error(e?.data?.error);
         });
     } catch (e) {
-      console.log("e", e);
+      console.log("error message", e);
       toast.error("Server Error. Please Refresh Page");
     }
   };
-  // console.log("config.GoogleClientID", config.GoogleClientID);
-  //login with google
-  const responseGoogle = (response) => {
-    // toast.success("✔️ Signin successfully");
-    console.log(response);
+
+  const responseGoogle = async (response) => {
     if (response) {
-      history.push("/questionnaire");
+      await Api.SignInWithGoogle({
+        Email: response?.profileObj?.email,
+        GoogleId: response?.tokenObj?.id_token,
+        Lang: ishbrews === "he" ? 2 : 1,
+      })
+        .then(async (res) => {
+          if (res.success === true) {
+            toast.success(res?.message);
+            localStorage.setItem("accessToken", res?.accessToken);
+            localStorage.setItem("refreshToken", res?.refreshToken);
+            if (
+              res?.Q1_Q2_InidicationRes === true &&
+              res?.Q3_InidicationRes === true
+            ) {
+              history.push("/main-console");
+            } else if (res?.Q1_Q2_InidicationRes === false) {
+              history.push("/questionnaire");
+            } else {
+              history.push({
+                pathname: "/questionnaire",
+                state: 2,
+              });
+            }
+          } else {
+            toast.error(res?.message);
+          }
+        })
+        .catch((e) => {
+          toast.error("Server Error. Please Refresh Page");
+        });
     }
   };
+
   const onLoginFailure = (res) => {
-    console.log(res.error);
     if (res.error === "popup_closed_by_user") {
     } else {
-      toast.error("Server Error. Please Refresh Page");
+      setGoogleError(res?.details + " Enable cookies and refresh the page");
     }
   };
+
   useEffect(() => {
     function start() {
       gapi.auth2.init({
@@ -128,8 +164,22 @@ const Signin = () => {
     }
     gapi.load("client:auth2", start);
   });
+
+  useEffect(() => {
+    const queryParams = queryString.parse(window.location.search);
+    const referringURL = queryParams.lang || "unknown";
+    if (referringURL === "en") {
+      i18n.changeLanguage("en");
+    }
+    if (referringURL === "he") {
+      i18n.changeLanguage("he");
+    } else {
+      i18n.changeLanguage("en");
+    }
+  }, []);
+
   return (
-    <div className={ishbrews === "he" ? "bg-bg-reverse" :"bg-bg-linear"} >
+    <div className={ishbrews === "he" ? "bg-bg-reverse" : "bg-bg-linear"}>
       <div className="relative flex items-center justify-center w-full min-h-screen  wrapper-Div">
         <div className="flex flex-col items-center justify-center w-full gap-4  mx-3 md:max-w-max-600 md:mx-0 lg:px-8">
           <div className="Logo mt-4">
@@ -180,6 +230,12 @@ const Signin = () => {
               onFailure={onLoginFailure}
               cookiePolicy={"single_host_origin"}
             />
+            {googleError !== "" ? (
+              <span className="text-red-600">{googleError}</span>
+            ) : (
+              <></>
+            )}
+
             {/* <div className="row">
               <div className="col-md-12">
                 <button
@@ -302,7 +358,7 @@ const Signin = () => {
                     </span>
                   ) : errorMessage ? (
                     <span className="text-red-600">
-                      Password must be at least 6 characters long.
+                      {t("signin.passwordErrorMsg")}
                     </span>
                   ) : (
                     ""
@@ -370,14 +426,16 @@ const Signin = () => {
                   href="https://uninet-io.com/term-of-use-en/"
                   className="cursor-pointer text-primary-color"
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   {t("Signup.term")}
                 </a>
                 {t("Signup.and")}{" "}
                 <a
-                  href="https://uninet-io.com/privacy-policy-en/"
                   className="cursor-pointer text-primary-color"
+                  href="https://uninet-io.com/privacy-policy-en/"
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   {t("Signup.Privacy")}
                 </a>
@@ -402,6 +460,7 @@ const Signin = () => {
       </div>
       <Navbars />
       <NeedHelp />
+      <ToastContainer rtl={ishbrews === "he" ? true : false} />
     </div>
   );
 };

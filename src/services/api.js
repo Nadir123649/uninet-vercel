@@ -13,6 +13,18 @@ const Api = {
       throw error;
     }
   },
+  SignInWithGoogle: async (data) => {
+    try {
+      return await Service.post(
+        `https://uninetweapi.azurewebsites.net/api/Login/GoogleSignIn`,
+        {
+          data,
+        }
+      );
+    } catch (error) {
+      throw error;
+    }
+  },
   SignUpUser: async (data) => {
     try {
       return await Service.post(`${config.BaseURL}/api/Register/Register`, {
@@ -34,18 +46,7 @@ const Api = {
       throw error;
     }
   },
-  RegisterBusinessToUser: async (data) => {
-    try {
-      return await Service.post(
-        `${config.BaseURL}/api/Register/RegisterBusinessToUser`,
-        {
-          data,
-        }
-      );
-    } catch (error) {
-      throw error;
-    }
-  },
+
   SecondQuestionnaire: async (data, token) => {
     try {
       return await Service.postWithAuthentication({
@@ -75,19 +76,19 @@ const Api = {
       throw error;
     }
   },
-  resentOTP: async (data) => { 
-  try{
-  return await Service.post(`${config.BaseURL}/api/Register/ResentOtp`, {
-          data,
-        });
-  }catch(error){
-    throw error;
-  }
-},
-  getExternalSystem: async (token) => {
+  resentOTP: async (data) => {
+    try {
+      return await Service.post(`${config.BaseURL}/api/Register/ResentOtp`, {
+        data,
+      });
+    } catch (error) {
+      throw error;
+    }
+  },
+  getExternalSystem: async (lang, token) => {
     try {
       return await Service.get(
-        `${config.BaseURL}/api/Register/GetExternalSystem`,
+        `${config.BaseURL}/api/Register/GetExternalSystem?Lang=${lang}`,
         token
       );
     } catch (error) {
@@ -104,34 +105,70 @@ const Api = {
       throw error;
     }
   },
-  SaveExternalCustomizedExternalSystemId : async (data,token)=>{
-    try{
+  SaveExternalCustomizedExternalSystemId: async (data, token) => {
+    try {
       return await Service.postWithAuthentication({
         url: `${config.BaseURL}/api/Register/SaveExternalCustomizedExternalSystemId`,
         token,
         data: data,
       });
-    }catch(error) {
+    } catch (error) {
       throw error;
     }
   },
-  GetDigitalDocumentToApproveListByUser : async (token) =>{
-    try{
-     return await Service.get(`${config.BaseURL}/api/UninetOutPutControllercs/GetDigitalDocumentToApproveListByUser`, token)
-    }catch(error) {
+
+  GetDigitalDocumentToApproveListByUser: async (token, type) => {
+    try {
+      return await Service.get(
+        `${config.BaseURL}/api/UninetOutPutControllercs/GetDigitalDocumentToApproveListByUser?Typelist=${type}`,
+        token
+      );
+    } catch (error) {
       throw error;
     }
   },
-  InsertUserDigitalDocToUninetSystem : async (data,token) =>{
-    try{
+
+  ApproveDoc: async (data, token) => {
+    try {
       return await Service.postWithAuthentication({
-        url: `${config.BaseURL}/api/UninetOutPutControllercs/InsertUserDigitalDocToUninetSystem`,
+        url: `${config.BaseURL}/api/UninetOutPutControllercs/AproveDoc`,
         token,
         data: data,
       });
-    }catch(error) {
-     throw error;
+    } catch (error) {
+      throw error;
     }
-  }
+  },
+  RejectDoc: async (data, token) => {
+    try {
+      return await Service.postWithAuthentication({
+        url: `${config.BaseURL}/api/UninetOutPutControllercs/RejectDocument`,
+        token,
+        data: data,
+      });
+    } catch (error) {
+      throw error;
+    }
+  },
+  ShowDigitalDocumentDetails: async (data, token) => {
+    try {
+      https: return await Service.postWithAuthentication({
+        url: `${config.BaseURL}/api/UninetOutPutControllercs/ShowDigitalDocumentDetails`,
+        token,
+        data: data,
+      });
+    } catch (error) {
+      throw error;
+    }
+  },
+  refreshToken: async (data) => {
+    try {
+      return await Service.post(`${config.BaseURL}/api/Login/RefreshToken`, {
+        data,
+      });
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 export default Api;

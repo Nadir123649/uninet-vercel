@@ -10,7 +10,7 @@ import {
 import { useTranslation } from "react-i18next";
 function AccountStep({ step, setStep, businessType, setBusinessType }) {
   const { t } = useTranslation();
-  const [color, setColor] = useState(localStorage.getItem("accountStep") || "");
+  const [color, setColor] = useState(null);
   let ishbrews = localStorage.getItem("i18nextLng");
   const [isValid, setIsValid] = useState(false);
   useEffect(() => {
@@ -19,15 +19,10 @@ function AccountStep({ step, setStep, businessType, setBusinessType }) {
       setBusinessType(color);
     }
   }, [color]);
-  localStorage.setItem("accountStep", color);
-  let colors = localStorage.getItem("accountStep");
 
   useEffect(() => {
     setColor(businessType);
   }, [businessType]);
-  useEffect(() => {
-    localStorage.setItem("accountStep", color);
-  }, [color]);
 
   return (
     <div>
@@ -102,8 +97,8 @@ function AccountStep({ step, setStep, businessType, setBusinessType }) {
                 <span
                   className={
                     ishbrews === "he"
-                      ? " font-semibold text-xs md:text-[14px]"
-                      : "font-semibold text-xs md:text-[14px]"
+                      ? " font-normal  text-xs md:text-[14px]"
+                      : "font-normal  text-xs md:text-[14px]"
                   }
                 >
                   {t("Questionnaire1.part35")}
@@ -154,8 +149,8 @@ function AccountStep({ step, setStep, businessType, setBusinessType }) {
                 <span
                   className={
                     ishbrews === "he"
-                      ? " font-semibold text-xs md:text-[14px]"
-                      : " font-semibold text-xs md:text-[14px]"
+                      ? "font-normal  text-xs md:text-[14px]"
+                      : "font-normal  text-xs md:text-[14px]"
                   }
                 >
                   {t("Questionnaire1.part37")}
@@ -187,7 +182,7 @@ function AccountStep({ step, setStep, businessType, setBusinessType }) {
                 ? "flex items-center flex-col gap-3 cursor-pointer"
                 : "flex items-center flex-col gap-3 cursor-pointer"
             }
-            htmlFor=""
+            htmlFor="label"
           >
             <div>
               <BsFillPersonCheckFill size={"30px"} />
@@ -200,14 +195,14 @@ function AccountStep({ step, setStep, businessType, setBusinessType }) {
                     : "block font-semibold text-center"
                 }
               >
-                <span className="text-dark font-bold block text-lg md:text-xl mb-1">
+                <span className="text-dark block text-lg md:text-xl mb-1">
                   {t("Questionnaire1.part38")}
                 </span>
                 <span
                   className={
                     ishbrews === "he"
-                      ? " font-semibold text-xs md:text-[14px]"
-                      : " font-semibold text-xs md:text-[14px]"
+                      ? " font-normal  text-xs md:text-[14px]"
+                      : " font-normal text-xs md:text-[14px]"
                   }
                 >
                   {t("Questionnaire1.part39")}
@@ -221,7 +216,7 @@ function AccountStep({ step, setStep, businessType, setBusinessType }) {
         <span className="text-red-600">
           {t("Questionnaire1.PleaseSelectanyoftheField")}
         </span>
-      )}{" "}
+      )}
       <div
         className={
           ishbrews === "he"
@@ -231,7 +226,7 @@ function AccountStep({ step, setStep, businessType, setBusinessType }) {
       >
         <button
           onClick={() => {
-            if (color === "") setIsValid(true);
+            if (color === "" || color === "null") setIsValid(true);
             else {
               setStep(step + 1);
             }
@@ -254,7 +249,7 @@ function AccountStep({ step, setStep, businessType, setBusinessType }) {
             </div>
           )}
         </button>
-      </div>
+      </div>  
     </div>
   );
 }

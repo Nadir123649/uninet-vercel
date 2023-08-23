@@ -13,7 +13,8 @@
     "Emailisrequired": "אימייל נדרש",
     "Passwordisrequired": "סיסמה נדרשת",
     "Invalidemail": "אימייל לא תקין",
-    "Loading": "טוען"
+    "Loading": "טוען",
+    "passwordErrorMsg": "הסיסמה חייבת להכיל לפחות אורך של 6 תווים"
   },
   "Signup": {
     "part10": "הרשמה",
@@ -46,7 +47,8 @@
     "part30": "או",
     "getNewCode": "לבקש קוד חדש",
     "part31": "הית טעות באימייל?",
-    "edit": " ניתן לתקן את המייל"
+    "edit": " ניתן לתקן את המייל",
+    "OTPRequired": "נדרש קוד זיהוי"
   },
   "Questionnaire1": {
     "part32": "ספרו לנו מי אתם",
@@ -67,8 +69,9 @@
     "organizationrole": "יש למלא תפקיד בארגון",
     "pleasecheckout": "?אם צריך עוד מידע, יש להשלים את התהליך",
     "accountType": "סוג חשבון",
-    "User details": "פרטי המשתמש",
-    "Connect to Uninet": "התחבר ליונינט"
+    "UserDetails": "פרטי משתמש",
+    "ConnectToUninet": "חיבור ליונינט",
+    "selectAllFields": "יש לבחור מאחת האפשרויות הבאות"
   },
   "Questionnaire2": {
     "part43": "עכשיו, ספר על עצמך",
@@ -87,7 +90,8 @@
     "part53": "Endpoint",
     "part54": "Username",
     "part55": "Password",
-    "part56": "Company ID"
+    "part56": "Company ID",
+    "inputFieldRequired": "יש להזין את השדה החסר"
   },
   "resetPassword": {
     "part57": "חידוש סיסמה",
@@ -97,7 +101,8 @@
     "part61": "יש להזין אימות סיסמה",
     "part62": "אימות סיסמה בוצע בהצלחה",
     "part63": "סיסמה איננה תואמת",
-    "part64": "משהו השתבש"
+    "part64": "משהו השתבש",
+    "resetPasswordErrorMsg": "בעיה באיפוס הסיסמא, יש לנסות שנית לאפס את הסיסמא דרך המייל שקיבלתם."
   },
   "main-console": {
     "part65": "תיבת מסמכים",
@@ -112,6 +117,9 @@
     "part74": "סכום מעמ",
     "part75": "סוג הוצאה",
     "part76": "קליטת מסמך",
-    "part77": "דחיית מסמך"
+    "part77": "דחיית מסמך",
+    "rightSidebarHeading": "פרטי המסמך",
+    "amountInputPlaceholder": "סכום",
+    "VATInputPlaceholder": "מע\"מ"
   }
 }

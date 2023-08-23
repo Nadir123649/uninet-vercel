@@ -7,13 +7,12 @@ function Navbars() {
   const { i18n } = useTranslation();
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
-    // console.log("i18" , i18n.changeLanguage(lng));
   };
 
   return (
     <div className="container">
       <div className="row ">
-        <div className="col-md-12 d-flex gap-3  pt-3 justify-center mb-4">
+        <div className="col-md-12 d-flex gap-3  pt-3 justify-center pb-4">
           <div
             className="d-flex gap-2 cursor-pointer back-color p-2"
             onClick={() => {
